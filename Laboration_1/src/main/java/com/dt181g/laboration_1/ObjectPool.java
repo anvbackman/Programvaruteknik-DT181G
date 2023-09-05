@@ -40,7 +40,7 @@ public abstract class ObjectPool<T> {
     }
 
     public boolean isAvailable() {
-        System.out.println("Pool is empty = " + pool.isEmpty());
+        System.out.println("Thread " + getObject() + " is available = " + pool.isEmpty());
 
         return !pool.isEmpty();
     }

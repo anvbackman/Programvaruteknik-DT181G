@@ -21,12 +21,12 @@ public class Runner {
         Worker worker = new Worker(demo.pool);
 
         Thread[] threads = new Thread[5];
-        System.out.println(demo.getSize());
-
-        StockRoom first = demo.pool.getObject();
-        System.out.println(demo.getSize());
-        demo.pool.returnObject(first);
-        System.out.println(demo.getSize());
+//        System.out.println(demo.getSize());
+//
+//        StockRoom first = demo.pool.getObject();
+//        System.out.println(demo.getSize());
+//        demo.pool.returnObject(first);
+//        System.out.println(demo.getSize());
 
 
 //        while (pool.isAvailable())

@@ -1,20 +1,21 @@
 package com.dt181g.laboration_1;
 
+import java.util.List;
+
 public class StockRoom {
 
-    private int stockNumber;
 
-    private int instanceId = this.hashCode();
+    private List<String> names;
 
-    public StockRoom(int stockNumber) {
-        this.stockNumber = stockNumber;
+
+
+    public StockRoom(List<String> names) {
+        this.names = names;
     }
 
-    public int getStockNumber() {
-        return stockNumber;
+    public List<String> getNames() {
+        return names;
     }
 
-    public int getInstanceId() {
-        return instanceId;
-    }
+
 }
