@@ -11,10 +11,14 @@ public class Manager extends ObjectPool<StockRoom> {
     @Override
     public StockRoom create() {
         StockRoom stockRoom = new StockRoom(stockNumber);
-        System.out.println("Creating instance with instance Id " + stockRoom.getInstanceId());
+        for (int i = 1; i <= 5; i++) {
+            if (isAvailable()) {
+                System.out.println("Creating instance " + i + "with thread " + i);
+            }
+
+        }
         return stockRoom;
     }
-
 
 
 

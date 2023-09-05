@@ -24,9 +24,6 @@ public abstract class ObjectPool<T> {
         if (object == null) {
             object = create();
         }
-        if (size() != 5) {
-            System.out.println("Thread in use!");
-        }
         return object;
     }
 
@@ -38,7 +35,14 @@ public abstract class ObjectPool<T> {
     }
 
     public int size() {
+        System.out.println("Pool size = " + pool.size());
         return pool.size();
+    }
+
+    public boolean isAvailable() {
+        System.out.println("Pool is empty = " + pool.isEmpty());
+
+        return !pool.isEmpty();
     }
 
 }
