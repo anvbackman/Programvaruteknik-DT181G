@@ -16,38 +16,21 @@ public final class Lab2 {
      */
     public static void main(final String... args) throws InterruptedException {
 
-        final Producer producer = new Producer();
-
-        Thread t1 = new Thread(new Runnable() {
+        ResourcePool resourcePool = new ResourcePool(50);
+        Manager manager = new Manager(resourcePool, 6, 5);
+        
+        Runnable managerRunnable = new Runnable() {
             @Override
             public void run() {
-                try {
-                    producer.produce();
-                }
-                catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
+                manager.run();
             }
-        });
+        };
 
-        Thread t2 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    producer.consume();
-                }
-                catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        Thread thread = new Thread(new Runner()); // Creating a new thread for each iteration
-        thread.start(); // Starting the thread
-        Thread.sleep(50);
-        t1.start();
-        t2.start();
-        t1.join();
-        t2.join();
+        Thread managerThread = new Thread(managerRunnable);
+        managerThread.start();
+
+
+
     }
+
 }

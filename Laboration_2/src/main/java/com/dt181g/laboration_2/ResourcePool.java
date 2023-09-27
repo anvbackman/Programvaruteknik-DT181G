@@ -9,16 +9,29 @@ public class ResourcePool {
     public ResourcePool(int resourceAmount) {
         this.resourceAmount = resourceAmount;
     }
-//    public void add(int amount) {
-//        resourceAmount.addAndGet(amount);
-//    }
 
-//    public void remove(int amount) {
-//        resourceAmount.addAndGet(-amount);
-//    }
-//
-//    public AtomicInteger getResourceAmount() {
-//        return resourceAmount;
-//    }
+    public synchronized void addResources(int amount) {
+        resourceAmount += amount;
+        System.out.println("Added " + amount + " resources. Total resources " + resourceAmount);
+        notifyAll();
+    }
+
+    public synchronized void removeResources(int amount) {
+        while (resourceAmount < amount) {
+            try {
+                wait();
+            }
+            catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return;
+            }
+        }
+        resourceAmount -= amount;
+        System.out.println("Consumed " + amount + " resources. Total resources " + resourceAmount);
+    }
+
+    public synchronized int getResourceAmount() {
+        return resourceAmount;
+    }
 
 }

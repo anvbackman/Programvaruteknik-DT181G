@@ -5,34 +5,34 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Consumer extends JPanel {
-    private int count = 5;
-    private JLabel label;
+public class Consumer implements Observer, Runnable {
 
-    public Consumer() {
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setPreferredSize(new Dimension(200, 400));
-        label = new JLabel("Consumers: " + count);
-        label.setFont(new Font("Monaco", Font.BOLD, 24));
+    private Manager manager;
+    private ResourcePool resourcePool;
 
-        JButton button = new JButton("Remove Consumer");
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                count++;
-                updateConsumer(count);
-            }
-        });
-
-        add(label);
-        add(button);
+    public Consumer(Manager manager, ResourcePool resourcePool) {
+        this.manager = manager;
+        this.resourcePool = resourcePool;
     }
 
-    public int getConsumerCount() {
-        return count;
+    @Override
+    public void update() {
+        System.out.println("Consumer received an update");
     }
 
-    public void updateConsumer(int count) {
-        label.setText("Consumers: " + count);
+    @Override
+    public void run() {
+        int randomConsumer = (int) (Math.random() * 20) + 1;
+        int consumerDelay = (int) (Math.random() * 5000) + 1000;
+
+        try {
+            Thread.sleep(consumerDelay);
+        }
+        catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return;
+        }
+        resourcePool.removeResources(randomConsumer);
     }
+
 }
