@@ -17,17 +17,21 @@ public final class Lab2 {
     public static void main(final String... args) throws InterruptedException {
 
         ResourcePool resourcePool = new ResourcePool(50);
-        Manager manager = new Manager(resourcePool, 6, 5);
-        
-        Runnable managerRunnable = new Runnable() {
-            @Override
-            public void run() {
-                manager.run();
-            }
-        };
+        Manager manager = new Manager(resourcePool);
 
-        Thread managerThread = new Thread(managerRunnable);
-        managerThread.start();
+
+//        ResourcePool resourcePool = new ResourcePool(50);
+//        Manager manager = new Manager(resourcePool, 6, 5);
+//
+//        Runnable managerRunnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                manager.run();
+//            }
+//        };
+//
+//        Thread managerThread = new Thread(managerRunnable);
+//        managerThread.start();
 
 
 

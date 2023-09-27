@@ -1,35 +1,68 @@
 package com.dt181g.laboration_2;
 
 import java.util.LinkedList;
+import java.util.concurrent.ThreadLocalRandom;
 
-public class Producer implements Observer, Runnable {
-    private Manager manager;
-    private ResourcePool resourcePool;
+public class Producer implements Runnable {
 
-    public Producer(Manager manager, ResourcePool resourcePool) {
-        this.manager = manager;
+    private final ResourcePool resourcePool;
+    private boolean running = false;
+
+    public Producer(ResourcePool resourcePool) {
         this.resourcePool = resourcePool;
+
     }
 
-    @Override
-    public void update() {
-        System.out.println("Producer received an update");
-    }
-
-    @Override
-    public void run() {
-        int randomProducer = (int) (Math.random() * 10) + 1;
-        int producerDelay = (int) (Math.random() * 5000) + 1000;
-
+    public void addToPool() {
         try {
-            Thread.sleep(producerDelay);
+            int random = addResource();
+            resourcePool.addResources(random);
+            Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5000));
         }
         catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            return;
         }
-        resourcePool.addResources(randomProducer);
+
     }
+
+
+
+    public int addResource() {
+        int random = ThreadLocalRandom.current().nextInt(1, 10);
+        return random;
+    }
+
+    public void run() {
+        addToPool();
+    }
+
+//    private Manager manager;
+//    private ResourcePool resourcePool;
+//
+//    public Producer(Manager manager, ResourcePool resourcePool) {
+//        this.manager = manager;
+//        this.resourcePool = resourcePool;
+//    }
+//
+//    @Override
+//    public void update() {
+//        System.out.println("Producer received an update");
+//    }
+//
+//    @Override
+//    public void run() {
+//        int randomProducer = (int) (Math.random() * 10) + 1;
+//        int producerDelay = (int) (Math.random() * 5000) + 1000;
+//
+//        try {
+//            Thread.sleep(producerDelay);
+//        }
+//        catch (InterruptedException e) {
+//            Thread.currentThread().interrupt();
+//            return;
+//        }
+//        resourcePool.addResources(randomProducer);
+//    }
 
 //    private LinkedList<Integer> list = new LinkedList<>();
 //    private int capacity = 6;

@@ -4,35 +4,40 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.ThreadLocalRandom;
 
-public class Consumer implements Observer, Runnable {
+public class Consumer implements Runnable {
 
-    private Manager manager;
-    private ResourcePool resourcePool;
+    private final ResourcePool resourcePool;
+    private boolean running = true;
 
-    public Consumer(Manager manager, ResourcePool resourcePool) {
-        this.manager = manager;
+    public Consumer(ResourcePool resourcePool) {
         this.resourcePool = resourcePool;
+//        removeFromPool();
     }
 
-    @Override
-    public void update() {
-        System.out.println("Consumer received an update");
-    }
 
     @Override
     public void run() {
-        int randomConsumer = (int) (Math.random() * 20) + 1;
-        int consumerDelay = (int) (Math.random() * 5000) + 1000;
+        removeFromPool();
+    }
 
+
+
+    public void removeFromPool() {
         try {
-            Thread.sleep(consumerDelay);
+            int random = destroyResource();
+            resourcePool.removeResources(random);
+            Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5000));
         }
         catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            return;
         }
-        resourcePool.removeResources(randomConsumer);
+    }
+
+    public int destroyResource() {
+        int random = ThreadLocalRandom.current().nextInt(1, 20);
+        return random;
     }
 
 }

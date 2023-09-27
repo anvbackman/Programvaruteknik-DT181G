@@ -1,129 +1,178 @@
 package com.dt181g.laboration_2;
 
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
-public class Manager implements Observable, Runnable {
+public class Manager {
 
     private ResourcePool resourcePool;
-    private int maxProducers;
-    private int maxConsumers;
-    private int currentProducers;
-    private int currentConsumers;
-    private List<Observer> observerList;
-    private List<Thread> producerThreads;
-    private List<Thread> consumerThreads;
+    private int numProducers;
+    private int numConsumers;
 
-//    private List<Consumer> activeConsumers;
-
-    public Manager(ResourcePool resourcePool, int maxProducers, int maxConsumers) {
+    public Manager(ResourcePool resourcePool) {
         this.resourcePool = resourcePool;
-        this.maxProducers = maxProducers;
-        this.maxConsumers = maxConsumers;
-        this.observerList = new ArrayList<>();
-        this.currentProducers = maxProducers;
-        this.currentConsumers = maxConsumers;
-        producerThreads = new ArrayList<>();
-        consumerThreads = new ArrayList<>();
-//        activeConsumers = new ArrayList<>();
+        this.numProducers = 6;
+        this.numConsumers = 5;
 
-        for (int i = 0; i < 6; i++) {
-            addProducer();
-        }
-        for (int i = 0; i < 5; i++) {
-            addConsumer();
-        }
+        startProducers();
+        startConsumers();
     }
 
-    @Override
-    public void add(Observer observer) {
-        this.observerList.add(observer);
-    }
-
-    @Override
-    public void remove(Observer observer) {
-        observerList.remove(observer);
-    }
-
-    @Override
-    public void notifyObserver() {
-        for (Observer observer : observerList) {
-            observer.update();
-        }
-    }
-
-    public List<Observer> getPC() {
-        return this.observerList;
-    }
-
-    public void addProducer() {
-        if (currentProducers < maxProducers) {
-            Producer producer = new Producer(this, resourcePool);
+    private void startProducers() {
+        for (int i = 0; i < numProducers; i++) {
+            Producer producer = new Producer(resourcePool);
             Thread producerThread = new Thread(producer);
-            producerThreads.add(producerThread);
             producerThread.start();
-            currentProducers++;
-            add(producer);
         }
     }
 
-    public void addConsumer() {
-        if (currentConsumers < maxConsumers) {
-            Consumer consumer = new Consumer(this, resourcePool);
-            Thread comsumerThread = new Thread(consumer);
-            consumerThreads.add(comsumerThread);
-            comsumerThread.start();
-            currentConsumers++;
-            add(consumer);
+    private void startConsumers() {
+        for (int i = 0; i < numConsumers; i++) {
+            Consumer consumer = new Consumer(resourcePool);
+            Thread consumerThread = new Thread(consumer);
+            consumerThread.start();
         }
     }
 
-    public void removeProducer() {
-        Producer producer = new Producer(this, resourcePool);
-        Thread producerThread = new Thread(producer);
-        producerThreads.remove(producerThread);
-//        producerThread.interrupt();
-        currentProducers--;
-        remove(producer);
+    private void adjust() {
+        int available = resourcePool.getResourceAmount();
+
+        if (available < 50) {
+            numProducers++;
+            numConsumers--;
+        }
+        else if (available >= 150) {
+            numProducers--;
+            numConsumers++;
+        }
     }
 
-    public void removeConsumer() {
-        Consumer consumer = new Consumer(this, resourcePool);
-        Thread consumerThread = new Thread(consumer);
-        consumerThreads.remove(consumerThread);
-//        consumerThread.interrupt();
-        currentConsumers--;
-        remove(consumer);
-    }
+//    private Deque<Producer> producerDeque;
+//    private Deque<Consumer> consumerDeque;
 
 
-    @Override
-    public void run() {
-        int availableResources = resourcePool.getResourceAmount();
-
-        if (availableResources < 50) {
-            if (currentProducers < maxProducers) {
-                addProducer();
-            }
-            if (consumerThreads.size() > 2) {
-                removeConsumer();
-            }
-        } else if (availableResources >= 100) {
-            if (consumerThreads.size() < maxConsumers) {
-                addConsumer();
-            }
-            if (currentProducers > 2) {
-                removeProducer();
-            }
-        }
-        try { Thread.sleep(150);
-        }
-        catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
 
 
-    }
+//    private ResourcePool resourcePool;
+//    private int maxProducers;
+//    private int maxConsumers;
+//    private int currentProducers;
+//    private int currentConsumers;
+//    private List<Observer> observerList;
+//    private List<Thread> producerThreads;
+//    private List<Thread> consumerThreads;
+//
+////    private List<Consumer> activeConsumers;
+//
+//    public Manager(ResourcePool resourcePool, int maxProducers, int maxConsumers) {
+//        this.resourcePool = resourcePool;
+//        this.maxProducers = maxProducers;
+//        this.maxConsumers = maxConsumers;
+//        this.observerList = new ArrayList<>();
+//        this.currentProducers = maxProducers;
+//        this.currentConsumers = maxConsumers;
+//        producerThreads = new ArrayList<>();
+//        consumerThreads = new ArrayList<>();
+////        activeConsumers = new ArrayList<>();
+//
+//        for (int i = 0; i < 6; i++) {
+//            addProducer();
+//        }
+//        for (int i = 0; i < 5; i++) {
+//            addConsumer();
+//        }
+//    }
+//
+//    @Override
+//    public void add(Observer observer) {
+//        this.observerList.add(observer);
+//    }
+//
+//    @Override
+//    public void remove(Observer observer) {
+//        observerList.remove(observer);
+//    }
+//
+//    @Override
+//    public void notifyObserver() {
+//        for (Observer observer : observerList) {
+//            observer.update();
+//        }
+//    }
+//
+//    public List<Observer> getPC() {
+//        return this.observerList;
+//    }
+//
+//    public void addProducer() {
+//        if (currentProducers < maxProducers) {
+//            Producer producer = new Producer(this, resourcePool);
+//            Thread producerThread = new Thread(producer);
+//            producerThreads.add(producerThread);
+//            producerThread.start();
+//            currentProducers++;
+//            add(producer);
+//        }
+//    }
+//
+//    public void addConsumer() {
+//        if (currentConsumers < maxConsumers) {
+//            Consumer consumer = new Consumer(this, resourcePool);
+//            Thread comsumerThread = new Thread(consumer);
+//            consumerThreads.add(comsumerThread);
+//            comsumerThread.start();
+//            currentConsumers++;
+//            add(consumer);
+//        }
+//    }
+//
+//    public void removeProducer() {
+//        Producer producer = new Producer(this, resourcePool);
+//        Thread producerThread = new Thread(producer);
+//        producerThreads.remove(producerThread);
+////        producerThread.interrupt();
+//        currentProducers--;
+//        remove(producer);
+//    }
+//
+//    public void removeConsumer() {
+//        Consumer consumer = new Consumer(this, resourcePool);
+//        Thread consumerThread = new Thread(consumer);
+//        consumerThreads.remove(consumerThread);
+////        consumerThread.interrupt();
+//        currentConsumers--;
+//        remove(consumer);
+//    }
+//
+//
+//    @Override
+//    public void run() {
+//        int availableResources = resourcePool.getResourceAmount();
+//
+//        if (availableResources < 50) {
+//            if (currentProducers < maxProducers) {
+//                addProducer();
+//            }
+//            if (consumerThreads.size() > 2) {
+//                removeConsumer();
+//            }
+//        } else if (availableResources >= 100) {
+//            if (consumerThreads.size() < maxConsumers) {
+//                addConsumer();
+//            }
+//            if (currentProducers > 2) {
+//                removeProducer();
+//            }
+//        }
+//        try { Thread.sleep(150);
+//        }
+//        catch (InterruptedException e) {
+//            Thread.currentThread().interrupt();
+//        }
+//
+//
+//    }
 
 }
 
