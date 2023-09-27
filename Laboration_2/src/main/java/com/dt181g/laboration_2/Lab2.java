@@ -1,5 +1,8 @@
 package com.dt181g.laboration_2;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * The main starting point for laboration 2.
  * @author Erik Ström
@@ -16,25 +19,21 @@ public final class Lab2 {
      */
     public static void main(final String... args) throws InterruptedException {
 
-        ResourcePool resourcePool = new ResourcePool(50);
-        Manager manager = new Manager(resourcePool);
 
 
-//        ResourcePool resourcePool = new ResourcePool(50);
-//        Manager manager = new Manager(resourcePool, 6, 5);
-//
-//        Runnable managerRunnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                manager.run();
-//            }
-//        };
-//
-//        Thread managerThread = new Thread(managerRunnable);
-//        managerThread.start();
+        // Ensure that the program continues running
+        while (true) {
+            ResourcePool resourcePool = new ResourcePool(50);
+            Manager manager = new Manager(resourcePool);
 
-
-
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    manager.adjust();
+                }
+            }, 0, 150); // Adjust the delay as needed
+        }
     }
 
 }

@@ -1,8 +1,11 @@
 package com.dt181g.laboration_2;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
+import java.util.Timer;
 
 public class Manager {
 
@@ -17,6 +20,8 @@ public class Manager {
 
         startProducers();
         startConsumers();
+
+
     }
 
     private void startProducers() {
@@ -35,7 +40,7 @@ public class Manager {
         }
     }
 
-    private void adjust() {
+    public void adjust() {
         int available = resourcePool.getResourceAmount();
 
         if (available < 50) {
