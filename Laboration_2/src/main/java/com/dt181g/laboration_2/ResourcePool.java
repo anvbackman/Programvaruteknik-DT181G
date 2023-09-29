@@ -1,5 +1,7 @@
 package com.dt181g.laboration_2;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ResourcePool {
@@ -33,5 +35,7 @@ public class ResourcePool {
     public synchronized int getResourceAmount() {
         return resourceAmount;
     }
+
+
 
 }

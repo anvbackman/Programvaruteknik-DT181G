@@ -1,7 +1,10 @@
 package com.dt181g.laboration_2;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.Timer;
 import java.util.TimerTask;
+
 
 /**
  * The main starting point for laboration 2.
@@ -19,21 +22,58 @@ public final class Lab2 {
      */
     public static void main(final String... args) throws InterruptedException {
 
-
+        ResourcePool resourcePool = new ResourcePool(50;
 
         // Ensure that the program continues running
-        while (true) {
-            ResourcePool resourcePool = new ResourcePool(50);
-            Manager manager = new Manager(resourcePool);
+        JLabel producerLabel = new JLabel("Producers: 6");
+        JLabel consumerLabel = new JLabel("Consumers: 5");
+        JLabel resourceLabel = new JLabel("Resource Amount: " + resourcePool.getResourceAmount());
 
-            Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    manager.adjust();
-                }
-            }, 0, 150); // Adjust the delay as needed
-        }
+
+        JFrame frame = new JFrame("Resource Pool Simulation");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(800, 400);
+
+
+        Manager manager = new Manager(resourcePool, producerLabel, consumerLabel);
+
+        frame.setLayout(new BorderLayout());
+        JPanel top = new JPanel();
+        JPanel center = new JPanel();
+        JPanel bottom = new JPanel();
+
+        top.add(resourceLabel);
+        center.add(producerLabel);
+        bottom.add(consumerLabel);
+
+        top.setPreferredSize(new Dimension(800, 100));
+        center.setPreferredSize(new Dimension(800, 100));
+        bottom.setPreferredSize(new Dimension(800, 200));
+
+
+        ResourcePanel resourcePanel = new ResourcePanel(resourcePool);
+        resourcePanel.setPreferredSize(new Dimension(800, 200));
+
+
+
+
+        frame.add(top, BorderLayout.NORTH);
+        frame.add(center, BorderLayout.EAST);
+        frame.add(bottom, BorderLayout.SOUTH);
+        frame.add(resourcePanel, BorderLayout.CENTER);
+
+
+
+        frame.pack();
+        frame.setVisible(true);
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                manager.adjust();
+            }
+        }, 0, 150); // Adjust the delay as needed
     }
 
 }

@@ -1,5 +1,6 @@
 package com.dt181g.laboration_2;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -9,12 +10,16 @@ import java.util.Timer;
 
 public class Manager {
 
+    private JLabel producerLabel;
+    private JLabel consumerLabel;
     private ResourcePool resourcePool;
     private int numProducers;
     private int numConsumers;
 
-    public Manager(ResourcePool resourcePool) {
+    public Manager(ResourcePool resourcePool, JLabel producerLabel, JLabel consumerLabel) {
         this.resourcePool = resourcePool;
+        this.producerLabel = producerLabel;
+        this.consumerLabel = consumerLabel;
         this.numProducers = 6;
         this.numConsumers = 5;
 
@@ -43,14 +48,17 @@ public class Manager {
     public void adjust() {
         int available = resourcePool.getResourceAmount();
 
-        if (available < 50) {
+        if (available < 40) {
             numProducers++;
             numConsumers--;
         }
-        else if (available >= 150) {
+        else if (available > 180) {
             numProducers--;
             numConsumers++;
         }
+        producerLabel.setText("Producers: " + numProducers);
+        consumerLabel.setText("Consumers: " + numConsumers);
+
     }
 
 //    private Deque<Producer> producerDeque;
