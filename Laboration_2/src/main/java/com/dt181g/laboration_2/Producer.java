@@ -17,6 +17,7 @@ public class Producer implements Runnable {
         try {
             int random = addResource();
             resourcePool.addResources(random);
+            System.out.println("Producer added " + random + " resources. Current pool state: " + resourcePool.getResourceAmount());
             Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5000));
         }
         catch (InterruptedException e) {

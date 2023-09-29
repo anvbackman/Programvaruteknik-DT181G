@@ -8,8 +8,8 @@ public class ResourcePool {
 
     private int resourceAmount;
 
-    public ResourcePool(int resourceAmount) {
-        this.resourceAmount = resourceAmount;
+    public ResourcePool(int amount) {
+        this.resourceAmount = amount;
     }
 
     public synchronized void addResources(int amount) {

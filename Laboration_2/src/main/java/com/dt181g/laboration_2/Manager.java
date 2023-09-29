@@ -51,10 +51,12 @@ public class Manager {
         if (available < 40) {
             numProducers++;
             numConsumers--;
+            System.out.println("Adjustment: More Producers, Fewer Consumers");
         }
         else if (available > 180) {
             numProducers--;
             numConsumers++;
+            System.out.println("Adjustment: Fewer Producers, More Consumers");
         }
         producerLabel.setText("Producers: " + numProducers);
         consumerLabel.setText("Consumers: " + numConsumers);

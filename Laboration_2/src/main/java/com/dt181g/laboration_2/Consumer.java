@@ -28,6 +28,7 @@ public class Consumer implements Runnable {
         try {
             int random = destroyResource();
             resourcePool.removeResources(random);
+            System.out.println("Consumer consumed " + random + " resources. Current pool state: " + resourcePool.getResourceAmount());
             Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5000));
         }
         catch (InterruptedException e) {

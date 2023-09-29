@@ -22,7 +22,7 @@ public final class Lab2 {
      */
     public static void main(final String... args) throws InterruptedException {
 
-        ResourcePool resourcePool = new ResourcePool(50;
+        ResourcePool resourcePool = new ResourcePool(50);
 
         // Ensure that the program continues running
         JLabel producerLabel = new JLabel("Producers: 6");
@@ -34,6 +34,8 @@ public final class Lab2 {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 400);
 
+//        JPanel panel = new JPanel();
+//        panel
 
         Manager manager = new Manager(resourcePool, producerLabel, consumerLabel);
 
@@ -46,6 +48,7 @@ public final class Lab2 {
         center.add(producerLabel);
         bottom.add(consumerLabel);
 
+        frame.getContentPane().setBackground(Color.BLACK);
         top.setPreferredSize(new Dimension(800, 100));
         center.setPreferredSize(new Dimension(800, 100));
         bottom.setPreferredSize(new Dimension(800, 200));
@@ -66,6 +69,7 @@ public final class Lab2 {
 
         frame.pack();
         frame.setVisible(true);
+
 
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
