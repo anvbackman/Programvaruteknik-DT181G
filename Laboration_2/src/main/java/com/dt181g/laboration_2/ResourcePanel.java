@@ -6,9 +6,11 @@ import java.awt.*;
 public class ResourcePanel extends JLabel {
 
     private ResourcePool resourcePool;
+    private int counter;
 
     public ResourcePanel(ResourcePool resourcePool) {
         this.resourcePool = resourcePool;
+        this.counter = 0;
     }
 
     @Override
@@ -33,5 +35,10 @@ public class ResourcePanel extends JLabel {
         }
 
         g.fillOval(x, y, width, height);
+    }
+
+    public void updateCounter(int updateCounter) {
+        this.counter = updateCounter;
+        repaint();
     }
 }

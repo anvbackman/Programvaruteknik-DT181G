@@ -27,7 +27,7 @@ public final class Lab2 {
         // Ensure that the program continues running
         JLabel producerLabel = new JLabel("Producers: 6");
         JLabel consumerLabel = new JLabel("Consumers: 5");
-        JLabel resourceLabel = new JLabel("Resource Amount: " + resourcePool.getResourceAmount());
+//        JLabel resourceLabel = new JLabel("Resource Amount: " + resourcePool.getResourceAmount());
 
 
         JFrame frame = new JFrame("Resource Pool Simulation");
@@ -37,19 +37,19 @@ public final class Lab2 {
 //        JPanel panel = new JPanel();
 //        panel
 
-        Manager manager = new Manager(resourcePool, producerLabel, consumerLabel);
+        Manager manager = new Manager();
 
         frame.setLayout(new BorderLayout());
         JPanel top = new JPanel();
         JPanel center = new JPanel();
         JPanel bottom = new JPanel();
 
-        top.add(resourceLabel);
+//        top.add(resourceLabel);
         center.add(producerLabel);
         bottom.add(consumerLabel);
 
         frame.getContentPane().setBackground(Color.BLACK);
-        top.setPreferredSize(new Dimension(800, 100));
+//        top.setPreferredSize(new Dimension(800, 100));
         center.setPreferredSize(new Dimension(800, 100));
         bottom.setPreferredSize(new Dimension(800, 200));
 
@@ -60,9 +60,9 @@ public final class Lab2 {
 
 
 
-        frame.add(top, BorderLayout.NORTH);
+//        frame.add(top, BorderLayout.NORTH);
         frame.add(center, BorderLayout.EAST);
-        frame.add(bottom, BorderLayout.SOUTH);
+        frame.add(bottom, BorderLayout.WEST);
         frame.add(resourcePanel, BorderLayout.CENTER);
 
 
@@ -71,13 +71,7 @@ public final class Lab2 {
         frame.setVisible(true);
 
 
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                manager.adjust();
-            }
-        }, 0, 150); // Adjust the delay as needed
+        manager.startAdjustmentTimer();
     }
 
 }
