@@ -32,7 +32,7 @@ public class Controller implements ActionListener {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (chosenCard.getValue() != secondCard.getValue()) {
+                    if (chosenCard.getImage() != secondCard.getImage()) {
                         chosenCard.hideCard();
                         secondCard.hideCard();
                     }
