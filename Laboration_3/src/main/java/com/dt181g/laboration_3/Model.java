@@ -1,6 +1,5 @@
 package com.dt181g.laboration_3;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,19 +10,17 @@ public class Model {
     private Card firstCard;
     private Card secondCard;
 
-    private int amountOfCards;
 
-
-    public Model(List<BufferedImage> images) {
-        showCards(images);
+    public Model() {
+        cards = new ArrayList<>();
+        showCards();
     }
 
+    private void showCards() {
 
-    private void showCards(List<BufferedImage> images) {
-        cards = new ArrayList<>();
-        for (BufferedImage image : images) {
-            cards.add(new Card(image));
-            cards.add(new Card(image));
+        for (int i = 1; i <= 8; i++) {
+            cards.add(new Card(i));
+            cards.add(new Card(i));
         }
         Collections.shuffle(cards);
     }
@@ -42,26 +39,12 @@ public class Model {
         }
     }
 
-//    private void checkMatch() {
-//        if (firstCard.getValue() == secondCard.getValue()) {
-//            firstCard.setCardMatch(true);
-//            secondCard.setCardMatch(true);
-//        }
-//        firstCard = null;
-//        secondCard = null;
-//    }
-
-    public boolean checkMatch() {
-        if (firstCard != null && secondCard != null) {
-            BufferedImage img1 = firstCard.getImage();
-            BufferedImage img2 = secondCard.getImage();
-
-            if (img1 == img2) {
-                firstCard.setCardMatch(true);
-                secondCard.setCardMatch(true);
-                return true;
-            }
+    private void checkMatch() {
+        if (firstCard.getValue() == secondCard.getValue()) {
+            firstCard.setCardMatch(true);
+            secondCard.setCardMatch(true);
         }
-        return false;
+        firstCard = null;
+        secondCard = null;
     }
 }
