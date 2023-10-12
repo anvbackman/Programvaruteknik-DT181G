@@ -1,13 +1,17 @@
 package com.dt181g.project;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 
 import java.awt.event.KeyListener;
@@ -19,8 +23,8 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
     public static FlappyBird flappyBird;
     private Bird bird;
     private ArrayList<Obstacle> obstacle;
-    private int WIDTH = 800;
-    private int HEIGHT = 800;
+    public int WIDTH = 800;
+    public int HEIGHT = 800;
     public Random rand;
     public Renderer renderer;
     private String birdSymbol = "A";
@@ -38,6 +42,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
     private int coinHeight = 40;
 
     private Timer coinTimer;
+    private BufferedImage birdImage;
 
     public FlappyBird() {
 //        GUI gui = new GUI();
@@ -53,9 +58,22 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         frame.addMouseListener(this);
 
         bird = new Bird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
+//        birdImage = ImageLoader.loadIMG("flappy1.png");
+//        bird = new Bird(WIDTH / 2 - birdImage.getWidth() / 2, HEIGHT / 2 - birdImage.getHeight() / 2, birdImage);
+
         obstacle = new ArrayList<>();
         coins = new ArrayList<>();
         rand = new Random();
+
+
+        try {
+            birdImage = ImageIO.read(new File("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\flappy1.png"));
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error loading picture");
+        }
+
 //        addObstacle(true);
 //        addObstacle(true);
 //        addObstacle(true);
@@ -77,6 +95,24 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         coinTimer.start();
     }
 
+
+    public Bird getBird() {
+        return bird;
+    }
+
+    public ArrayList<Obstacle> getObstacle() {
+        return obstacle;
+    }
+
+    public ArrayList<Coin> getCoins() {
+        return coins;
+    }
+
+
+
+    public BufferedImage getBirdImage() {
+        return birdImage;
+    }
 
     public void addObstacle(boolean start) {
         int spacing = 300;
@@ -122,11 +158,16 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         g.setColor(Color.CYAN);
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
-        g.setColor(Color.RED);
+        g.drawImage(birdImage, bird.x, bird.y, bird.width, bird.height, null);
+//        if (bird != null) {
+//            g.drawImage(birdImage, bird.x, bird.y, (ImageObserver) this);
+//        }
+//        g.setColor(Color.RED);
 //        g.setFont(new Font("Arial", Font.BOLD, 24));
 //
 //        g.drawString(String.valueOf(birdSymbol), bird.x, bird.y);
-        g.fillRect(bird.x, bird.y, bird.width, bird.height);
+//        g.fillRect(bird.x, bird.y, bird.width, bird.height);
+//        g.drawImage(birdImage, bird.x, bird.y, null);
 
         g.setColor(Color.ORANGE);
         g.fillRect(0, HEIGHT - 120, WIDTH, 150);
@@ -170,6 +211,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
     public void newGame() {
         bird = new Bird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
+//        bird = new Bird(WIDTH / 2 - birdImage.getWidth() / 2, HEIGHT / 2 - birdImage.getHeight() / 2, birdImage);
         obstacle.clear();
         coins.clear();
         yMotion = 0;

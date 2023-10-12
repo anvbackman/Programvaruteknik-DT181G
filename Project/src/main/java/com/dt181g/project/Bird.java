@@ -19,6 +19,8 @@ public class Bird {
         bird = new Rectangle(x, y, width, height);
     }
 
+
+
     public Rectangle getBounds() {
         System.out.println(new Rectangle(x, y, width, height));
         return new Rectangle(x, y, width, height);
