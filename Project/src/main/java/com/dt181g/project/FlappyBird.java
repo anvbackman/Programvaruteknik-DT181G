@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import java.awt.event.KeyListener;
@@ -29,10 +30,14 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
     public int ticks;
     public int yMotion;
     public int score;
+    public int coinsGained;
 
     private ArrayList<Coin> coins;
-    private int coinWidth = 20;
-    private int coinHeight = 20;
+    private ArrayList<Coin> coinsToRemove;
+    private int coinWidth = 40;
+    private int coinHeight = 40;
+
+    private Timer coinTimer;
 
     public FlappyBird() {
 //        GUI gui = new GUI();
@@ -51,15 +56,25 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         obstacle = new ArrayList<>();
         coins = new ArrayList<>();
         rand = new Random();
-        addObstacle(true);
-        addObstacle(true);
-        addObstacle(true);
-        addObstacle(true);
-        addCoin(true);
+//        addObstacle(true);
+//        addObstacle(true);
+//        addObstacle(true);
+//        addObstacle(true);
+
+        coinTimer = new Timer(5000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addCoin(true);
+            }
+        });
+
+//        addCoin(true);
 //        addCoin(true);
 //        addCoin(true);
 //        addCoin(true);
         timer.start();
+        coinTimer.setRepeats(true);
+        coinTimer.start();
     }
 
 
@@ -138,7 +153,8 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
             g.drawString("Game Over!", 100, HEIGHT / 2 - 50);
         }
         if (!gameOver && started) {
-            g.drawString(String.valueOf(score), WIDTH / 2 - 25, 100);
+            g.drawString(String.valueOf(score), WIDTH / 2 - 100, 100);
+            g.drawString(String.valueOf(coinsGained), WIDTH / 2 -25, 100);
         }
     }
 
@@ -158,12 +174,16 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         coins.clear();
         yMotion = 0;
         score = 0;
+        coinsGained = 0;
 
-        addObstacle(true);
-        addObstacle(true);
-        addObstacle(true);
-        addObstacle(true);
-        addCoin(true);
+//        addObstacle(true);
+//        addObstacle(true);
+//        addObstacle(true);
+//        addObstacle(true);
+//        addCoin(true);
+//        addCoin(true);
+//        addCoin(true);
+//        addCoin(true);
 //        addCoin(true);
 //        addCoin(true);
 //        addCoin(true);
@@ -199,20 +219,12 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         Rectangle p = new Rectangle(bird.x, bird.y, bird.width, bird.height);
 //        int gravity = 2;
         ticks++;
+        coinsToRemove = new ArrayList<>();
 
         if (started) {
             for (int i = 0; i < obstacle.size(); i++) {
                 Obstacle o = obstacle.get(i);
                 o.x -= speed;
-            }
-
-            if (ticks % 2 == 0 && yMotion < 15) {
-                yMotion += 2;
-            }
-//            yMotion += gravity;
-
-            for (int i = 0; i < obstacle.size(); i++) {
-                Obstacle o = obstacle.get(i);
                 if (o.x + o.width < 0) {
                     obstacle.remove(o);
                     if (o.y == 0) {
@@ -220,6 +232,13 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
                     }
                 }
             }
+
+            if (ticks % 2 == 0 && yMotion < 15) {
+                yMotion += 2;
+            }
+
+
+
 
             bird.y += yMotion;
 
@@ -251,24 +270,29 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
 //            addCoin(false);
 
-            for (int i = 0; i < coins.size(); i++) {
-                Coin c = coins.get(i);
-                c.x -= speed;
-            }
+
 
             for (int i = 0; i < coins.size(); i++) {
                 Coin coin = coins.get(i);
+                coin.x -= speed;
                 if (coin.x + coin.width < 0) {
                     coins.remove(coin);
+                    if (coin.y == 0) {
+                        addCoin(false);
+                    }
                 }
             }
 
             for (Coin coin : coins) {
                 Rectangle c = new Rectangle(coin.x, coin.y, coin.width, coin.height);
                 if (c.intersects(p)) {
-                    coins.remove(coin);
+                    coinsGained++;
+                    coinsToRemove.add(coin); // Add the coin to the removal list.
                 }
             }
+
+            // Now, remove the coins outside of the loop.
+            coins.removeAll(coinsToRemove);
 
             if (bird.y > HEIGHT - 120 || bird.y < 0) {
                 gameOver = true;
