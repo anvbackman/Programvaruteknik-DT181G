@@ -17,4 +17,10 @@ public class Obstacle {
         this.height = height;
         obstacle = new Rectangle(x, y, width, height);
     }
+
+    public boolean collision(Bird bird) {
+        Rectangle birdBounds = bird.getBounds();
+        System.out.println("The bird hit the wall" + birdBounds);
+        return obstacle.intersects(birdBounds);
+    }
 }
