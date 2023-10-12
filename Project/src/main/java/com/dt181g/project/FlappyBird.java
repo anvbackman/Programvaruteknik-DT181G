@@ -56,9 +56,9 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         addObstacle(true);
         addObstacle(true);
         addCoin(true);
-        addCoin(true);
-        addCoin(true);
-        addCoin(true);
+//        addCoin(true);
+//        addCoin(true);
+//        addCoin(true);
         timer.start();
     }
 
@@ -155,6 +155,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
     public void newGame() {
         bird = new Bird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
         obstacle.clear();
+        coins.clear();
         yMotion = 0;
         score = 0;
 
@@ -163,9 +164,9 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         addObstacle(true);
         addObstacle(true);
         addCoin(true);
-        addCoin(true);
-        addCoin(true);
-        addCoin(true);
+//        addCoin(true);
+//        addCoin(true);
+//        addCoin(true);
     }
     public void jump() {
 //        if (gameOver) {
@@ -248,7 +249,12 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
                 }
             }
 
-            addCoin(false);
+//            addCoin(false);
+
+            for (int i = 0; i < coins.size(); i++) {
+                Coin c = coins.get(i);
+                c.x -= speed;
+            }
 
             for (int i = 0; i < coins.size(); i++) {
                 Coin coin = coins.get(i);
