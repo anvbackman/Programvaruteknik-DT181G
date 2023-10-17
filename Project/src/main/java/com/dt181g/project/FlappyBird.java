@@ -43,6 +43,9 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
     private Timer coinTimer;
     private BufferedImage birdImage;
+    private BufferedImage birdImageJump;
+
+    private boolean isJumping;
 
     public FlappyBird() {
 //        GUI gui = new GUI();
@@ -57,7 +60,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         frame.setVisible(true);
         frame.addMouseListener(this);
 
-        bird = new Bird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
+//        bird = new Bird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 40, 40);
 //        birdImage = ImageLoader.loadIMG("flappy1.png");
 //        bird = new Bird(WIDTH / 2 - birdImage.getWidth() / 2, HEIGHT / 2 - birdImage.getHeight() / 2, birdImage);
 
@@ -65,14 +68,21 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         coins = new ArrayList<>();
         rand = new Random();
 
+        newGame();
+
 
         try {
             birdImage = ImageIO.read(new File("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\flappy1.png"));
+            birdImageJump = ImageIO.read(new File("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\flappy2.png"));
+
         }
         catch (IOException e) {
             e.printStackTrace();
             System.out.println("Error loading picture");
         }
+
+        bird = new Bird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 40, 40, birdImage, birdImageJump);
+//        isJumping = false;
 
 //        addObstacle(true);
 //        addObstacle(true);
@@ -158,7 +168,13 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         g.setColor(Color.CYAN);
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
-        g.drawImage(birdImage, bird.x, bird.y, bird.width, bird.height, null);
+        if (bird != null) {
+            BufferedImage currentImage = bird.getCurrentImage();
+            g.drawImage(currentImage, bird.x, bird.y, bird.width, bird.height, null);
+        }
+
+
+
 //        if (bird != null) {
 //            g.drawImage(birdImage, bird.x, bird.y, (ImageObserver) this);
 //        }
@@ -210,7 +226,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
     }
 
     public void newGame() {
-        bird = new Bird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
+        bird = new Bird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 40, 40, birdImage, birdImageJump);
 //        bird = new Bird(WIDTH / 2 - birdImage.getWidth() / 2, HEIGHT / 2 - birdImage.getHeight() / 2, birdImage);
         obstacle.clear();
         coins.clear();
@@ -243,7 +259,9 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 //            addObstacle(true);
 //        }
 
-
+//        if (gameOver) {
+////            isJumping = false;
+//        }
 
         if (!started) {
             started = true;
@@ -253,7 +271,12 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
                 yMotion = 0;
             }
             yMotion -= 10;
+            isJumping = true;
+//            isJumping = true;
+//            isJumping = !isJumping;
         }
+//        isJumping = true;
+//        isJumping = true;
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -264,6 +287,18 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         coinsToRemove = new ArrayList<>();
 
         if (started) {
+
+            bird.setJumping(false);
+
+
+//            if (isJumping) {
+//                isJumping = false;
+//            }
+//            else {
+//                isJumping = true;
+//            }
+
+
             for (int i = 0; i < obstacle.size(); i++) {
                 Obstacle o = obstacle.get(i);
                 o.x -= speed;
@@ -359,12 +394,15 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
             newGame();
         }
         jump();
+//        isJumping = true;
     }
 
 
     public void keyReleased(KeyEvent e) {
+//        isJumping = false;
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             jump();
+
         }
     }
 
