@@ -1,5 +1,7 @@
 package com.dt181g.project;
 
+import com.dt181g.project.IMG.ImageLoader;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +19,7 @@ import java.util.Random;
 import java.awt.event.KeyListener;
 
 import java.awt.event.MouseListener;
+import java.util.concurrent.Semaphore;
 
 public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
@@ -44,6 +47,8 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
     private Timer coinTimer;
     private BufferedImage birdImage;
     private BufferedImage birdImageJump;
+    private Thread birdImageThread;
+    private Thread birdImageJumpThread;
 
     private boolean isJumping;
 
@@ -59,10 +64,8 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         frame.setTitle("Flappy Bird");
         frame.setVisible(true);
         frame.addMouseListener(this);
-
-//        bird = new Bird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 40, 40);
-//        birdImage = ImageLoader.loadIMG("flappy1.png");
-//        bird = new Bird(WIDTH / 2 - birdImage.getWidth() / 2, HEIGHT / 2 - birdImage.getHeight() / 2, birdImage);
+        frame.addKeyListener(this);
+        
 
         obstacle = new ArrayList<>();
         coins = new ArrayList<>();
@@ -70,18 +73,23 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
         newGame();
 
+        birdImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\flappy1.png");
+        birdImageJump = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\flappy2.png");
 
-        try {
-            birdImage = ImageIO.read(new File("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\flappy1.png"));
-            birdImageJump = ImageIO.read(new File("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\flappy2.png"));
-
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Error loading picture");
-        }
 
         bird = new Bird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 40, 40, birdImage, birdImageJump);
+
+
+
+
+        birdImageThread = new Thread(new BirdImageRunnable(birdImage, true, "BirdImageThread"));
+        birdImageJumpThread = new Thread(new BirdImageRunnable(birdImageJump, false, "BirdImageJumpThread"));
+
+
+
+        birdImageThread.start();
+        birdImageJumpThread.start();
+
 //        isJumping = false;
 
 //        addObstacle(true);
@@ -204,10 +212,10 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         g.setFont(new Font("Arial", 1, 100));
 
         if (!started) {
-            g.drawString("Click to start!", 75, HEIGHT / 2 - 50);
+            g.drawString("Press Space to start!", 75, HEIGHT / 2 - 50);
         }
         if (gameOver) {
-            g.drawString("Game Over!", 100, HEIGHT / 2 - 50);
+            g.drawString("Game Over! Press Space to start!", 100, HEIGHT / 2 - 50);
         }
         if (!gameOver && started) {
             g.drawString(String.valueOf(score), WIDTH / 2 - 100, 100);
@@ -247,6 +255,9 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 //        addCoin(true);
     }
     public void jump() {
+
+        System.out.println("Jumping");
+
 //        if (gameOver) {
 //            bird = new Bird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
 //            obstacle.clear();
@@ -271,7 +282,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
                 yMotion = 0;
             }
             yMotion -= 10;
-            isJumping = true;
+//            isJumping = true;
 //            isJumping = true;
 //            isJumping = !isJumping;
         }
@@ -288,7 +299,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
         if (started) {
 
-            bird.setJumping(false);
+            bird.setJumping(isJumping);
 
 
 //            if (isJumping) {
@@ -318,6 +329,15 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
 
             bird.y += yMotion;
+
+            if (yMotion >= 0) {
+                isJumping = false;
+                bird.setImage(birdImage);
+            }
+            else {
+                isJumping = true;
+                bird.setImage(birdImageJump);
+            }
 
 
             for (Obstacle o : obstacle) {
@@ -388,22 +408,24 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
 
     public void mouseClicked(MouseEvent e) {
-        if (gameOver) {
-            gameOver = false;
-            started = true;
-            newGame();
-        }
-        jump();
+//        if (gameOver) {
+//            gameOver = false;
+//            started = true;
+//            newGame();
+//        }
+//        jump();
+//        bird.setImage(birdImageJump);
 //        isJumping = true;
     }
 
 
     public void keyReleased(KeyEvent e) {
-//        isJumping = false;
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            jump();
 
-        }
+////        isJumping = false;
+//        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+//            jump();
+//
+//        }
     }
 
 
@@ -414,6 +436,8 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
     public void mouseReleased(MouseEvent e)
     {
+        System.out.println("Not Jumping");
+//        bird.setImage(birdImage);
     }
 
 
@@ -433,8 +457,14 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
     }
 
 
-    public void keyPressed(KeyEvent e)
-    {
-
+    public void keyPressed(KeyEvent e) {
+        if (gameOver) {
+            gameOver = false;
+            started = true;
+            newGame();
+        }
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            jump();
+        }
     }
 }

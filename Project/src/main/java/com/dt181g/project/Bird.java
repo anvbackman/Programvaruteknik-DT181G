@@ -13,6 +13,7 @@ public class Bird {
     public int height;
     private BufferedImage birdImage;
     private BufferedImage birdImageJump;
+    private BufferedImage currentImage;
 
     private boolean isJumping;
 
@@ -24,6 +25,7 @@ public class Bird {
         this.birdImage = birdImage;
         this.birdImageJump = birdImageJump;
         isJumping = false;
+        currentImage = birdImage;
 //        bird = new Rectangle(x, y, width, height);
     }
 
@@ -40,14 +42,20 @@ public class Bird {
         return new Rectangle(x, y, width, height);
     }
 
+    public void setImage(BufferedImage image) {
+        currentImage = image;
+    }
+
     public BufferedImage getCurrentImage() {
 //        this.image = image;
-        if (isJumping) {
-            return birdImageJump;
-        }
-        else {
-            return birdImage;
-        }
+
+        return currentImage;
+//        if (isJumping) {
+//            return birdImageJump;
+//        }
+//        else {
+//            return birdImage;
+//        }
     }
 
 }
