@@ -17,4 +17,17 @@ public class Coin {
         this.height = height;
         coin = new Rectangle(x, y, width, height);
     }
+
+    public Rectangle getBounds() {
+
+        return new Rectangle(x, y, width, height);
+    }
+
+    public boolean collision(Rectangle obstacle) {
+        Rectangle obstacleBounds = obstacle.getBounds();
+
+        return coin.intersects(obstacleBounds);
+    }
+
+    
 }

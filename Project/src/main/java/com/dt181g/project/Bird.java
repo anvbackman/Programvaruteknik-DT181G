@@ -38,7 +38,7 @@ public class Bird {
     }
 
     public Rectangle getBounds() {
-        System.out.println(new Rectangle(x, y, width, height));
+
         return new Rectangle(x, y, width, height);
     }
 
@@ -47,15 +47,7 @@ public class Bird {
     }
 
     public BufferedImage getCurrentImage() {
-//        this.image = image;
-
         return currentImage;
-//        if (isJumping) {
-//            return birdImageJump;
-//        }
-//        else {
-//            return birdImage;
-//        }
     }
 
 }
