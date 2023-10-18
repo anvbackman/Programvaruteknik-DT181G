@@ -29,5 +29,5 @@ public class Coin {
         return coin.intersects(obstacleBounds);
     }
 
-    
+
 }

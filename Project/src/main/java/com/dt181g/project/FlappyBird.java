@@ -43,8 +43,8 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
     private ArrayList<Coin> coins;
     private ArrayList<Coin> coinsToRemove;
-    private int coinWidth = 40;
-    private int coinHeight = 40;
+    private int coinWidth = 50;
+    private int coinHeight = 50;
 
     private Timer coinTimer;
     private BufferedImage birdImage;
@@ -55,6 +55,8 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
     private BufferedImage obstacleImageTop;
     private BufferedImage obstacleImageBottom;
     private BufferedImage groundImage;
+    private BufferedImage coinImage;
+
 
     private boolean isJumping;
 
@@ -82,6 +84,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         newGame();
 
         groundImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\ground.png");
+        coinImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\coin.png");
 
         backgroundImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\bg.png");
         birdImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\flappy1.png");
@@ -105,25 +108,13 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
 //        isJumping = false;
 
-        addObstacle(true);
-        addObstacle(true);
-        addObstacle(true);
-        addObstacle(true);
+//        addObstacle(true);
+//        addObstacle(true);
+//        addObstacle(true);
+//        addObstacle(true);
 
-        coinTimer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addCoin(true);
-            }
-        });
 
-//        addCoin(true);
-//        addCoin(true);
-//        addCoin(true);
-//        addCoin(true);
         timer.start();
-        coinTimer.setRepeats(true);
-        coinTimer.start();
     }
 
 
@@ -182,11 +173,15 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         }
 
 
+
     }
 
+
+
     public void paintCoin(Graphics g, Coin coin) {
-        g.setColor(Color.YELLOW);
-        g.fillOval(coin.x, coin.y, coin.width, coin.height);
+//        g.setColor(Color.YELLOW);
+//        g.fillOval(coin.x, coin.y, coin.width, coin.height);
+        g.drawImage(coinImage, coin.x, coin.y, coin.width, coin.height, null);
     }
 
 
@@ -271,10 +266,36 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         score = 0;
         coinsGained = 0;
 
-        addObstacle(true);
-        addObstacle(true);
-        addObstacle(true);
-        addObstacle(true);
+        for (int i = 0; i < 4; i++) {
+            addObstacle(true);
+
+//            addCoin(true);
+        }
+
+        coinTimer = new Timer(250, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addCoin(true);
+            }
+        });
+
+//        addCoin(true);
+//        addCoin(true);
+//        addCoin(true);
+//        addCoin(true);
+
+        coinTimer.setRepeats(true);
+        coinTimer.start();
+
+
+
+
+
+
+//        addObstacle(true);
+//        addObstacle(true);
+//        addObstacle(true);
+//        addObstacle(true);
 //        addCoin(true);
 //        addCoin(true);
 //        addCoin(true);
@@ -320,6 +341,13 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
     }
 
     public void actionPerformed(ActionEvent e) {
+
+        if (gameOver) {
+            bird.y = HEIGHT + 1;
+            renderer.repaint();
+            return;
+        }
+
         int speed = 10;
         Rectangle p = new Rectangle(bird.x, bird.y, bird.width, bird.height);
 //        int gravity = 2;
@@ -384,9 +412,9 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
                 if (o.y == 0 && bird.x + bird.width / 2 > o.x + o.width / 2 - 10 && bird.x + bird.width / 2 < o.x + o.width / 2 + 10) {
                     score++;
                 }
-                Rectangle r = new Rectangle(o.x, o.y, o.width, o.height);
+                Rectangle obs = new Rectangle(o.x, o.y, o.width, o.height);
 
-                if (r.intersects(p)) {
+                if (obs.intersects(p)) {
                     gameOver = true;
 
                     if (bird.x <= o.x) {

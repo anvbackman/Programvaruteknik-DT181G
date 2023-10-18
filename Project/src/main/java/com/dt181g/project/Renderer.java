@@ -30,6 +30,7 @@ public class Renderer extends JPanel {
 //        if (bird != null) {
 //            g.drawImage(FlappyBird.flappyBird.getBirdImage(), bird.x, bird.y, this);
 //        }
+
         FlappyBird.flappyBird.repaint(g);
     }
 }
