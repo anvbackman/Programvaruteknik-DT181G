@@ -65,6 +65,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
     private BufferedImage powerUpImage;
 
     private boolean isMoreCoins;
+    private boolean isGhost;
 
 
     private boolean isJumping;
@@ -90,6 +91,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         backgroundX = 0;
         groundX = 0;
         isMoreCoins = false;
+        isGhost = false;
 
         newGame();
 
@@ -114,18 +116,18 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
     }
 
     public void addObstacle(boolean start) {
-//        int spacing = 300;
-//        int width = 100;
-//        int height = 50 + rand.nextInt(300);
-//
-//        if (start) {
-//            obstacle.add(new Obstacle(obstacleImageTop, WIDTH + width + obstacle.size() * 300, HEIGHT - height - 120, width, height, true));
-//            obstacle.add(new Obstacle(obstacleImageBottom, WIDTH + width + (obstacle.size() - 1) * 300, 0, width, HEIGHT - height - spacing, false));
-//        }
-//        else {
-//            obstacle.add(new Obstacle(obstacleImageTop, obstacle.get(obstacle.size() - 1).x + 600, HEIGHT - height - 120, width, height, true));
-//            obstacle.add(new Obstacle(obstacleImageBottom, obstacle.get(obstacle.size() - 1).x, 0, width, HEIGHT - height - spacing, false));
-//        }
+        int spacing = 300;
+        int width = 100;
+        int height = 50 + rand.nextInt(300);
+
+        if (start) {
+            obstacle.add(new Obstacle(obstacleImageTop, WIDTH + width + obstacle.size() * 300, HEIGHT - height - 120, width, height, true));
+            obstacle.add(new Obstacle(obstacleImageBottom, WIDTH + width + (obstacle.size() - 1) * 300, 0, width, HEIGHT - height - spacing, false));
+        }
+        else {
+            obstacle.add(new Obstacle(obstacleImageTop, obstacle.get(obstacle.size() - 1).x + 600, HEIGHT - height - 120, width, height, true));
+            obstacle.add(new Obstacle(obstacleImageBottom, obstacle.get(obstacle.size() - 1).x, 0, width, HEIGHT - height - spacing, false));
+        }
     }
 
     public void paintObstacle(Graphics g, Obstacle obstacle) {
@@ -167,34 +169,23 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
     public void powerUp() {
         Thread powerUpThread = new Thread(() -> {
-            moreCoins();
+
+            ghostBird();
         });
         powerUpThread.start();
     }
 
     public void ghostBird() {
-        int originalInterval = coinTimer.getDelay();
+
 
         isGhost = true;
-        Timer temporaryTimer = new Timer(250, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                coinTimer.setDelay(25);
-                addCoin(true);
-            }
-        });
-
-        temporaryTimer.setRepeats(false);
-        temporaryTimer.start();
-
         try {
-            Thread.sleep(5000);
+            Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        isMoreCoins = false;
-        coinTimer.setDelay(originalInterval);
-        coinTimer.start();
+        isGhost = false;
+
     }
 
     public void moreCoins() {
@@ -264,6 +255,10 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         }
         if (isMoreCoins) {
             g.drawString("Get ready for some fucking coins!", 75, HEIGHT / 2 - 50);
+        }
+
+        if (isGhost) {
+            g.drawString("Spookers", 75, HEIGHT / 2 - 50);
         }
     }
 
@@ -372,26 +367,28 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
 
             for (Obstacle o : obstacle) {
-                if (o.y == 0 && bird.x + bird.width / 2 > o.x + o.width / 2 - 10 && bird.x + bird.width / 2 < o.x + o.width / 2 + 10) {
-                    score++;
-                }
-                Rectangle obs = new Rectangle(o.x, o.y, o.width, o.height);
-
-                if (obs.intersects(p)) {
-                    gameOver = true;
-
-                    if (bird.x <= o.x) {
-                        bird.x = o.y - bird.height;
+                if (!isGhost) {
+                    if (o.y == 0 && bird.x + bird.width / 2 > o.x + o.width / 2 - 10 && bird.x + bird.width / 2 < o.x + o.width / 2 + 10) {
+                        score++;
                     }
+                    Rectangle obs = new Rectangle(o.x, o.y, o.width, o.height);
 
-                    else {
-                        if (o.y != 0) {
-                            bird.y = o.y - bird.height;
-                        }
-                        else if (bird.y < o.height) {
-                            bird.y = o.height;
+                    if (obs.intersects(p)) {
+                        gameOver = true;
+
+                        if (bird.x <= o.x) {
+                            bird.x = o.y - bird.height;
                         }
 
+                        else {
+                            if (o.y != 0) {
+                                bird.y = o.y - bird.height;
+                            }
+                            else if (bird.y < o.height) {
+                                bird.y = o.height;
+                            }
+
+                        }
                     }
                 }
             }
