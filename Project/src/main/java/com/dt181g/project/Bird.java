@@ -17,6 +17,10 @@ public class Bird {
 
     private boolean isJumping;
 
+    private int originalSpeed;
+    private int newSpeed;
+
+
     public Bird(int x, int y, int width, int height, BufferedImage birdImage, BufferedImage birdImageJump) {
         this.x = x;
         this.y = y;
@@ -26,6 +30,8 @@ public class Bird {
         this.birdImageJump = birdImageJump;
         isJumping = false;
         currentImage = birdImage;
+        originalSpeed = 10;
+        newSpeed = originalSpeed;
 //        bird = new Rectangle(x, y, width, height);
     }
 
@@ -49,5 +55,22 @@ public class Bird {
     public BufferedImage getCurrentImage() {
         return currentImage;
     }
+
+    public void increaseSpeed(int amount) {
+        newSpeed += amount;
+    }
+    public void resetSpeed() {
+        newSpeed = originalSpeed;
+    }
+
+//    public void setSpeed(int amount) {
+//        originalSpeed = amount;
+//    }
+
+    public int getSpeed() {
+        return newSpeed;
+    }
+
+
 
 }

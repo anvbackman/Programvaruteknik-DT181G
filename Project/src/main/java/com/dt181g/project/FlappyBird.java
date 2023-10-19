@@ -179,11 +179,14 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
 
         isGhost = true;
+        bird.increaseSpeed(5);
+
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        bird.resetSpeed();
         isGhost = false;
 
     }
@@ -317,7 +320,8 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
             return;
         }
 
-        int speed = 10;
+//        int speed = 10;
+//        bird.setSpeed(10);
         Rectangle p = new Rectangle(bird.x, bird.y, bird.width, bird.height);
         ticks++;
         coinsToRemove = new ArrayList<>();
@@ -332,16 +336,16 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
                 backgroundX = 0;
             }
 
-            backgroundX -= speed;
+            backgroundX -= bird.getSpeed();
 
             if (groundX < -groundImage.getWidth()) {
                 groundX = 0; // Reset the ground to start again.
             }
-            groundX -= speed;
+            groundX -= bird.getSpeed();
 
             for (int i = 0; i < obstacle.size(); i++) {
                 Obstacle o = obstacle.get(i);
-                o.x -= speed;
+                o.x -= bird.getSpeed();
                 if (o.x + o.width < 0) {
                     obstacle.remove(o);
                     if (o.y == 0) {
@@ -395,7 +399,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
             for (int i = 0; i < coins.size(); i++) {
                 Coin coin = coins.get(i);
-                coin.x -= speed;
+                coin.x -= bird.getSpeed();
                 if (coin.x + coin.width < 0) {
                     coins.remove(coin);
                     if (coin.y == 0) {
@@ -417,7 +421,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
             for (int i = 0; i < powerUps.size(); i++) {
                 PowerUp powerUp = powerUps.get(i);
-                powerUp.x -= speed;
+                powerUp.x -= bird.getSpeed();
                 if (powerUp.x + powerUp.width < 0) {
                     powerUps.remove(powerUp);
                     if (powerUp.y == 0) {
