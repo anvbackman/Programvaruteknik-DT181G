@@ -43,10 +43,16 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
     private ArrayList<Coin> coins;
     private ArrayList<Coin> coinsToRemove;
+
+    private ArrayList<PowerUp> powerUps;
+    private ArrayList<PowerUp> powerUpsToRemove;
     private int coinWidth = 50;
     private int coinHeight = 50;
+    private int powerUpWidth = 50;
+    private int powerUpHeight = 50;
 
     private Timer coinTimer;
+    private Timer powerUpTimer;
     private BufferedImage birdImage;
     private BufferedImage birdImageJump;
     private BufferedImage backgroundImage;
@@ -56,12 +62,14 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
     private BufferedImage obstacleImageBottom;
     private BufferedImage groundImage;
     private BufferedImage coinImage;
+    private BufferedImage powerUpImage;
+
+    private boolean isMoreCoins;
 
 
     private boolean isJumping;
 
     public FlappyBird() {
-//        GUI gui = new GUI();
 
         Timer timer = new Timer(20, this);
         renderer = new Renderer();
@@ -77,14 +85,17 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
         obstacle = new ArrayList<>();
         coins = new ArrayList<>();
+        powerUps = new ArrayList<>();
         rand = new Random();
         backgroundX = 0;
         groundX = 0;
+        isMoreCoins = false;
 
         newGame();
 
         groundImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\ground.png");
         coinImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\coin.png");
+        powerUpImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\star.png");
 
         backgroundImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\bg.png");
         birdImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\flappy1.png");
@@ -92,63 +103,29 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         obstacleImageTop = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe1.png");
         obstacleImageBottom = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe2.png");
 
-
         bird = new Bird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 40, 40, birdImage, birdImageJump);
-
-
-
 
         birdImageThread = new Thread(new BirdImageRunnable(birdImage, true, "BirdImageThread"));
         birdImageJumpThread = new Thread(new BirdImageRunnable(birdImageJump, false, "BirdImageJumpThread"));
 
-
-
         birdImageThread.start();
         birdImageJumpThread.start();
-
-//        isJumping = false;
-
-//        addObstacle(true);
-//        addObstacle(true);
-//        addObstacle(true);
-//        addObstacle(true);
-
-
         timer.start();
     }
 
-
-    public Bird getBird() {
-        return bird;
-    }
-
-    public ArrayList<Obstacle> getObstacle() {
-        return obstacle;
-    }
-
-    public ArrayList<Coin> getCoins() {
-        return coins;
-    }
-
-
-
-    public BufferedImage getBirdImage() {
-        return birdImage;
-    }
-
     public void addObstacle(boolean start) {
-        int spacing = 300;
-        int width = 100;
-        int height = 50 + rand.nextInt(300);
-
-        if (start) {
-            obstacle.add(new Obstacle(obstacleImageTop, WIDTH + width + obstacle.size() * 300, HEIGHT - height - 120, width, height, true));
-            obstacle.add(new Obstacle(obstacleImageBottom, WIDTH + width + (obstacle.size() - 1) * 300, 0, width, HEIGHT - height - spacing, false));
-        }
-        else {
-            obstacle.add(new Obstacle(obstacleImageTop, obstacle.get(obstacle.size() - 1).x + 600, HEIGHT - height - 120, width, height, true));
-            obstacle.add(new Obstacle(obstacleImageBottom, obstacle.get(obstacle.size() - 1).x, 0, width, HEIGHT - height - spacing, false));
-        }
+//        int spacing = 300;
+//        int width = 100;
+//        int height = 50 + rand.nextInt(300);
+//
+//        if (start) {
+//            obstacle.add(new Obstacle(obstacleImageTop, WIDTH + width + obstacle.size() * 300, HEIGHT - height - 120, width, height, true));
+//            obstacle.add(new Obstacle(obstacleImageBottom, WIDTH + width + (obstacle.size() - 1) * 300, 0, width, HEIGHT - height - spacing, false));
+//        }
+//        else {
+//            obstacle.add(new Obstacle(obstacleImageTop, obstacle.get(obstacle.size() - 1).x + 600, HEIGHT - height - 120, width, height, true));
+//            obstacle.add(new Obstacle(obstacleImageBottom, obstacle.get(obstacle.size() - 1).x, 0, width, HEIGHT - height - spacing, false));
+//        }
     }
 
     public void paintObstacle(Graphics g, Obstacle obstacle) {
@@ -158,71 +135,107 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         else {
             g.drawImage(obstacleImageTop, obstacle.x, obstacle.y, obstacle.width, obstacle.height, null);
         }
-
-//        g.setColor(Color.GREEN.darker());
-//        g.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
     }
 
     public void addCoin(boolean start) {
 
         int coinYPosition = rand.nextInt(HEIGHT - 120 - coinHeight);
+
         if (start) {
             coins.add(new Coin(WIDTH + coinWidth + obstacle.size() * 300, coinYPosition, coinWidth, coinHeight));
         } else {
             coins.add(new Coin(coins.get(coins.size() - 1).x + 600, coinYPosition, coinWidth, coinHeight));
         }
-
-
-
     }
 
-
-
     public void paintCoin(Graphics g, Coin coin) {
-//        g.setColor(Color.YELLOW);
-//        g.fillOval(coin.x, coin.y, coin.width, coin.height);
         g.drawImage(coinImage, coin.x, coin.y, coin.width, coin.height, null);
     }
 
+    public void addPowerUp(boolean start) {
+        int powerUpYPosition = rand.nextInt(HEIGHT - 120 - powerUpHeight);
+        if (start) {
+            powerUps.add(new PowerUp(WIDTH + coinWidth + obstacle.size() * 300, powerUpYPosition, powerUpWidth, powerUpHeight));
+        } else {
+            powerUps.add(new PowerUp(coins.get(coins.size() - 1).x + 600, powerUpYPosition, powerUpWidth, powerUpHeight));
+        }
+    }
 
+    public void paintPowerUp(Graphics g, PowerUp powerUp) {
+        g.drawImage(powerUpImage, powerUp.x, powerUp.y, powerUp.width, powerUp.height, null);
+    }
+
+    public void powerUp() {
+        Thread powerUpThread = new Thread(() -> {
+            moreCoins();
+        });
+        powerUpThread.start();
+    }
+
+    public void ghostBird() {
+        int originalInterval = coinTimer.getDelay();
+
+        isGhost = true;
+        Timer temporaryTimer = new Timer(250, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                coinTimer.setDelay(25);
+                addCoin(true);
+            }
+        });
+
+        temporaryTimer.setRepeats(false);
+        temporaryTimer.start();
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        isMoreCoins = false;
+        coinTimer.setDelay(originalInterval);
+        coinTimer.start();
+    }
+
+    public void moreCoins() {
+        int originalInterval = coinTimer.getDelay();
+
+        isMoreCoins = true;
+        Timer temporaryTimer = new Timer(250, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                coinTimer.setDelay(25);
+                addCoin(true);
+            }
+        });
+
+        temporaryTimer.setRepeats(false);
+        temporaryTimer.start();
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        isMoreCoins = false;
+        coinTimer.setDelay(originalInterval);
+        coinTimer.start();
+    }
 
 
     public void repaint(Graphics g) {
 
-//        g.setColor(Color.CYAN);
         for (int x = backgroundX; x < WIDTH; x += backgroundImage.getWidth()) {
             g.drawImage(backgroundImage, x, 0, WIDTH + 120, HEIGHT, null);
         }
-//        g.fillRect(0, 0, WIDTH, HEIGHT);
         for (int x = groundX; x < WIDTH; x += groundImage.getWidth()) {
             g.drawImage(groundImage, x, HEIGHT - 120, WIDTH, 150, null);
         }
-
 
         if (bird != null) {
             BufferedImage currentImage = bird.getCurrentImage();
             g.drawImage(currentImage, bird.x, bird.y, bird.width, bird.height, null);
         }
-
-
-
-
-//        if (bird != null) {
-//            g.drawImage(birdImage, bird.x, bird.y, (ImageObserver) this);
-//        }
-//        g.setColor(Color.RED);
-//        g.setFont(new Font("Arial", Font.BOLD, 24));
-//
-//        g.drawString(String.valueOf(birdSymbol), bird.x, bird.y);
-//        g.fillRect(bird.x, bird.y, bird.width, bird.height);
-//        g.drawImage(birdImage, bird.x, bird.y, null);
-
-//        g.setColor(Color.ORANGE);
-//        g.fillRect(0, HEIGHT - 120, WIDTH, 150);
-//        g.setColor(Color.GREEN);
-//        g.fillRect(0, HEIGHT - 120, WIDTH, 20);
-
-
 
         for (Obstacle o : obstacle) {
             paintObstacle(g, o);
@@ -232,8 +245,12 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
             paintCoin(g, coin);
         }
 
+        for (PowerUp powerUp : powerUps) {
+            paintPowerUp(g, powerUp);
+        }
+
         g.setColor(Color.white);
-        g.setFont(new Font("Arial", 1, 100));
+        g.setFont(new Font("Arial", 1, 25));
 
         if (!started) {
             g.drawString("Press Space to start!", 75, HEIGHT / 2 - 50);
@@ -245,21 +262,13 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
             g.drawString(String.valueOf(score), WIDTH / 2 - 100, 100);
             g.drawString(String.valueOf(coinsGained), WIDTH / 2 -25, 100);
         }
-    }
-
-    public void addSymbol(String symbol) {
-        birdSymbol += symbol;
-    }
-
-    public void removeSymbol() {
-        if (birdSymbol.length() > 1) {
-            birdSymbol = birdSymbol.substring(0, birdSymbol.length() - 1);
+        if (isMoreCoins) {
+            g.drawString("Get ready for some fucking coins!", 75, HEIGHT / 2 - 50);
         }
     }
 
     public void newGame() {
         bird = new Bird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 40, 40, birdImage, birdImageJump);
-//        bird = new Bird(WIDTH / 2 - birdImage.getWidth() / 2, HEIGHT / 2 - birdImage.getHeight() / 2, birdImage);
         obstacle.clear();
         coins.clear();
         yMotion = 0;
@@ -268,61 +277,31 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
         for (int i = 0; i < 4; i++) {
             addObstacle(true);
-
-//            addCoin(true);
         }
 
-        coinTimer = new Timer(250, new ActionListener() {
+        coinTimer = new Timer(4000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 addCoin(true);
             }
         });
 
-//        addCoin(true);
-//        addCoin(true);
-//        addCoin(true);
-//        addCoin(true);
+        powerUpTimer = new Timer(4000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addPowerUp(true);
+            }
+        });
 
         coinTimer.setRepeats(true);
         coinTimer.start();
-
-
-
-
-
-
-//        addObstacle(true);
-//        addObstacle(true);
-//        addObstacle(true);
-//        addObstacle(true);
-//        addCoin(true);
-//        addCoin(true);
-//        addCoin(true);
-//        addCoin(true);
-//        addCoin(true);
-//        addCoin(true);
-//        addCoin(true);
+        powerUpTimer.setRepeats(true);
+        powerUpTimer.start();
     }
+
     public void jump() {
 
         System.out.println("Jumping");
-
-//        if (gameOver) {
-//            bird = new Bird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 20, 20);
-//            obstacle.clear();
-//            yMotion = 0;
-//            score = 0;
-//
-//            addObstacle(true);
-//            addObstacle(true);
-//            addObstacle(true);
-//            addObstacle(true);
-//        }
-
-//        if (gameOver) {
-////            isJumping = false;
-//        }
 
         if (!started) {
             started = true;
@@ -332,12 +311,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
                 yMotion = 0;
             }
             yMotion -= 10;
-//            isJumping = true;
-//            isJumping = true;
-//            isJumping = !isJumping;
         }
-//        isJumping = true;
-//        isJumping = true;
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -350,9 +324,9 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
         int speed = 10;
         Rectangle p = new Rectangle(bird.x, bird.y, bird.width, bird.height);
-//        int gravity = 2;
         ticks++;
         coinsToRemove = new ArrayList<>();
+        powerUpsToRemove = new ArrayList<>();
 
 
         if (started) {
@@ -370,14 +344,6 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
             }
             groundX -= speed;
 
-//            if (isJumping) {
-//                isJumping = false;
-//            }
-//            else {
-//                isJumping = true;
-//            }
-
-
             for (int i = 0; i < obstacle.size(); i++) {
                 Obstacle o = obstacle.get(i);
                 o.x -= speed;
@@ -392,9 +358,6 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
             if (ticks % 2 == 0 && yMotion < 15) {
                 yMotion += 2;
             }
-
-
-
 
             bird.y += yMotion;
 
@@ -433,10 +396,6 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
                 }
             }
 
-//            addCoin(false);
-
-
-
             for (int i = 0; i < coins.size(); i++) {
                 Coin coin = coins.get(i);
                 coin.x -= speed;
@@ -459,71 +418,63 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
             // Now, remove the coins outside of the loop.
             coins.removeAll(coinsToRemove);
 
+            for (int i = 0; i < powerUps.size(); i++) {
+                PowerUp powerUp = powerUps.get(i);
+                powerUp.x -= speed;
+                if (powerUp.x + powerUp.width < 0) {
+                    powerUps.remove(powerUp);
+                    if (powerUp.y == 0) {
+                        addPowerUp(false);
+                    }
+                }
+            }
+
+            for (PowerUp powerUp : powerUps) {
+                Rectangle pu = new Rectangle(powerUp.x, powerUp.y, powerUp.width, powerUp.height);
+                if (pu.intersects(p)) {
+                    powerUpsToRemove.add(powerUp); // Add the coin to the removal list.
+                    powerUp();
+                }
+            }
+            // Now, remove the powerups outside of the loop.
+            powerUps.removeAll(powerUpsToRemove);
+
             if (bird.y > HEIGHT - 120 || bird.y < 0) {
                 gameOver = true;
             }
-
             if (bird.y + yMotion >= HEIGHT - 120) {
                 bird.y = HEIGHT - 120 - bird.height;
                 gameOver = true;
             }
-
         }
         renderer.repaint();
-
-
     }
-
 
     public void mouseClicked(MouseEvent e) {
-//        if (gameOver) {
-//            gameOver = false;
-//            started = true;
-//            newGame();
-//        }
-//        jump();
-//        bird.setImage(birdImageJump);
-//        isJumping = true;
     }
-
 
     public void keyReleased(KeyEvent e) {
-
-////        isJumping = false;
-//        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-//            jump();
-//
-//        }
     }
-
 
     public void mousePressed(MouseEvent e)
     {
     }
 
-
     public void mouseReleased(MouseEvent e)
     {
-        System.out.println("Not Jumping");
-//        bird.setImage(birdImage);
     }
-
 
     public void mouseEntered(MouseEvent e)
     {
     }
 
-
     public void mouseExited(MouseEvent e)
     {
     }
 
-
     public void keyTyped(KeyEvent e)
     {
-
     }
-
 
     public void keyPressed(KeyEvent e) {
         if (gameOver) {
