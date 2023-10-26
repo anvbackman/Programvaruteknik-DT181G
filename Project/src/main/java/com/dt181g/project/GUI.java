@@ -18,11 +18,6 @@ public class GUI implements ActionListener {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
         timer.start();
-//        FlappyBird flappyBird = new FlappyBird();
-//        flappyBird.addObstacle(true);
-//        flappyBird.addObstacle(true);
-//        flappyBird.addObstacle(true);
-//        flappyBird.addObstacle(true);
     }
 
     public void actionPerformed(ActionEvent e) {

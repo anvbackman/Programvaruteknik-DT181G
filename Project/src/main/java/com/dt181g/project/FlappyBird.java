@@ -4,7 +4,9 @@ import com.dt181g.project.IMG.ImageLoader;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+//import java.awt.*;
 import java.awt.*;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -25,7 +27,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
     public static FlappyBird flappyBird;
     private Bird bird;
-    private ArrayList<Obstacle> obstacle;
+    private List<Obstacle> obstacle;
     public int WIDTH = 800;
     public int HEIGHT = 800;
     private int backgroundX;
@@ -40,12 +42,12 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
     public int yMotion;
     public int score;
     public int coinsGained;
+    private List<Obstacle> obstaclesToRemove;
+    private List<Coin> coins;
+    private List<Coin> coinsToRemove;
 
-    private ArrayList<Coin> coins;
-    private ArrayList<Coin> coinsToRemove;
-
-    private ArrayList<PowerUp> powerUps;
-    private ArrayList<PowerUp> powerUpsToRemove;
+    private List<PowerUp> powerUps;
+    private List<PowerUp> powerUpsToRemove;
     private int coinWidth = 50;
     private int coinHeight = 50;
     private int powerUpWidth = 50;
@@ -63,6 +65,10 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
     private BufferedImage groundImage;
     private BufferedImage coinImage;
     private BufferedImage powerUpImage;
+    private BufferedImage bulletImage;
+
+    private List<Bullet> bullets;
+    private List<Bullet> bulletsToRemove;
 
     private boolean isMoreCoins;
     private boolean isGhost;
@@ -87,6 +93,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         obstacle = new ArrayList<>();
         coins = new ArrayList<>();
         powerUps = new ArrayList<>();
+        bullets = new ArrayList<>();
         rand = new Random();
         backgroundX = 0;
         groundX = 0;
@@ -98,6 +105,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         groundImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\ground.png");
         coinImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\coin.png");
         powerUpImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\star.png");
+        bulletImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\bullet.png");
 
         backgroundImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\bg.png");
         birdImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\flappy1.png");
@@ -167,12 +175,59 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         g.drawImage(powerUpImage, powerUp.x, powerUp.y, powerUp.width, powerUp.height, null);
     }
 
+
+
     public void powerUp() {
         Thread powerUpThread = new Thread(() -> {
-
-            ghostBird();
+            shootBullet(10, 50);
+//            ghostBird();
         });
         powerUpThread.start();
+    }
+
+    public void shootBullet(int numberOfBullets, int delay) {
+        for (int i = 0; i < numberOfBullets; i++) {
+            Bullet bullet = new Bullet(bulletImage, bird.x + bird.width, bird.y + bird.height / 2, 50, 25);
+            bullets.add(bullet);
+
+            // Create a timer to remove the bullet after 3 hits
+            Timer bulletTimer = new Timer(1000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (bullet.getHits() >= 3) {
+                        bullets.remove(bullet);
+                        ((Timer) e.getSource()).stop();
+                    }
+                }
+            });
+            bulletTimer.start();
+
+            // Create a timer to move the bullet to the right
+            Timer moveBulletTimer = new Timer(1000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    bullet.move(5); // Adjust the speed as needed
+                    if (bullet.getX() > WIDTH) {
+                        bullets.remove(bullet);
+                        ((Timer) e.getSource()).stop();
+                    }
+                }
+            });
+            moveBulletTimer.start();
+
+            try {
+                Thread.sleep(delay); // Delay before shooting the next bullet
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+//        if (!gameOver) {
+//            Bullet bullet = new Bullet(bulletImage, bird.x + bird.width, bird.y + bird.height / 2, 10, 3);
+//            bullets.add(bullet);
+//        }
+    }
+    public void paintBullet(Graphics g, Bullet bullet) {
+        g.drawImage(bulletImage, bullet.getX(), bullet.getY(), bullet.getWidth(), bullet.getHeight(), null);
     }
 
     public void ghostBird() {
@@ -241,6 +296,10 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
         for (PowerUp powerUp : powerUps) {
             paintPowerUp(g, powerUp);
+        }
+
+        for (Bullet bullet : bullets) {
+            paintBullet(g, bullet);
         }
 
         g.setColor(Color.white);
@@ -320,12 +379,15 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
             return;
         }
 
+        int bulletSpeed = 15;
 //        int speed = 10;
 //        bird.setSpeed(10);
         Rectangle p = new Rectangle(bird.x, bird.y, bird.width, bird.height);
         ticks++;
         coinsToRemove = new ArrayList<>();
         powerUpsToRemove = new ArrayList<>();
+        obstaclesToRemove = new ArrayList<>();
+        bulletsToRemove = new ArrayList<>();
 
 
         if (started) {
@@ -439,6 +501,31 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
             }
             // Now, remove the powerups outside of the loop.
             powerUps.removeAll(powerUpsToRemove);
+
+            for (Bullet bullet : bullets) {
+                bullet.setX(bulletSpeed);
+            }
+
+
+
+            for (Bullet bullet : bullets) {
+                int bulletHits = 0;
+
+                for (Obstacle obstacles : obstacle) {
+                    if (bullet.getBounds().intersects(obstacles.getBounds())) {
+                        bulletHits++;
+                        System.out.println("Hits: " + bulletHits);
+                        bulletsToRemove.add(bullet);
+
+                        if (bulletHits >= 3) {
+                            obstaclesToRemove.add(obstacles);
+                        }
+                    }
+                }
+            }
+
+            bullets.removeAll(bulletsToRemove);
+            obstacle.removeAll(obstaclesToRemove);
 
             if (bird.y > HEIGHT - 120 || bird.y < 0) {
                 gameOver = true;
