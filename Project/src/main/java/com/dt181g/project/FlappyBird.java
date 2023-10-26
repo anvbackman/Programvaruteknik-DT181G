@@ -58,8 +58,6 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
     private BufferedImage birdImage;
     private BufferedImage birdImageJump;
     private BufferedImage backgroundImage;
-    private Thread birdImageThread;
-    private Thread birdImageJumpThread;
     private BufferedImage obstacleImageTop;
     private BufferedImage obstacleImageBottom;
     private BufferedImage groundImage;
@@ -115,428 +113,178 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
         bird = new Bird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 40, 40, birdImage, birdImageJump);
 
-        birdImageThread = new Thread(new BirdImageRunnable(birdImage, true, "BirdImageThread"));
-        birdImageJumpThread = new Thread(new BirdImageRunnable(birdImageJump, false, "BirdImageJumpThread"));
-
-        birdImageThread.start();
-        birdImageJumpThread.start();
+//        birdImageThread = new Thread(new BirdImageRunnable(birdImage, true, "BirdImageThread"));
+//        birdImageJumpThread = new Thread(new BirdImageRunnable(birdImageJump, false, "BirdImageJumpThread"));
+//
+//        birdImageThread.start();
+//        birdImageJumpThread.start();
         timer.start();
     }
 
-    public void addObstacle(boolean start) {
-        int spacing = 300;
-        int width = 100;
-        int height = 50 + rand.nextInt(300);
-
-        if (start) {
-            obstacle.add(new Obstacle(obstacleImageTop, WIDTH + width + obstacle.size() * 300, HEIGHT - height - 120, width, height, true));
-            obstacle.add(new Obstacle(obstacleImageBottom, WIDTH + width + (obstacle.size() - 1) * 300, 0, width, HEIGHT - height - spacing, false));
-        }
-        else {
-            obstacle.add(new Obstacle(obstacleImageTop, obstacle.get(obstacle.size() - 1).x + 600, HEIGHT - height - 120, width, height, true));
-            obstacle.add(new Obstacle(obstacleImageBottom, obstacle.get(obstacle.size() - 1).x, 0, width, HEIGHT - height - spacing, false));
-        }
-    }
-
-    public void paintObstacle(Graphics g, Obstacle obstacle) {
-        if (obstacle.getPosition()) {
-            g.drawImage(obstacleImageBottom, obstacle.x, obstacle.y, obstacle.width, obstacle.height, null);
-        }
-        else {
-            g.drawImage(obstacleImageTop, obstacle.x, obstacle.y, obstacle.width, obstacle.height, null);
-        }
-    }
-
-    public void addCoin(boolean start) {
-
-        int coinYPosition = rand.nextInt(HEIGHT - 120 - coinHeight);
-
-        if (start) {
-            coins.add(new Coin(WIDTH + coinWidth + obstacle.size() * 300, coinYPosition, coinWidth, coinHeight));
-        } else {
-            coins.add(new Coin(coins.get(coins.size() - 1).x + 600, coinYPosition, coinWidth, coinHeight));
-        }
-    }
-
-    public void paintCoin(Graphics g, Coin coin) {
-        g.drawImage(coinImage, coin.x, coin.y, coin.width, coin.height, null);
-    }
-
-    public void addPowerUp(boolean start) {
-        int powerUpYPosition = rand.nextInt(HEIGHT - 120 - powerUpHeight);
-        if (start) {
-            powerUps.add(new PowerUp(WIDTH + coinWidth + obstacle.size() * 300, powerUpYPosition, powerUpWidth, powerUpHeight));
-        } else {
-            powerUps.add(new PowerUp(coins.get(coins.size() - 1).x + 600, powerUpYPosition, powerUpWidth, powerUpHeight));
-        }
-    }
-
-    public void paintPowerUp(Graphics g, PowerUp powerUp) {
-        g.drawImage(powerUpImage, powerUp.x, powerUp.y, powerUp.width, powerUp.height, null);
-    }
 
 
 
-    public void powerUp() {
-        Thread powerUpThread = new Thread(() -> {
-            shootBullet(10, 50);
-//            ghostBird();
-        });
-        powerUpThread.start();
-    }
 
-    public void shootBullet(int numberOfBullets, int delay) {
-        for (int i = 0; i < numberOfBullets; i++) {
-            Bullet bullet = new Bullet(bulletImage, bird.x + bird.width, bird.y + bird.height / 2, 50, 25);
-            bullets.add(bullet);
-
-            // Create a timer to remove the bullet after 3 hits
-            Timer bulletTimer = new Timer(1000, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (bullet.getHits() >= 3) {
-                        bullets.remove(bullet);
-                        ((Timer) e.getSource()).stop();
-                    }
-                }
-            });
-            bulletTimer.start();
-
-            // Create a timer to move the bullet to the right
-            Timer moveBulletTimer = new Timer(1000, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    bullet.move(5); // Adjust the speed as needed
-                    if (bullet.getX() > WIDTH) {
-                        bullets.remove(bullet);
-                        ((Timer) e.getSource()).stop();
-                    }
-                }
-            });
-            moveBulletTimer.start();
-
-            try {
-                Thread.sleep(delay); // Delay before shooting the next bullet
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-//        if (!gameOver) {
-//            Bullet bullet = new Bullet(bulletImage, bird.x + bird.width, bird.y + bird.height / 2, 10, 3);
-//            bullets.add(bullet);
+//    public void addPowerUp(boolean start) {
+//        int powerUpYPosition = rand.nextInt(HEIGHT - 120 - powerUpHeight);
+//        if (start) {
+//            powerUps.add(new PowerUp(WIDTH + coinWidth + obstacle.size() * 300, powerUpYPosition, powerUpWidth, powerUpHeight));
+//        } else {
+//            powerUps.add(new PowerUp(coins.get(coins.size() - 1).x + 600, powerUpYPosition, powerUpWidth, powerUpHeight));
 //        }
-    }
-    public void paintBullet(Graphics g, Bullet bullet) {
-        g.drawImage(bulletImage, bullet.getX(), bullet.getY(), bullet.getWidth(), bullet.getHeight(), null);
-    }
-
-    public void ghostBird() {
-
-
-        isGhost = true;
-        bird.increaseSpeed(5);
-
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        bird.resetSpeed();
-        isGhost = false;
-
-    }
-
-    public void moreCoins() {
-        int originalInterval = coinTimer.getDelay();
-
-        isMoreCoins = true;
-        Timer temporaryTimer = new Timer(250, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                coinTimer.setDelay(25);
-                addCoin(true);
-            }
-        });
-
-        temporaryTimer.setRepeats(false);
-        temporaryTimer.start();
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        isMoreCoins = false;
-        coinTimer.setDelay(originalInterval);
-        coinTimer.start();
-    }
-
-
-    public void repaint(Graphics g) {
-
-        for (int x = backgroundX; x < WIDTH; x += backgroundImage.getWidth()) {
-            g.drawImage(backgroundImage, x, 0, WIDTH + 120, HEIGHT, null);
-        }
-        for (int x = groundX; x < WIDTH; x += groundImage.getWidth()) {
-            g.drawImage(groundImage, x, HEIGHT - 120, WIDTH, 150, null);
-        }
-
-        if (bird != null) {
-            BufferedImage currentImage = bird.getCurrentImage();
-            g.drawImage(currentImage, bird.x, bird.y, bird.width, bird.height, null);
-        }
-
-        for (Obstacle o : obstacle) {
-            paintObstacle(g, o);
-        }
-
-        for (Coin coin : coins) {
-            paintCoin(g, coin);
-        }
-
-        for (PowerUp powerUp : powerUps) {
-            paintPowerUp(g, powerUp);
-        }
-
-        for (Bullet bullet : bullets) {
-            paintBullet(g, bullet);
-        }
-
-        g.setColor(Color.white);
-        g.setFont(new Font("Arial", 1, 25));
-
-        if (!started) {
-            g.drawString("Press Space to start!", 75, HEIGHT / 2 - 50);
-        }
-        if (gameOver) {
-            g.drawString("Game Over! Press Space to start!", 100, HEIGHT / 2 - 50);
-        }
-        if (!gameOver && started) {
-            g.drawString(String.valueOf(score), WIDTH / 2 - 100, 100);
-            g.drawString(String.valueOf(coinsGained), WIDTH / 2 -25, 100);
-        }
-        if (isMoreCoins) {
-            g.drawString("Get ready for some fucking coins!", 75, HEIGHT / 2 - 50);
-        }
-
-        if (isGhost) {
-            g.drawString("Spookers", 75, HEIGHT / 2 - 50);
-        }
-    }
-
-    public void newGame() {
-        bird = new Bird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 40, 40, birdImage, birdImageJump);
-        obstacle.clear();
-        coins.clear();
-        yMotion = 0;
-        score = 0;
-        coinsGained = 0;
-
-        for (int i = 0; i < 4; i++) {
-            addObstacle(true);
-        }
-
-        coinTimer = new Timer(4000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addCoin(true);
-            }
-        });
-
-        powerUpTimer = new Timer(4000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addPowerUp(true);
-            }
-        });
-
-        coinTimer.setRepeats(true);
-        coinTimer.start();
-        powerUpTimer.setRepeats(true);
-        powerUpTimer.start();
-    }
-
-    public void jump() {
-
-        System.out.println("Jumping");
-
-        if (!started) {
-            started = true;
-        }
-        else if (!gameOver) {
-            if (yMotion > 0) {
-                yMotion = 0;
-            }
-            yMotion -= 10;
-        }
-    }
-
-    public void actionPerformed(ActionEvent e) {
-
-        if (gameOver) {
-            bird.y = HEIGHT + 1;
-            renderer.repaint();
-            return;
-        }
-
-        int bulletSpeed = 15;
-//        int speed = 10;
-//        bird.setSpeed(10);
-        Rectangle p = new Rectangle(bird.x, bird.y, bird.width, bird.height);
-        ticks++;
-        coinsToRemove = new ArrayList<>();
-        powerUpsToRemove = new ArrayList<>();
-        obstaclesToRemove = new ArrayList<>();
-        bulletsToRemove = new ArrayList<>();
-
-
-        if (started) {
-
-            bird.setJumping(isJumping);
-
-            if (backgroundX < -backgroundImage.getWidth()) {
-                backgroundX = 0;
-            }
-
-            backgroundX -= bird.getSpeed();
-
-            if (groundX < -groundImage.getWidth()) {
-                groundX = 0; // Reset the ground to start again.
-            }
-            groundX -= bird.getSpeed();
-
-            for (int i = 0; i < obstacle.size(); i++) {
-                Obstacle o = obstacle.get(i);
-                o.x -= bird.getSpeed();
-                if (o.x + o.width < 0) {
-                    obstacle.remove(o);
-                    if (o.y == 0) {
-                        addObstacle(false);
-                    }
-                }
-            }
-
-            if (ticks % 2 == 0 && yMotion < 15) {
-                yMotion += 2;
-            }
-
-            bird.y += yMotion;
-
-            if (yMotion >= 0) {
-                isJumping = false;
-                bird.setImage(birdImage);
-            }
-            else {
-                isJumping = true;
-                bird.setImage(birdImageJump);
-            }
-
-
-            for (Obstacle o : obstacle) {
-                if (!isGhost) {
-                    if (o.y == 0 && bird.x + bird.width / 2 > o.x + o.width / 2 - 10 && bird.x + bird.width / 2 < o.x + o.width / 2 + 10) {
-                        score++;
-                    }
-                    Rectangle obs = new Rectangle(o.x, o.y, o.width, o.height);
-
-                    if (obs.intersects(p)) {
-                        gameOver = true;
-
-                        if (bird.x <= o.x) {
-                            bird.x = o.y - bird.height;
-                        }
-
-                        else {
-                            if (o.y != 0) {
-                                bird.y = o.y - bird.height;
-                            }
-                            else if (bird.y < o.height) {
-                                bird.y = o.height;
-                            }
-
-                        }
-                    }
-                }
-            }
-
-            for (int i = 0; i < coins.size(); i++) {
-                Coin coin = coins.get(i);
-                coin.x -= bird.getSpeed();
-                if (coin.x + coin.width < 0) {
-                    coins.remove(coin);
-                    if (coin.y == 0) {
-                        addCoin(false);
-                    }
-                }
-            }
-
-            for (Coin coin : coins) {
-                Rectangle c = new Rectangle(coin.x, coin.y, coin.width, coin.height);
-                if (c.intersects(p)) {
-                    coinsGained++;
-                    coinsToRemove.add(coin); // Add the coin to the removal list.
-                }
-            }
-
-            // Now, remove the coins outside of the loop.
-            coins.removeAll(coinsToRemove);
-
-            for (int i = 0; i < powerUps.size(); i++) {
-                PowerUp powerUp = powerUps.get(i);
-                powerUp.x -= bird.getSpeed();
-                if (powerUp.x + powerUp.width < 0) {
-                    powerUps.remove(powerUp);
-                    if (powerUp.y == 0) {
-                        addPowerUp(false);
-                    }
-                }
-            }
-
-            for (PowerUp powerUp : powerUps) {
-                Rectangle pu = new Rectangle(powerUp.x, powerUp.y, powerUp.width, powerUp.height);
-                if (pu.intersects(p)) {
-                    powerUpsToRemove.add(powerUp); // Add the coin to the removal list.
-                    powerUp();
-                }
-            }
-            // Now, remove the powerups outside of the loop.
-            powerUps.removeAll(powerUpsToRemove);
-
-            for (Bullet bullet : bullets) {
-                bullet.setX(bulletSpeed);
-            }
+//    }
 
 
 
-            for (Bullet bullet : bullets) {
-                int bulletHits = 0;
 
-                for (Obstacle obstacles : obstacle) {
-                    if (bullet.getBounds().intersects(obstacles.getBounds())) {
-                        bulletHits++;
-                        System.out.println("Hits: " + bulletHits);
-                        bulletsToRemove.add(bullet);
 
-                        if (bulletHits >= 3) {
-                            obstaclesToRemove.add(obstacles);
-                        }
-                    }
-                }
-            }
+//    public void powerUp() {
+//        Thread powerUpThread = new Thread(() -> {
+//            shootBullet(10, 50);
+////            ghostBird();
+//        });
+//        powerUpThread.start();
+//    }
+//
+//    public void shootBullet(int numberOfBullets, int delay) {
+//        for (int i = 0; i < numberOfBullets; i++) {
+//            Bullet bullet = new Bullet(bulletImage, bird.x + bird.width, bird.y + bird.height / 2, 50, 25);
+//            bullets.add(bullet);
+//
+//            // Create a timer to remove the bullet after 3 hits
+//            Timer bulletTimer = new Timer(1000, new ActionListener() {
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
+//                    if (bullet.getHits() >= 3) {
+//                        bullets.remove(bullet);
+//                        ((Timer) e.getSource()).stop();
+//                    }
+//                }
+//            });
+//            bulletTimer.start();
+//
+//            // Create a timer to move the bullet to the right
+//            Timer moveBulletTimer = new Timer(1000, new ActionListener() {
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
+//                    bullet.move(5); // Adjust the speed as needed
+//                    if (bullet.getX() > WIDTH) {
+//                        bullets.remove(bullet);
+//                        ((Timer) e.getSource()).stop();
+//                    }
+//                }
+//            });
+//            moveBulletTimer.start();
+//
+//            try {
+//                Thread.sleep(delay); // Delay before shooting the next bullet
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//    }
 
-            bullets.removeAll(bulletsToRemove);
-            obstacle.removeAll(obstaclesToRemove);
+//
+//    public void ghostBird() {
+//
+//
+//        isGhost = true;
+//        bird.increaseSpeed(5);
+//
+//        try {
+//            Thread.sleep(10000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        bird.resetSpeed();
+//        isGhost = false;
+//
+//    }
+//
+//    public void moreCoins() {
+//        int originalInterval = coinTimer.getDelay();
+//
+//        isMoreCoins = true;
+//        Timer temporaryTimer = new Timer(250, new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                coinTimer.setDelay(25);
+//                addCoin(true);
+//            }
+//        });
+//
+//        temporaryTimer.setRepeats(false);
+//        temporaryTimer.start();
+//
+//        try {
+//            Thread.sleep(5000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        isMoreCoins = false;
+//        coinTimer.setDelay(originalInterval);
+//        coinTimer.start();
+//    }
 
-            if (bird.y > HEIGHT - 120 || bird.y < 0) {
-                gameOver = true;
-            }
-            if (bird.y + yMotion >= HEIGHT - 120) {
-                bird.y = HEIGHT - 120 - bird.height;
-                gameOver = true;
-            }
-        }
-        renderer.repaint();
-    }
+
+//    public void repaint(Graphics g) {
+//
+//        for (int x = backgroundX; x < WIDTH; x += backgroundImage.getWidth()) {
+//            g.drawImage(backgroundImage, x, 0, WIDTH + 120, HEIGHT, null);
+//        }
+//        for (int x = groundX; x < WIDTH; x += groundImage.getWidth()) {
+//            g.drawImage(groundImage, x, HEIGHT - 120, WIDTH, 150, null);
+//        }
+//
+//        if (bird != null) {
+//            BufferedImage currentImage = bird.getCurrentImage();
+//            g.drawImage(currentImage, bird.x, bird.y, bird.width, bird.height, null);
+//        }
+//
+//        for (Obstacle o : obstacle) {
+//            paintObstacle(g, o);
+//        }
+//
+//        for (Coin coin : coins) {
+//            paintCoin(g, coin);
+//        }
+//
+//        for (PowerUp powerUp : powerUps) {
+//            paintPowerUp(g, powerUp);
+//        }
+//
+//        for (Bullet bullet : bullets) {
+//            paintBullet(g, bullet);
+//        }
+//
+//        g.setColor(Color.white);
+//        g.setFont(new Font("Arial", 1, 25));
+//
+//        if (!started) {
+//            g.drawString("Press Space to start!", 75, HEIGHT / 2 - 50);
+//        }
+//        if (gameOver) {
+//            g.drawString("Game Over! Press Space to start!", 100, HEIGHT / 2 - 50);
+//        }
+//        if (!gameOver && started) {
+//            g.drawString(String.valueOf(score), WIDTH / 2 - 100, 100);
+//            g.drawString(String.valueOf(coinsGained), WIDTH / 2 -25, 100);
+//        }
+//        if (isMoreCoins) {
+//            g.drawString("Get ready for some fucking coins!", 75, HEIGHT / 2 - 50);
+//        }
+//
+//        if (isGhost) {
+//            g.drawString("Spookers", 75, HEIGHT / 2 - 50);
+//        }
+//    }
+
+
+
+
+
+
 
     public void mouseClicked(MouseEvent e) {
     }
@@ -565,13 +313,6 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
     }
 
     public void keyPressed(KeyEvent e) {
-        if (gameOver) {
-            gameOver = false;
-            started = true;
-            newGame();
-        }
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            jump();
-        }
+
     }
 }
