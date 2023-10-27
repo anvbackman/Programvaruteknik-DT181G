@@ -23,8 +23,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.util.concurrent.Semaphore;
 
-public class FlappyBird implements ActionListener, MouseListener, KeyListener {
-
+public class FlappyBird  {
+//    implements ActionListener, MouseListener, KeyListener
     public static FlappyBird flappyBird;
     private Bird bird;
     private List<Obstacle> obstacle;
@@ -76,16 +76,16 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 
     public FlappyBird() {
 
-        Timer timer = new Timer(20, this);
-        renderer = new Renderer();
-        JFrame frame = new JFrame();
-        frame.add(renderer);
-        frame.setSize(800, 800);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setTitle("Flappy Bird");
-        frame.setVisible(true);
-        frame.addMouseListener(this);
-        frame.addKeyListener(this);
+//        Timer timer = new Timer(20, this);
+//        renderer = new Renderer();
+//        JFrame frame = new JFrame();
+//        frame.add(renderer);
+//        frame.setSize(800, 800);
+//        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//        frame.setTitle("Flappy Bird");
+//        frame.setVisible(true);
+//        frame.addMouseListener(this);
+//        frame.addKeyListener(this);
 
 
         obstacle = new ArrayList<>();
@@ -98,7 +98,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
         isMoreCoins = false;
         isGhost = false;
 
-        newGame();
+//        newGame();
 
         groundImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\ground.png");
         coinImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\coin.png");
@@ -118,7 +118,7 @@ public class FlappyBird implements ActionListener, MouseListener, KeyListener {
 //
 //        birdImageThread.start();
 //        birdImageJumpThread.start();
-        timer.start();
+//        timer.start();
     }
 
 

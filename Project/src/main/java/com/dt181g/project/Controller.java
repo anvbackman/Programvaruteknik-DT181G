@@ -4,6 +4,7 @@ import javax.swing.text.View;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +16,15 @@ public class Controller {
     private int ticks;
 
     private List<Coin> coinsToRemove;
+    BufferedImage birdImage;
+    BufferedImage birdImageJump;
 
     public Controller(Model model, View view) {
         this.model = model;
         this.view = view;
         renderer = new Renderer();
+        birdImage = com.dt181g.project.IMG.ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\flappy1.png");
+        birdImageJump = com.dt181g.project.IMG.ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\flappy2.png");
 
 
 //        view.addMouseListener(new GameMouseListener)
@@ -104,17 +109,17 @@ public class Controller {
 
             if (model.getYMotion() >= 0) {
                 model.setJumping(false);
-                bird.setImage(model.setBirdImage(birdImage));
+                bird.setImage(birdImage);
             }
             else {
                 model.setJumping(true);
-                bird.setImage(model.setBirdImageJump(birdImageJump));
+                bird.setImage(birdImageJump);
             }
 
 
             for (Obstacle o : model.getObstacles()) {
                 if (o.y == 0 && bird.x + bird.width / 2 > o.x + o.width / 2 - 10 && bird.x + bird.width / 2 < o.x + o.width / 2 + 10) {
-                    score++;
+//                    score++;
                 }
                 Rectangle obs = new Rectangle(o.x, o.y, o.width, o.height);
 
@@ -153,7 +158,7 @@ public class Controller {
             for (Coin coin : model.getCoins()) {
                 Rectangle c = new Rectangle(coin.x, coin.y, coin.width, coin.height);
                 if (c.intersects(p)) {
-                    coinsGained++;
+//                    coinsGained++;
                     coinsToRemove.add(coin); // Add the coin to the removal list.
                 }
             }

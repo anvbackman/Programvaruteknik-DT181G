@@ -10,11 +10,11 @@ public class Obstacle {
     public int y;
     public int width;
     public int height;
-    private BufferedImage image;
+    private BufferedImage currentImage;
     private boolean isTop;
 
     public Obstacle(BufferedImage image, int x, int y, int width, int height, boolean isTop) {
-        this.image = image;
+        this.currentImage = image;
         this.x = x;
         this.y = y;
         this.width = width;
@@ -35,8 +35,12 @@ public class Obstacle {
         return new Rectangle(x, y, width, height);
     }
 
-    public BufferedImage getImage() {
-        return image;
+    public void setImage(BufferedImage image) {
+        currentImage = image;
+    }
+
+    public BufferedImage getCurrentImage() {
+        return currentImage;
     }
     public boolean getPosition() {
         return isTop;

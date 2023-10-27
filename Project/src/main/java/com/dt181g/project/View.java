@@ -5,12 +5,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
-public class View extends JPanel implements ActionListener {
+public class View extends JFrame implements ActionListener {
 
     private Renderer renderer;
     private Bird bird;
     private int backgroundX;
+    private List<Obstacle> obstacles;
+    private List<Coin> coins;
 
 
     public View() {
@@ -21,8 +25,11 @@ public class View extends JPanel implements ActionListener {
         frame.setSize(800, 800);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
+        obstacles = new ArrayList<>();
+        coins = new ArrayList<>();
         backgroundX = 0;
         timer.start();
+
     }
 
 
@@ -31,7 +38,7 @@ public class View extends JPanel implements ActionListener {
     }
 
 
-    public void repaint(Graphics g) {
+    public void repaint(Graphics g, int backgroundX, int WIDTH, BufferedImage backgroundImage, int groundX, BufferedImage groundImage, boolean started, boolean gameOver, int score) {
 
         for (int x = backgroundX; x < WIDTH; x += backgroundImage.getWidth()) {
             g.drawImage(backgroundImage, x, 0, WIDTH + 120, HEIGHT, null);
@@ -45,7 +52,7 @@ public class View extends JPanel implements ActionListener {
             g.drawImage(currentImage, bird.x, bird.y, bird.width, bird.height, null);
         }
 
-        for (Obstacle o : obstacle) {
+        for (Obstacle o : obstacles) {
             paintObstacle(g, o);
         }
 
@@ -53,13 +60,13 @@ public class View extends JPanel implements ActionListener {
             paintCoin(g, coin);
         }
 
-        for (PowerUp powerUp : powerUps) {
-            paintPowerUp(g, powerUp);
-        }
-
-        for (Bullet bullet : bullets) {
-            paintBullet(g, bullet);
-        }
+//        for (PowerUp powerUp : powerUps) {
+//            paintPowerUp(g, powerUp);
+//        }
+//
+//        for (Bullet bullet : bullets) {
+//            paintBullet(g, bullet);
+//        }
 
         g.setColor(Color.white);
         g.setFont(new Font("Arial", 1, 25));
@@ -72,35 +79,35 @@ public class View extends JPanel implements ActionListener {
         }
         if (!gameOver && started) {
             g.drawString(String.valueOf(score), WIDTH / 2 - 100, 100);
-            g.drawString(String.valueOf(coinsGained), WIDTH / 2 -25, 100);
+//            g.drawString(String.valueOf(coinsGained), WIDTH / 2 -25, 100);
         }
-        if (isMoreCoins) {
-            g.drawString("Get ready for some fucking coins!", 75, HEIGHT / 2 - 50);
-        }
-
-        if (isGhost) {
-            g.drawString("Spookers", 75, HEIGHT / 2 - 50);
-        }
+//        if (isMoreCoins) {
+//            g.drawString("Get ready for some fucking coins!", 75, HEIGHT / 2 - 50);
+//        }
+//
+//        if (isGhost) {
+//            g.drawString("Spookers", 75, HEIGHT / 2 - 50);
+//        }
     }
 
     public void paintObstacle(Graphics g, Obstacle obstacle) {
         if (obstacle.getPosition()) {
-            g.drawImage(obstacleImageBottom, obstacle.x, obstacle.y, obstacle.width, obstacle.height, null);
+            g.drawImage(obstacle.getCurrentImage(), obstacle.x, obstacle.y, obstacle.width, obstacle.height, null);
         }
         else {
-            g.drawImage(obstacleImageTop, obstacle.x, obstacle.y, obstacle.width, obstacle.height, null);
+            g.drawImage(obstacle.getCurrentImage(), obstacle.x, obstacle.y, obstacle.width, obstacle.height, null);
         }
     }
 
     public void paintCoin(Graphics g, Coin coin) {
         g.drawImage(coinImage, coin.x, coin.y, coin.width, coin.height, null);
     }
-
-    public void paintPowerUp(Graphics g, PowerUp powerUp) {
-        g.drawImage(powerUpImage, powerUp.x, powerUp.y, powerUp.width, powerUp.height, null);
-    }
-
-    public void paintBullet(Graphics g, Bullet bullet) {
-        g.drawImage(bulletImage, bullet.getX(), bullet.getY(), bullet.getWidth(), bullet.getHeight(), null);
-    }
+//
+//    public void paintPowerUp(Graphics g, PowerUp powerUp) {
+//        g.drawImage(powerUpImage, powerUp.x, powerUp.y, powerUp.width, powerUp.height, null);
+//    }
+//
+//    public void paintBullet(Graphics g, Bullet bullet) {
+//        g.drawImage(bulletImage, bullet.getX(), bullet.getY(), bullet.getWidth(), bullet.getHeight(), null);
+//    }
 }

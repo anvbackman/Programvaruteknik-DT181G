@@ -140,7 +140,7 @@ public class Model {
 
     public void newGame() {
         bird = new Bird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 40, 40, birdImage, birdImageJump);
-        obstacle.clear();
+        obstacles.clear();
         coins.clear();
         yMotion = 0;
 //        score = 0;
@@ -266,12 +266,12 @@ public class Model {
         int height = 50 + rand.nextInt(300);
 
         if (start) {
-            obstacle.add(new Obstacle(obstacleImageTop, WIDTH + width + obstacle.size() * 300, HEIGHT - height - 120, width, height, true));
-            obstacle.add(new Obstacle(obstacleImageBottom, WIDTH + width + (obstacle.size() - 1) * 300, 0, width, HEIGHT - height - spacing, false));
+            obstacles.add(new Obstacle(obstacleImageTop, WIDTH + width + obstacles.size() * 300, HEIGHT - height - 120, width, height, true));
+            obstacles.add(new Obstacle(obstacleImageBottom, WIDTH + width + (obstacles.size() - 1) * 300, 0, width, HEIGHT - height - spacing, false));
         }
         else {
-            obstacle.add(new Obstacle(obstacleImageTop, obstacle.get(obstacle.size() - 1).x + 600, HEIGHT - height - 120, width, height, true));
-            obstacle.add(new Obstacle(obstacleImageBottom, obstacle.get(obstacle.size() - 1).x, 0, width, HEIGHT - height - spacing, false));
+            obstacles.add(new Obstacle(obstacleImageTop, obstacles.get(obstacles.size() - 1).x + 600, HEIGHT - height - 120, width, height, true));
+            obstacles.add(new Obstacle(obstacleImageBottom, obstacles.get(obstacles.size() - 1).x, 0, width, HEIGHT - height - spacing, false));
         }
     }
 
@@ -282,7 +282,7 @@ public class Model {
         int coinYPosition = rand.nextInt(HEIGHT - 120 - coinHeight);
 
         if (start) {
-            coins.add(new Coin(WIDTH + coinWidth + obstacle.size() * 300, coinYPosition, coinWidth, coinHeight));
+            coins.add(new Coin(WIDTH + coinWidth + obstacles.size() * 300, coinYPosition, coinWidth, coinHeight));
         } else {
             coins.add(new Coin(coins.get(coins.size() - 1).x + 600, coinYPosition, coinWidth, coinHeight));
         }
