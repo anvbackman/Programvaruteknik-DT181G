@@ -10,8 +10,8 @@ public class Renderer extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        View view = new View();
+        view.repaint(g);
 
-
-        FlappyBird.flappyBird.repaint(g);
     }
 }

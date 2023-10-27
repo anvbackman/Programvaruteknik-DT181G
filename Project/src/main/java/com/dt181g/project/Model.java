@@ -21,6 +21,8 @@ public class Model {
 
     private int WIDTH = 800;
     private int HEIGHT = 800;
+    private int backgroundX;
+    private int groundX;
     private Bird bird;
     private List<Obstacle> obstacles;
     private List<Coin> coins;
@@ -42,7 +44,7 @@ public class Model {
     private BufferedImage backgroundImage;
 
     private BufferedImage groundImage;
-    private int backgroundX;
+
 
 
     public Model() {
@@ -53,6 +55,8 @@ public class Model {
         bullets = new ArrayList<>();
         rand = new Random();
         yMotion = 0;
+        backgroundX = 0;
+        groundX = 0;
 
 //        groundImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\ground.png");
 //        coinImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\coin.png");
@@ -64,6 +68,20 @@ public class Model {
 //        birdImageJump = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\flappy2.png");
 //        obstacleImageTop = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe1.png");
 //        obstacleImageBottom = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe2.png");
+    }
+
+    public void setGroundX(int amount) {
+        this.groundX = amount;
+    }
+    public void setBackgroundX(int amount) {
+        this.backgroundX = amount;
+    }
+    public int getGroundX() {
+        return groundX;
+    }
+
+    public int getBackgroundX() {
+        return backgroundX;
     }
 
     public void setGameOver(boolean gameOver) {
@@ -125,31 +143,31 @@ public class Model {
         obstacle.clear();
         coins.clear();
         yMotion = 0;
-        score = 0;
-        coinsGained = 0;
+//        score = 0;
+//        coinsGained = 0;
 
         for (int i = 0; i < 4; i++) {
             addObstacle(true);
         }
 
-        coinTimer = new Timer(4000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addCoin(true);
-            }
-        });
-
-        powerUpTimer = new Timer(4000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addPowerUp(true);
-            }
-        });
-
-        coinTimer.setRepeats(true);
-        coinTimer.start();
-        powerUpTimer.setRepeats(true);
-        powerUpTimer.start();
+//        coinTimer = new Timer(4000, new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                addCoin(true);
+//            }
+//        });
+//
+//        powerUpTimer = new Timer(4000, new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                addPowerUp(true);
+//            }
+//        });
+//
+//        coinTimer.setRepeats(true);
+//        coinTimer.start();
+//        powerUpTimer.setRepeats(true);
+//        powerUpTimer.start();
     }
 
     public Bird getBird() {

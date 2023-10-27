@@ -11,6 +11,7 @@ public class Controller {
 
     private Model model;
     private View view;
+    private Renderer renderer;
     private int ticks;
 
     private List<Coin> coinsToRemove;
@@ -18,6 +19,8 @@ public class Controller {
     public Controller(Model model, View view) {
         this.model = model;
         this.view = view;
+        renderer = new Renderer();
+
 
 //        view.addMouseListener(new GameMouseListener)
     }
@@ -71,16 +74,16 @@ public class Controller {
 
             bird.setJumping(model.isJumping());
 
-            if (model.getBackgroundX < -model.getBackgroundImage().getWidth()) {
-                backgroundX = 0;
+            if (model.getBackgroundX() < -model.getBackgroundImage().getWidth()) {
+                model.setBackgroundX(0);
             }
 
-            backgroundX -= bird.getSpeed();
+            model.setBackgroundX(-bird.getSpeed());
 
-            if (groundX < -model.getGroundImage().getWidth()) {
-                groundX = 0; // Reset the ground to start again.
+            if (model.getGroundX() < -model.getGroundImage().getWidth()) {
+                model.setGroundX(0); // Reset the ground to start again.
             }
-            groundX -= bird.getSpeed();
+            model.setGroundX(-bird.getSpeed());
 
             for (int i = 0; i < model.getObstacles().size(); i++) {
                 Obstacle o = model.getObstacles().get(i);
@@ -162,7 +165,7 @@ public class Controller {
             if (bird.y > model.getHEIGHT() - 120 || bird.y < 0) {
                 model.setGameOver(true);
             }
-            if (bird.y + yMotion >= model.getHEIGHT() - 120) {
+            if (bird.y + model.getYMotion() >= model.getHEIGHT() - 120) {
                 bird.y = model.getHEIGHT() - 120 - bird.height;
                 model.setGameOver(true);
             }
