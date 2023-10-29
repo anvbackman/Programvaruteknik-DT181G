@@ -2,75 +2,75 @@ package com.dt181g.project;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.nio.Buffer;
 
-public class Bird {
+public class Bird extends Model {
 
-    public Rectangle bird;
-    public int x;
-    public int y;
-    public int width;
-    public int height;
+    //    public Rectangle bird;
+//    public int x;
+//    public int y;
+//    public int width;
+//    public int height;
     private BufferedImage birdImage;
     private BufferedImage birdImageJump;
-    private BufferedImage currentImage;
+    private Obstacle[] obstacle;
 
-    private boolean isJumping;
-
-    private int originalSpeed;
-    private int newSpeed;
-
-
-    public Bird(int x, int y, int width, int height, BufferedImage birdImage, BufferedImage birdImageJump) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.birdImage = birdImage;
-        this.birdImageJump = birdImageJump;
-        isJumping = false;
-        currentImage = birdImage;
-        originalSpeed = 10;
-        newSpeed = originalSpeed;
-//        bird = new Rectangle(x, y, width, height);
+    public Bird(int x, int y) {
+        super(x, y);
+        if (birdImage == null) {
+            birdImage = com.dt181g.project.IMG.ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\flappy1.png");
+        }
+        this.image = birdImage;
+        this.width = image.getWidth(null);
+        this.height = image.getHeight(null);
+        this.x -= width;
+        this.y -= height;
+        obstacle = new Obstacle[1];
+        obstacle[0] = new Obstacle(900, Window.HEIGHT - 60);
+        this.dy = 4;
     }
 
-    public void setJumping(boolean jumping) {
-        isJumping = jumping;
+    @Override
+    public void tick() {
+        if (dy < 5) {
+            dy += 2;
+        }
+        this.y += dy;
+        obstacle[0].tick();
+        checkWindowBorder();
     }
 
-    public boolean isJumping() {
-        return isJumping;
+    public void jump() {
+        if (dy > 0) {
+            dy = 0;
+        }
+        dy -= 15;
+    }
+
+    private void checkWindowBorder() {
+        if (this.x > Window.WIDTH) {
+            this.x = Window.WIDTH;
+        }
+        if (this.x < 0) {
+            this.x = 0;
+        }
+        if (this.y > Window.HEIGHT - 50) {
+            this.y = Window.HEIGHT - 50;
+        }
+        if (this.y < 0) {
+            this.y = 0;
+        }
+    }
+
+    @Override
+    public void render(Graphics g, ImageObserver observer) {
+        g.drawImage(image, x, y, observer);
+        obstacle[0].render(g, observer);
     }
 
     public Rectangle getBounds() {
 
         return new Rectangle(x, y, width, height);
     }
-
-    public void setImage(BufferedImage image) {
-        currentImage = image;
-    }
-
-    public BufferedImage getCurrentImage() {
-        return currentImage;
-    }
-
-    public void increaseSpeed(int amount) {
-        newSpeed += amount;
-    }
-    public void resetSpeed() {
-        newSpeed = originalSpeed;
-    }
-
-//    public void setSpeed(int amount) {
-//        originalSpeed = amount;
-//    }
-
-    public int getSpeed() {
-        return newSpeed;
-    }
-
-
-
 }

@@ -1,8 +1,11 @@
 package com.dt181g.project;
 
 import com.dt181g.project.View;
+import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationException;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.logging.Level;
 
 /**
  * The main starting point for Project Assignment.
@@ -22,10 +25,28 @@ public final class Project {
      */
     public static void main(final String... args) {
 
-        Model model = new Model();
         View view = new View();
-        Controller controller = new Controller(model, view);
-        view.setVisible(true);
+
+        try {
+            javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
+        }
+        catch (ClassNotFoundException | IllegalAccessException |
+               UnsupportedLookAndFeelException | InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        java.awt.EventQueue.invokeLater(() -> {
+            Window window = new Window(800, 800, "Flappy Bird", view);
+        });
+
+
+
+//        Model model = new Model();
+//        View view = new View();
+//        Controller controller = new Controller(model, view);
+//        view.setVisible(true);
+//        JButton start = new JButton("Start");
+//        start.addActionListener(e -> controller.startGame());
 //        Renderer renderer = new Renderer();
 //        GUI gui = new GUI();
 //        SwingUtilities.invokeLater(() -> {

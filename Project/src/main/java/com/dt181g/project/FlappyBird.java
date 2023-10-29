@@ -111,7 +111,7 @@ public class FlappyBird  {
         obstacleImageTop = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe1.png");
         obstacleImageBottom = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe2.png");
 
-        bird = new Bird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 40, 40, birdImage, birdImageJump);
+//        bird = new Bird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 40, 40, birdImage, birdImageJump);
 
 //        birdImageThread = new Thread(new BirdImageRunnable(birdImage, true, "BirdImageThread"));
 //        birdImageJumpThread = new Thread(new BirdImageRunnable(birdImageJump, false, "BirdImageJumpThread"));
