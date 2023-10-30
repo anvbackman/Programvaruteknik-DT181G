@@ -20,6 +20,7 @@ public class Controller implements StrategyInterface {
     @Override public void releaseController(Bird bird, KeyEvent keyEvent) {
         if (keyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
             bird.jump();
+            bird.setJumping();
         }
     }
 

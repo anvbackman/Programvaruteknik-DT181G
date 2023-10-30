@@ -3,6 +3,7 @@ package com.dt181g.project;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+import java.util.Random;
 
 public class Obstacle extends Model {
 
@@ -34,10 +35,32 @@ public class Obstacle extends Model {
         g.drawImage(image, x, y, observer);
     }
 
+    public BufferedImage getObstacleImage() {
+        return obstacleImage;
+    }
 
     public Rectangle getBounds() {
 
         return new Rectangle(x, y, width, height);
+    }
+
+    public void addObstacle() {
+        Random rand = new Random();
+        int spacing = 300;
+        int width = 100;
+        int height = 50 + rand.nextInt(300);
+        ObstacleColumn obstacleColumn = new ObstacleColumn();
+
+        View view = new View();
+
+        if (view.getIsRunning()) {
+            obstacleList.add(new Obstacle(Window.WIDTH + width + obstacleColumn.getObstacles().size() * 300, Window.HEIGHT - height - 120));
+            obstacleList.add(new Obstacle(Window.WIDTH + width + (obstacleColumn.getObstacles().size() - 1) * 300, 0));
+        }
+        else {
+            obstacleList.add(new Obstacle(obstacleColumn.getObstacles().get(obstacleColumn.getObstacles().size() - 1).x + 600, Window.HEIGHT - height - 120));
+            obstacleList.add(new Obstacle(obstacleColumn.getObstacles().get(obstacleColumn.getObstacles().size() - 1).x, 0));
+        }
     }
 
 //    public Obstacle(BufferedImage image, int x, int y, int width, int height, boolean isTop) {

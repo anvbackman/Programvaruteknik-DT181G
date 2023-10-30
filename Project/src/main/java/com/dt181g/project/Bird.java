@@ -15,6 +15,8 @@ public class Bird extends Model {
     private BufferedImage birdImage;
     private BufferedImage birdImageJump;
     private Obstacle[] obstacle;
+    private boolean isJumping;
+    private int speed;
 
     public Bird(int x, int y) {
         super(x, y);
@@ -29,23 +31,42 @@ public class Bird extends Model {
         obstacle = new Obstacle[1];
         obstacle[0] = new Obstacle(900, Window.HEIGHT - 60);
         this.dy = 4;
+        speed = 5;
+        isJumping = false;
+    }
+
+    public int getSpeed() {
+        return speed;
     }
 
     @Override
     public void tick() {
-        if (dy < 5) {
-            dy += 2;
-        }
-        this.y += dy;
-        obstacle[0].tick();
-        checkWindowBorder();
+//        if (dy < 5) {
+//            dy += 2;
+//        }
+//        this.y += dy;
+//        obstacle[0].tick();
+//        checkWindowBorder();
     }
 
     public void jump() {
         if (dy > 0) {
             dy = 0;
         }
-        dy -= 15;
+        dy -= 10;
+        setJumping();
+        if (isJumping) {
+            System.out.println("Jumping");
+        }
+        System.out.println("Not jumping");
+    }
+
+    public void setJumping() {
+        isJumping = !isJumping;
+    }
+
+    public boolean getJumping() {
+        return isJumping;
     }
 
     private void checkWindowBorder() {

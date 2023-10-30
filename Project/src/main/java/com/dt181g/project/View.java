@@ -15,15 +15,19 @@ public class View extends JPanel implements ActionListener {
     private boolean isRunning = false;
     private BufferedImage image;
     private Image background;
+    private int backgroundX;
     private Bird bird;
-    private ObstacleColumn obstacleColumn;
+//    private List<ObstacleColumn> obstacleColumnList;
+    private List<Obstacle> obstacleList;
     private int score;
+    private int ticks;
+    private int yMotion;
     private int highScore;
 
     public View() {
         image = com.dt181g.project.IMG.ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\bg.png");
         background = image;
-
+        backgroundX = 0;
         setFocusable(true);
         setDoubleBuffered(false);
         addKeyListener(new GameKeyAdapter());
@@ -33,14 +37,47 @@ public class View extends JPanel implements ActionListener {
 
     }
 
+    public boolean getIsRunning() {
+        return isRunning;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-    Toolkit.getDefaultToolkit().sync();
+//    Toolkit.getDefaultToolkit().sync();
+
+    ticks++;
+    obstacleList = new ArrayList<>();
+
     if (isRunning) {
-        bird.tick();
-        obstacleColumn.tick();
-        checkCollision();
-        score++;
+//        bird.tick();
+//        obstacleColumn.tick();
+        if (backgroundX < -image.getWidth()) {
+            backgroundX = 0;
+        }
+
+        backgroundX -= bird.getSpeed();
+
+//        if (groundX < -groundImage.getWidth()) {
+//            groundX = 0; // Reset the ground to start again.
+//        }
+//        groundX -= bird.getSpeed();
+
+        for (int i = 0; i < obstacleList.size(); i++) {
+            Obstacle o = obstacleList.get(i);
+            o.x -= bird.getSpeed();
+            if (o.x + o.width < 0) {
+                obstacleList.remove(o);
+                if (o.y == 0) {
+                    (false);
+                }
+            }
+        }
+
+        if (ticks % 2 == 0 && yMotion < 15) {
+            yMotion += 2;
+        }
+
+        bird.y += yMotion;
     }
 
     repaint();
@@ -48,7 +85,7 @@ public class View extends JPanel implements ActionListener {
 
     @Override
     public void paint(Graphics g) {
-        Graphics g2 = g;
+        Graphics2D g2 = (Graphics2D) g;
         g2.drawImage(background, 0, 0, null);
 
         if (isRunning) {
