@@ -10,6 +10,8 @@ public class GameController implements ActionListener, KeyListener {
     private GameView view;
     private Timer timer;
 
+    int ticks = 0;
+
     private BufferedImage obstacleImageTop;
     private BufferedImage obstacleImageBottom;
 
@@ -33,7 +35,51 @@ public class GameController implements ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+
         model.updateGame(); // Updates the game state
+
+        if (model.isGameOver()) {
+            model.getBird().setY(model.getHeight() + 1);
+            view.repaint();
+            return;
+        }
+
+
+        ticks++;
+//        coinsToRemove = new ArrayList<>();
+//        powerUpsToRemove = new ArrayList<>();
+
+
+        if (model.isStarted()) {
+
+            model.getBird().setJumping(true);
+
+            if (model.getBackgroundX() < -view.getBackgroundImage().getWidth()) {
+                model.setBackgroundX(0);
+            }
+
+            model.setBackgroundX(5);
+
+
+            if (ticks % 2 == 0 && model.getYMotion() < 15) {
+                model.setYMotion(-2);
+            }
+
+
+//            model.getBird().setY(model.getYMotion());
+            model.getBird().setY(model.getBird().getY() + model.getYMotion());
+
+
+            if (model.getBird().getY() > model.getHeight() - 120 || model.getBird().getY() < 0) {
+                model.setGameOver(true);
+            }
+            if (model.getBird().getY() + model.getYMotion() >= model.getHeight() - 120) {
+                model.getBird().setY(model.getHeight() - 120 - model.getBird().getHeight());
+                model.setGameOver(true);
+            }
+        }
+
         view.repaint(); // Repaints the game view
     }
 

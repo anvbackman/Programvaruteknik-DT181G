@@ -49,6 +49,10 @@ public class GameView extends JPanel {
         g.drawString("Game Over!", 800 / 2 - 100, 800 / 2);
     }
 
+    public BufferedImage getBackgroundImage() {
+        return backgroundImage;
+    }
+
 
 
 

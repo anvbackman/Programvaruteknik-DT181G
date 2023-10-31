@@ -39,7 +39,7 @@ public class GameModel {
         this.started = false;
 //        isJumping = false;
         this.ticks = 0;
-        this.yMotion = 0;
+        this.yMotion = -0;
         this.obstacleImageTop = obstacleImageTop;
         this.obstacleImageBottom = obstacleImageBottom;
         this.birdImage = birdImage;
@@ -58,9 +58,10 @@ public class GameModel {
 
     public void updateGame() {
         bird.update(yMotion, bird.getJumping());
-        if (yMotion > 0) {
-            applyGravity();
-        }
+        applyGravity();
+//        if (yMotion > 0) {
+//            applyGravity();
+//        }
         checkCollision();
         // update score
         // generate obstacles
@@ -68,9 +69,10 @@ public class GameModel {
 
     }
 
-    private void applyGravity() {
-        if (!bird.getJumping()) {
+    public void applyGravity() {
+        if (bird.getJumping()) {
             yMotion += GRAVITY;
+            bird.setY(bird.getY() + yMotion);
         }
     }
 
@@ -128,6 +130,7 @@ public class GameModel {
             System.out.println("Bird is Jumping");
             bird.setJumping(true);
         }
+
     }
 
     public List<ObstacleModel> getObstacles() {
@@ -144,19 +147,20 @@ public class GameModel {
 
 
 
-//    public int getWidth() {
-//        return width;
-//    }
-//
-//    public int getHeight() {
-//        return height;
-//    }
+    public int getWidth() {
+        return WIDTH;
+    }
+
+    public int getHeight() {
+        return HEIGHT;
+    }
 
 //    public BufferedImage getImage() {
 //        return image;
 //    }
 
     public boolean isGameOver() {
+        System.out.println("Game Over");
         return gameOver;
     }
 
@@ -171,6 +175,23 @@ public class GameModel {
     public void setStarted(boolean state) {
         started = state;
     }
+
+    public int getBackgroundX() {
+        return backgroundX;
+    }
+
+    public void setBackgroundX(int value) {
+        backgroundX = value;
+    }
+
+    public int getYMotion() {
+        return yMotion;
+    }
+
+    public void setYMotion(int value) {
+        yMotion = value;
+    }
+
 
 
 
