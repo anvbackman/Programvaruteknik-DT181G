@@ -1,11 +1,7 @@
 package com.dt181g.project;
 
-import com.dt181g.project.View;
-import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationException;
-
 import javax.swing.*;
-import java.awt.*;
-import java.util.logging.Level;
+import java.awt.image.BufferedImage;
 
 /**
  * The main starting point for Project Assignment.
@@ -13,7 +9,7 @@ import java.util.logging.Level;
  */
 public final class Project {
 
-//    public static FlappyBird flappyBird;
+    //    public static FlappyBird flappyBird;
     private Project() { // Utility classes should not have a public or default constructor
         throw new IllegalStateException("Utility class");
     }
@@ -25,47 +21,33 @@ public final class Project {
      */
     public static void main(final String... args) {
 
-        View view = new View();
+        BufferedImage obstacleImageTop = com.dt181g.project.IMG.ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe1.png");
+        BufferedImage obstacleImageBottom = com.dt181g.project.IMG.ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe2.png");
+        BufferedImage backgroundImage = com.dt181g.project.IMG.ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\bg.png");
 
-        try {
-            javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
-        }
-        catch (ClassNotFoundException | IllegalAccessException |
-               UnsupportedLookAndFeelException | InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        // Set up the game model
+        GameModel gameModel = new GameModel(800, 800, obstacleImageTop, obstacleImageBottom);
+        gameModel.initializeGame();
 
-        java.awt.EventQueue.invokeLater(() -> {
-            Window window = new Window(800, 800, "Flappy Bird", view);
-        });
+        // Set up the game view
+        GameView gameView = new GameView(gameModel.getObstacles(), gameModel.getBird(), backgroundImage);
+
+        // Set up the game controller
+        GameController gameController = new GameController(gameModel, gameView);
+
+        // Create the game window
+        JFrame frame = new JFrame("Flappy Bird");
+        frame.add(gameView);
+        frame.setSize(800, 800);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        frame.addKeyListener(gameController);
 
 
 
-//        Model model = new Model();
-//        View view = new View();
-//        Controller controller = new Controller(model, view);
-//        view.setVisible(true);
-//        JButton start = new JButton("Start");
-//        start.addActionListener(e -> controller.startGame());
-//        Renderer renderer = new Renderer();
-//        GUI gui = new GUI();
+
 //        SwingUtilities.invokeLater(() -> {
 //            FlappyBird.flappyBird = new FlappyBird();
-//        });
-//        SwingUtilities.invokeLater(() -> {
-//
-//
-//            JFrame frame = new JFrame("Flappy Bird");
-//            frame.add(view);
-//            frame.setSize(800, 800);
-//            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//            frame.setVisible(true);
-//
-//            JButton start = new JButton("Start Game");
-//            start.addActionListener(e -> controller.startGame());
-//            frame.add(start, BorderLayout.SOUTH);
-////            view.addKeyListener(controller);
-////            view.setFocusable(true);
 //        });
     }
 }
