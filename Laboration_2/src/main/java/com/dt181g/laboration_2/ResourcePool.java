@@ -6,35 +6,35 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ResourcePool {
 
-    private int resourceAmount;
+    private AtomicInteger resourceAmount;
 
-    public ResourcePool(int amount) {
-        this.resourceAmount = amount;
+    public ResourcePool(int startingAmount) {
+        this.resourceAmount = new AtomicInteger(startingAmount);
     }
 
-    public synchronized void addResources(int amount) {
-        resourceAmount += amount;
-        System.out.println("Added " + amount + " resources. Total resources " + resourceAmount);
-        notifyAll();
-    }
-
-    public synchronized void removeResources(int amount) {
-        while (resourceAmount < amount) {
-            try {
-                wait();
-            }
-            catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                return;
-            }
-        }
-        resourceAmount -= amount;
-        System.out.println("Consumed " + amount + " resources. Total resources " + resourceAmount);
-    }
-
-    public synchronized int getResourceAmount() {
-        return resourceAmount;
-    }
+//    public synchronized void addResources(int amount) {
+//        resourceAmount += amount;
+//        System.out.println("Added " + amount + " resources. Total resources " + resourceAmount);
+//        notifyAll();
+//    }
+//
+//    public synchronized void removeResources(int amount) {
+//        while (resourceAmount < amount) {
+//            try {
+//                wait();
+//            }
+//            catch (InterruptedException e) {
+//                Thread.currentThread().interrupt();
+//                return;
+//            }
+//        }
+//        resourceAmount -= amount;
+//        System.out.println("Consumed " + amount + " resources. Total resources " + resourceAmount);
+//    }
+//
+//    public synchronized int getResourceAmount() {
+//        return resourceAmount;
+//    }
 
 
 

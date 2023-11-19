@@ -1,14 +1,17 @@
 package com.dt181g.laboration_2;
 
+
+
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
-import java.util.Timer;
 
-public class Manager {
+
+public class Manager implements ActionListener {
 
     private JLabel producerLabel;
     private JLabel consumerLabel;
@@ -20,48 +23,113 @@ public class Manager {
         this.resourcePool = resourcePool;
         this.producerLabel = producerLabel;
         this.consumerLabel = consumerLabel;
-        this.numProducers = 6;
-        this.numConsumers = 5;
-
-        startProducers();
-        startConsumers();
+//        this.numProducers = 6;
+//        this.numConsumers = 5;
+//
+//        startProducers();
+//        startConsumers();
 
 
     }
 
-    private void startProducers() {
+    public void startSimulation() {
+        Timer timer = new Timer(150, this);
+        timer.start();
+
         for (int i = 0; i < numProducers; i++) {
-            Producer producer = new Producer(resourcePool);
-            Thread producerThread = new Thread(producer);
-            producerThread.start();
+            new Thread(new Producer(resourcePool)).start();
         }
-    }
-
-    private void startConsumers() {
         for (int i = 0; i < numConsumers; i++) {
-            Consumer consumer = new Consumer(resourcePool);
-            Thread consumerThread = new Thread(consumer);
-            consumerThread.start();
+            new Thread(new Consumer(resourcePool)).start();
         }
     }
 
-    public void adjust() {
-        int available = resourcePool.getResourceAmount();
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        SwingUtilities.invokeLater(() -> {
+            adjust();
+            updateGUI();
+//            checkForUserIntervention();
+        });
+    }
 
-        if (available < 40) {
+    private void adjust() {
+        int availableResources = resourcePool.getResourceAmount();
+
+        if (availableResources < 50) {
             numProducers++;
             numConsumers--;
             System.out.println("Adjustment: More Producers, Fewer Consumers");
         }
-        else if (available > 180) {
+        else if (availableResources >= 150) {
             numProducers--;
             numConsumers++;
             System.out.println("Adjustment: Fewer Producers, More Consumers");
         }
-        producerLabel.setText("Producers: " + numProducers);
-        consumerLabel.setText("Consumers: " + numConsumers);
-
     }
+
+    private void updateGUI() {
+        SwingUtilities.invokeLater(() -> {
+            producerLabel.setText("Producers: " + numProducers);
+            consumerLabel.setText("Consumers: " + numConsumers);
+        });
+
+        int availableResources = resourcePool.getResourceAmount();
+        Color color;
+
+        if (availableResources < 50) {
+            color = Color.RED;
+        }
+        else if (availableResources < 100) {
+            color = Color.YELLOW;
+        }
+        else if (availableResources < 150) {
+            color = Color.GREEN;
+        }
+        else {
+            color = Color.BLUE;
+        }
+
+        resourcePool.setColor(color);
+    }
+
+
+
+//    private void startProducers() {
+//        for (int i = 0; i < numProducers; i++) {
+//            Producer producer = new Producer(resourcePool);
+//            Thread producerThread = new Thread(producer);
+//            producerThread.start();
+//        }
+//    }
+//
+//    private void startConsumers() {
+//        for (int i = 0; i < numConsumers; i++) {
+//            Consumer consumer = new Consumer(resourcePool);
+//            Thread consumerThread = new Thread(consumer);
+//            consumerThread.start();
+//        }
+//    }
+
+//    public void adjust() {
+//        int available = resourcePool.getResourceAmount();
+//
+//        if (available < 40) {
+//            numProducers++;
+//            numConsumers--;
+//            System.out.println("Adjustment: More Producers, Fewer Consumers");
+//        }
+//        else if (available > 180) {
+//            numProducers--;
+//            numConsumers++;
+//            System.out.println("Adjustment: Fewer Producers, More Consumers");
+//        }
+//        producerLabel.setText("Producers: " + numProducers);
+//        consumerLabel.setText("Consumers: " + numConsumers);
+//
+//    }
+
+    // -----------------------------------------------------------------------
 
 //    private Deque<Producer> producerDeque;
 //    private Deque<Consumer> consumerDeque;
