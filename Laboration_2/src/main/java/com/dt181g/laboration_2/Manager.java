@@ -74,23 +74,12 @@ public class Manager implements ActionListener {
             consumerLabel.setText("Consumers: " + numConsumers);
         });
 
-        int availableResources = resourcePool.getResourceAmount();
-        Color color;
+//        int availableResources = resourcePool.getResourceAmount();
+//        Color color;
 
-        if (availableResources < 50) {
-            color = Color.RED;
-        }
-        else if (availableResources < 100) {
-            color = Color.YELLOW;
-        }
-        else if (availableResources < 150) {
-            color = Color.GREEN;
-        }
-        else {
-            color = Color.BLUE;
-        }
 
-        resourcePool.setColor(color);
+
+//        resourcePool.setColor(color);
     }
 
 

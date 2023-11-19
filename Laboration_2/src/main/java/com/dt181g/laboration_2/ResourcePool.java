@@ -8,8 +8,50 @@ public class ResourcePool {
 
     private AtomicInteger resourceAmount;
 
+    private GUI gui;
+
     public ResourcePool(int startingAmount) {
         this.resourceAmount = new AtomicInteger(startingAmount);
+    }
+
+    public int getResources() {
+        return resourceAmount.get();
+    }
+
+    public synchronized void addResources(int amount) {
+        resourceAmount.addAndGet(amount);
+        visualizeResourcePool();
+    }
+
+    public synchronized void consumeResources(int amount) {
+        resourceAmount.addAndGet(-amount);
+        visualizeResourcePool();
+
+    }
+
+    private void visualizeResourcePool() {
+        int current = resourceAmount.get();
+        Color color = calculateColor(current);
+
+        SwingUtilities.invokeLater(() -> {
+            gui.setPoolColor(color);
+        });
+    }
+
+    private Color calculateColor(int current) {
+
+        if (getResources() < 50) {
+            return Color.RED;
+        }
+        else if (getResources() < 100) {
+            return Color.YELLOW;
+        }
+        else if (getResources() < 150) {
+            return Color.GREEN;
+        }
+        else {
+            return Color.BLUE;
+        }
     }
 
 //    public synchronized void addResources(int amount) {
