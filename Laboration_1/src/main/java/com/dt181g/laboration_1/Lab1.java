@@ -13,10 +13,6 @@ public class Lab1 {
      * @throws InterruptedException if a thread is interrupted during sleep
      */
     public static void main(String[] args) throws InterruptedException {
-        for (int i = 0; i < 5; i++) {
-            Thread thread = new Thread(new Runner(i)); // Creating a new thread for each iteration
-            thread.start(); // Starting the thread
-            Thread.sleep(50); // Short sleep between each thread start
-        }
+        Runner.startThreads();
     }
 }
