@@ -39,7 +39,7 @@ public class GameModel {
         this.started = false;
 //        isJumping = false;
         this.ticks = 0;
-        this.yMotion = -0;
+        this.yMotion = 0;
         this.obstacleImageTop = obstacleImageTop;
         this.obstacleImageBottom = obstacleImageBottom;
         this.birdImage = birdImage;
@@ -58,7 +58,7 @@ public class GameModel {
 
     public void updateGame() {
         bird.update(yMotion, bird.getJumping());
-        applyGravity();
+//        applyGravity();
 //        if (yMotion > 0) {
 //            applyGravity();
 //        }
@@ -70,10 +70,15 @@ public class GameModel {
     }
 
     public void applyGravity() {
-        if (bird.getJumping()) {
-            yMotion += GRAVITY;
-            bird.setY(bird.getY() + yMotion);
+
+        if (this.ticks % 2 == 0 && this.yMotion < 15) {
+            this.yMotion = 0;
         }
+        this.yMotion = this.yMotion - 10;
+//        if (bird.getJumping()) {
+//            yMotion += GRAVITY;
+//            bird.setY(bird.getY() + yMotion);
+//        }
     }
 
     public void checkCollision() {
@@ -117,19 +122,24 @@ public class GameModel {
     }
 
     public void jump() {
-        if (!started) {
-            started = true;
-        } else if (!gameOver) {
-            if (yMotion > 0) {
-                yMotion = 0;
-                System.out.println("Bird is Not Jumping");
-                bird.setJumping(false);
 
-            }
-            yMotion -= 10;
-            System.out.println("Bird is Jumping");
-            bird.setJumping(true);
+        if (this.yMotion > 0) {
+            this.yMotion = 0;
         }
+        this.yMotion = this.yMotion - 10;
+//        if (!started) {
+//            started = true;
+//        } else if (!gameOver) {
+//            if (yMotion > 0) {
+//                yMotion = 0;
+//                System.out.println("Bird is Not Jumping");
+//                bird.setJumping(false);
+//
+//            }
+//            yMotion -= 10;
+//            System.out.println("Bird is Jumping");
+//            bird.setJumping(true);
+//        }
 
     }
 

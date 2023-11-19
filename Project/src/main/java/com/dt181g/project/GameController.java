@@ -63,7 +63,7 @@ public class GameController implements ActionListener, KeyListener {
 
 
             if (ticks % 2 == 0 && model.getYMotion() < 15) {
-                model.setYMotion(-2);
+                model.setYMotion(model.getYMotion() + 2);
             }
 
 
