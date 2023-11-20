@@ -10,9 +10,9 @@ public class ResourcePool {
 
     private GUI gui;
 
-    public ResourcePool(int startingAmount, GUI gui) {
+    public ResourcePool(int startingAmount) {
         this.resourceAmount = new AtomicInteger(startingAmount);
-        this.gui = gui;
+
     }
 
     public int getResourceAmount() {
@@ -53,6 +53,10 @@ public class ResourcePool {
         else {
             return Color.BLUE;
         }
+    }
+
+    public void setGUI(GUI gui) {
+        this.gui = gui;
     }
 
 

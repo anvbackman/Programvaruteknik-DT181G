@@ -16,16 +16,21 @@ public class Manager implements ActionListener {
     private JLabel producerLabel;
     private JLabel consumerLabel;
     private ResourcePool resourcePool;
+//    private GUI gui;
 
     private int startingProducers = 6;
     private int startingConsumers = 5;
     private Deque<Producer> activeProducers;
     private Deque<Consumer> activeConsumers;
 
+    private boolean isAdjusting = false;
+
     public Manager(ResourcePool resourcePool, JLabel producerLabel, JLabel consumerLabel) {
         this.resourcePool = resourcePool;
         this.producerLabel = producerLabel;
         this.consumerLabel = consumerLabel;
+
+//        this.gui = new GUI(resourcePool);
 
         this.activeProducers = new LinkedList<>();
         this.activeConsumers = new LinkedList<>();
@@ -52,11 +57,18 @@ public class Manager implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         SwingUtilities.invokeLater(() -> {
             adjust();
-
+//            gui.repaint();
+            updateGUI();
         });
     }
 
     private void adjust() {
+
+        if (isAdjusting) {
+            return;
+        }
+
+        isAdjusting = true;
 
         int availableResources = resourcePool.getResourceAmount();
 
@@ -67,7 +79,9 @@ public class Manager implements ActionListener {
             increaseProducers();
             decreaseConsumers();
         }
-        updateGUI();
+
+        isAdjusting = false;
+
     }
 
 

@@ -23,24 +23,32 @@ public final class Lab2 {
     public static void main(final String... args) throws InterruptedException {
 
         SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Producer / Consumer");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            ResourcePool resourcePool = new ResourcePool(50);
+            GUI gui = new GUI(resourcePool);
 
-            JLabel producerLabel = new JLabel("Producers: 0");
-            JLabel consumerLabel = new JLabel("Consumers: 0");
-
-            GUI gui = new GUI();
-            frame.add(producerLabel, BorderLayout.WEST);
-            frame.add(consumerLabel, BorderLayout.EAST);
-            frame.add(gui, BorderLayout.CENTER);
-
-            ResourcePool resourcePool = new ResourcePool(50, gui);
-            Manager manager = new Manager(resourcePool, producerLabel, consumerLabel);
-
-            manager.startSimulation();
-
-            frame.setSize(800, 800);
-            frame.setVisible(true);
+//        SwingUtilities.invokeLater(() -> {
+//            JFrame frame = new JFrame("Producer / Consumer");
+//            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//
+//            JLabel producerLabel = new JLabel("Producers: 0");
+//            JLabel consumerLabel = new JLabel("Consumers: 0");
+//
+//
+//
+//
+//            ResourcePool resourcePool = new ResourcePool(50);
+//            GUI gui = new GUI(resourcePool);
+//
+//            frame.add(producerLabel, BorderLayout.WEST);
+//            frame.add(consumerLabel, BorderLayout.EAST);
+//            frame.add(gui, BorderLayout.CENTER);
+//
+//            Manager manager = new Manager(resourcePool, producerLabel, consumerLabel);
+//
+//            manager.startSimulation();
+//
+//            frame.setSize(800, 800);
+//            frame.setVisible(true);
 
         });
 
