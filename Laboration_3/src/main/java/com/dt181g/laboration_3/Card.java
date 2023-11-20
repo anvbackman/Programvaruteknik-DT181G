@@ -2,23 +2,26 @@ package com.dt181g.laboration_3;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public class Card extends JButton {
 
+    private int value;
     private boolean cardMatch;
     private boolean isShowing;
-    private BufferedImage image;
 
-    public Card(BufferedImage image) {
-        this.image = image;
+
+    public Card(int value) {
+        this.value = value;
         this.cardMatch = false;
         this.isShowing = false;
         setPreferredSize(new Dimension(60, 60));
     }
 
+    public int getValue() {
+        return value;
+    }
 
-    public boolean isCardMatch() {
+    public boolean isMatched() {
         return cardMatch;
     }
 
@@ -28,7 +31,7 @@ public class Card extends JButton {
 
     public void showCard() {
         if (!cardMatch && !isShowing) {
-            setIcon(new ImageIcon(image));
+            setText((String.valueOf(value)));
             isShowing = true;
         }
     }
@@ -36,10 +39,6 @@ public class Card extends JButton {
     public void hideCard() {
         setText("");
         isShowing = false;
-    }
-
-    public BufferedImage getImage() {
-        return image;
     }
 
 }

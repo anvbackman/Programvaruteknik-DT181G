@@ -23,14 +23,18 @@ public final class Lab3 extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-
                 Lab3 frame = new Lab3();
                 frame.setTitle("Memory");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setSize(600, 400);
 
+                Model model = new Model();
+                View view = new View(model.getCards());
+                Controller controller = new Controller(model, view);
+
+                frame.add(view);
+                frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
-                GameStarter.startGame(frame, frame.numberOfCardsField);
             }
         });
     }
