@@ -24,18 +24,17 @@ public final class Lab2 {
 
         ResourcePool resourcePool = new ResourcePool(50);
 
-        // Ensure that the program continues running
+
         JLabel producerLabel = new JLabel("Producers: 6");
         JLabel consumerLabel = new JLabel("Consumers: 5");
-//        JLabel resourceLabel = new JLabel("Resource Amount: " + resourcePool.getResourceAmount());
+
 
 
         JFrame frame = new JFrame("Resource Pool Simulation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 400);
 
-//        JPanel panel = new JPanel();
-//        panel
+
 
         Manager manager = new Manager();
 
@@ -44,12 +43,12 @@ public final class Lab2 {
         JPanel center = new JPanel();
         JPanel bottom = new JPanel();
 
-//        top.add(resourceLabel);
+
         center.add(producerLabel);
         bottom.add(consumerLabel);
 
         frame.getContentPane().setBackground(Color.BLACK);
-//        top.setPreferredSize(new Dimension(800, 100));
+
         center.setPreferredSize(new Dimension(800, 100));
         bottom.setPreferredSize(new Dimension(800, 200));
 

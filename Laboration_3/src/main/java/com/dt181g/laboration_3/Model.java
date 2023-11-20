@@ -9,11 +9,17 @@ public class Model {
     private List<Card> cards;
     private Card firstCard;
     private Card secondCard;
+    private int score;
+    private int highScore;
 
+    private String instructions;
 
     public Model() {
         cards = new ArrayList<>();
         showCards();
+        this.score = 0;
+
+        instructions = "Clickety";
     }
 
     private void showCards() {
@@ -47,4 +53,26 @@ public class Model {
         firstCard = null;
         secondCard = null;
     }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int amount) {
+        score += amount;
+    }
+
+    public int getHighScore() {
+        return highScore;
+    }
+
+    public void setHighScore(int amount) {
+        highScore = score;
+    }
+
+    public String getInstructions() {
+        return instructions;
+    }
+
+
 }
