@@ -6,6 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Producer implements Runnable {
 
+    private volatile boolean isRunning = true;
     private ResourcePool resourcePool;
 //    private boolean running = false;
 
@@ -14,10 +15,14 @@ public class Producer implements Runnable {
 
     }
 
+    public void stop() {
+        isRunning = false;
+    }
+
     public void run() {
         Random random = new Random();
 
-        while (true) {
+        while (isRunning) {
             int resources = random.nextInt(10) + 1;
             resourcePool.addResources(resources);
 

@@ -33,7 +33,7 @@ public class ResourcePool {
     private void visualizeResourcePool() {
         int current = resourceAmount.get();
         Color color = calculateColor(current);
-
+        System.out.println(current);
         SwingUtilities.invokeLater(() -> {
             gui.setColor(color);
         });
@@ -41,13 +41,13 @@ public class ResourcePool {
 
     private Color calculateColor(int current) {
 
-        if (getResourceAmount() < 50) {
+        if (current < 50) {
             return Color.RED;
         }
-        else if (getResourceAmount() < 100) {
+        else if (current < 100) {
             return Color.YELLOW;
         }
-        else if (getResourceAmount() < 150) {
+        else if (current < 150) {
             return Color.GREEN;
         }
         else {

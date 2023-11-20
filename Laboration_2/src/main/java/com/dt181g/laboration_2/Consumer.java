@@ -9,6 +9,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Consumer implements Runnable {
 
+
+    private volatile boolean isRunning = true;
     private final ResourcePool resourcePool;
 //    private boolean running = true;
 
@@ -17,12 +19,16 @@ public class Consumer implements Runnable {
 //        removeFromPool();
     }
 
+    public void stop() {
+        isRunning = false;
+    }
+
 
     @Override
     public void run() {
         Random random = new Random();
 
-        while (true) {
+        while (isRunning) {
             int resources = random.nextInt(20) + 1;
             resourcePool.consumeResources(resources);
 
