@@ -20,17 +20,28 @@ public final class Lab2 {
      * this when working with the assignment!
      * @param args command arguments.
      */
-    public void main(final String... args) throws InterruptedException {
+    public static void main(final String... args) throws InterruptedException {
 
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Producer / Consumer");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-            GUI gui = new GUI();
-            frame.add(gui);
+            JLabel producerLabel = new JLabel("Producers: 0");
+            JLabel consumerLabel = new JLabel("Consumers: 0");
 
-            frame.setSize(400, 400);
+            GUI gui = new GUI();
+            frame.add(producerLabel, BorderLayout.WEST);
+            frame.add(consumerLabel, BorderLayout.EAST);
+            frame.add(gui, BorderLayout.CENTER);
+
+            ResourcePool resourcePool = new ResourcePool(50);
+            Manager manager = new Manager(resourcePool, producerLabel, consumerLabel);
+
+            manager.startSimulation();
+
+            frame.setSize(800, 800);
             frame.setVisible(true);
+
         });
 
 

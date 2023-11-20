@@ -14,7 +14,7 @@ public class ResourcePool {
         this.resourceAmount = new AtomicInteger(startingAmount);
     }
 
-    public int getResources() {
+    public int getResourceAmount() {
         return resourceAmount.get();
     }
 
@@ -40,13 +40,13 @@ public class ResourcePool {
 
     private Color calculateColor(int current) {
 
-        if (getResources() < 50) {
+        if (getResourceAmount() < 50) {
             return Color.RED;
         }
-        else if (getResources() < 100) {
+        else if (getResourceAmount() < 100) {
             return Color.YELLOW;
         }
-        else if (getResources() < 150) {
+        else if (getResourceAmount() < 150) {
             return Color.GREEN;
         }
         else {
