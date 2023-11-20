@@ -17,8 +17,8 @@ public class Manager implements ActionListener {
     private JLabel consumerLabel;
     private ResourcePool resourcePool;
 
-    private int startingProducers;
-    private int startingConsumers;
+    private int startingProducers = 6;
+    private int startingConsumers = 5;
     private Deque<Producer> activeProducers;
     private Deque<Consumer> activeConsumers;
 
@@ -26,8 +26,7 @@ public class Manager implements ActionListener {
         this.resourcePool = resourcePool;
         this.producerLabel = producerLabel;
         this.consumerLabel = consumerLabel;
-        this.startingProducers = 6;
-        this.startingConsumers = 5;
+
         this.activeProducers = new LinkedList<>();
         this.activeConsumers = new LinkedList<>();
 
@@ -53,7 +52,7 @@ public class Manager implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         SwingUtilities.invokeLater(() -> {
             adjust();
-            updateGUI();
+
         });
     }
 
@@ -68,35 +67,56 @@ public class Manager implements ActionListener {
             increaseProducers();
             decreaseConsumers();
         }
+        updateGUI();
     }
 
 
 
     private void increaseProducers() {
-        if (!activeProducers.isEmpty()) {
-            Producer producer = activeProducers.pollFirst();
-            new Thread(producer).start();
-        }
+
+        Producer producer = new Producer(resourcePool);
+        activeProducers.add(producer);
+        new Thread(producer).start();
+
+
+//        if (!activeProducers.isEmpty()) {
+//            Producer producer = activeProducers.pollFirst();
+//            new Thread(producer).start();
+//        }
     }
 
     private void decreaseProducers() {
+
         if (!activeProducers.isEmpty()) {
-            Producer producer = activeProducers.pollLast();
-            producer.stop();
+            activeProducers.getLast().stop();
+            activeProducers.removeLast();
         }
+//        if (!activeProducers.isEmpty()) {
+//            Producer producer = activeProducers.pollLast();
+//            producer.stop();
+//        }
     }
 
     private void increaseConsumers() {
+
         Consumer consumer = new Consumer(resourcePool);
         activeConsumers.add(consumer);
         new Thread(consumer).start();
+//        Consumer consumer = new Consumer(resourcePool);
+//        activeConsumers.add(consumer);
+//        new Thread(consumer).start();
     }
 
     private void decreaseConsumers() {
+
         if (!activeConsumers.isEmpty()) {
-            Consumer consumer = activeConsumers.pollLast();
-            consumer.stop();
+            activeConsumers.getLast().stop();
+            activeConsumers.removeLast();
         }
+//        if (!activeConsumers.isEmpty()) {
+//            Consumer consumer = activeConsumers.pollLast();
+//            consumer.stop();
+//        }
     }
 
     private void updateGUI() {
