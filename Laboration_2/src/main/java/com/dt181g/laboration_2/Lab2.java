@@ -22,6 +22,17 @@ public final class Lab2 {
      */
     public void main(final String... args) throws InterruptedException {
 
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Producer / Consumer");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            GUI gui = new GUI();
+            frame.add(gui);
+
+            frame.setSize(400, 400);
+            frame.setVisible(true);
+        });
+
 
 
 

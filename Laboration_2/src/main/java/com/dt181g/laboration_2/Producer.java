@@ -1,40 +1,54 @@
 package com.dt181g.laboration_2;
 
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Producer implements Runnable {
 
-    private final ResourcePool resourcePool;
-    private boolean running = false;
+    private ResourcePool resourcePool;
+//    private boolean running = false;
 
     public Producer(ResourcePool resourcePool) {
         this.resourcePool = resourcePool;
 
     }
 
-    public void addToPool() {
-        try {
-            int random = addResource();
-            resourcePool.addResources(random);
-            System.out.println("Producer added " + random + " resources. Current pool state: " + resourcePool.getResourceAmount());
-            Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5000));
-        }
-        catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-
-    }
-
-
-
-    public int addResource() {
-        int random = ThreadLocalRandom.current().nextInt(1, 10);
-        return random;
-    }
+//    public void addToPool() {
+//        try {
+//            int random = addResource();
+//            resourcePool.addResources(random);
+//            System.out.println("Producer added " + random + " resources. Current pool state: " + resourcePool.getResourceAmount());
+//            Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5000));
+//        }
+//        catch (InterruptedException e) {
+//            Thread.currentThread().interrupt();
+//        }
+//
+//    }
+//
+//
+//
+//    public int addResource() {
+//        int random = ThreadLocalRandom.current().nextInt(1, 10);
+//        return random;
+//    }
 
     public void run() {
-        addToPool();
+        Random random = new Random();
+
+        while (true) {
+            int resources = random.nextInt(10) + 1;
+            resourcePool.addResources(resources);
+
+            int sleep = random.nextInt(5000) + 1000;
+            try {
+                Thread.sleep(sleep);
+            }
+            catch (InterruptedException e) {
+                Thread.interrupted();
+            }
+        }
     }
 
 //    private Manager manager;

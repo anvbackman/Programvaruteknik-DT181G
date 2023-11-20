@@ -34,7 +34,7 @@ public class ResourcePool {
         Color color = calculateColor(current);
 
         SwingUtilities.invokeLater(() -> {
-            gui.setPoolColor(color);
+            gui.setColor(color);
         });
     }
 
