@@ -1,6 +1,6 @@
 /**
- * Package for laboration 3, the third assignment of course DT180G.
- * The assignment regards an implementation of the classic Towers of Hanoi,
- * utilizing both Command and Singleton Design Patterns.
+ * Package for laboration 3, the third assignment of course DT181G.
+ * The assignment chosen is an implementation of the game Memory
+ * utilizing the MVC pattern.
  */
 package com.dt181g.laboration_3;

@@ -8,12 +8,11 @@ import javax.swing.*;
 
 /**
  * The main starting point for laboration 3.
- * @author Erik Ström
+ * @author Andreas Backman
  */
 public final class Lab3 extends JFrame {
-    private JTextField numberOfCardsField;
+
     private Lab3() { // Utility classes should not have a public or default constructor
-        numberOfCardsField = new JTextField();
     }
 
     /**

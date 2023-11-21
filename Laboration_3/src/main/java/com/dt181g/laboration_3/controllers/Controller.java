@@ -91,7 +91,7 @@ public class Controller implements ActionListener {
                         cardsBeingProcessed = false;  // Reset to false after processing is complete
                     }
                 });
-                
+
                 timer.setRepeats(false);
                 timer.start();
             }
