@@ -1,4 +1,4 @@
-package com.dt181g.laboration_3;
+package com.dt181g.laboration_3.models;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,9 +1,10 @@
 package com.dt181g.laboration_3;
 
+import com.dt181g.laboration_3.controllers.Controller;
+import com.dt181g.laboration_3.models.Model;
+import com.dt181g.laboration_3.views.View;
+
 import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.List;
 
 /**
  * The main starting point for laboration 3.
@@ -24,19 +25,10 @@ public final class Lab3 extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-//                JFrame frame = new JFrame("Memory");
-//                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//                frame.setSize(600, 400);
-
                 Model model = new Model();
                 View view = new View(model.getCards());
                 Controller controller = new Controller(model, view);
-
-
-
-//                frame.add(view);
-//                frame.setLocationRelativeTo(null);
-//                frame.setVisible(true);
+                view.setController(controller);
             }
         });
     }
