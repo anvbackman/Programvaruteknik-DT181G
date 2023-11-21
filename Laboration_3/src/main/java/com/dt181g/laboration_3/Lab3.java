@@ -1,12 +1,18 @@
 package com.dt181g.laboration_3;
 
+import com.dt181g.laboration_3.controllers.Controller;
+import com.dt181g.laboration_3.models.Model;
+import com.dt181g.laboration_3.views.View;
+
+import javax.swing.*;
+
 /**
  * The main starting point for laboration 3.
- * @author Erik Ström
+ * @author Andreas Backman
  */
-public final class Lab3 {
+public final class Lab3 extends JFrame {
+
     private Lab3() { // Utility classes should not have a public or default constructor
-        throw new IllegalStateException("Utility class");
     }
 
     /**
@@ -15,6 +21,14 @@ public final class Lab3 {
      * @param args command arguments.
      */
     public static void main(final String... args) {
-        System.out.println("Lab assignment 3");
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                Model model = new Model();
+                View view = new View(model.getCards());
+                Controller controller = new Controller(model, view);
+                view.setController(controller);
+            }
+        });
     }
 }

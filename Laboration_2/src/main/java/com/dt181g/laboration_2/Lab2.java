@@ -26,6 +26,7 @@ public final class Lab2 {
             ResourcePool resourcePool = new ResourcePool(50);
             GUI gui = new GUI(resourcePool);
 
+<<<<<<< HEAD
 //        SwingUtilities.invokeLater(() -> {
 //            JFrame frame = new JFrame("Producer / Consumer");
 //            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,9 +50,59 @@ public final class Lab2 {
 //
 //            frame.setSize(800, 800);
 //            frame.setVisible(true);
+=======
+
+        JLabel producerLabel = new JLabel("Producers: 6");
+        JLabel consumerLabel = new JLabel("Consumers: 5");
+
+>>>>>>> laboration_3
 
         });
 
+<<<<<<< HEAD
+=======
+        JFrame frame = new JFrame("Resource Pool Simulation");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(800, 400);
+
+
+
+        Manager manager = new Manager();
+
+        frame.setLayout(new BorderLayout());
+        JPanel top = new JPanel();
+        JPanel center = new JPanel();
+        JPanel bottom = new JPanel();
+
+
+        center.add(producerLabel);
+        bottom.add(consumerLabel);
+
+        frame.getContentPane().setBackground(Color.BLACK);
+
+        center.setPreferredSize(new Dimension(800, 100));
+        bottom.setPreferredSize(new Dimension(800, 200));
+
+
+        ResourcePanel resourcePanel = new ResourcePanel(resourcePool);
+        resourcePanel.setPreferredSize(new Dimension(800, 200));
+
+
+
+
+//        frame.add(top, BorderLayout.NORTH);
+        frame.add(center, BorderLayout.EAST);
+        frame.add(bottom, BorderLayout.WEST);
+        frame.add(resourcePanel, BorderLayout.CENTER);
+
+
+
+        frame.pack();
+        frame.setVisible(true);
+
+
+        manager.startAdjustmentTimer();
+>>>>>>> laboration_3
     }
 
 }
