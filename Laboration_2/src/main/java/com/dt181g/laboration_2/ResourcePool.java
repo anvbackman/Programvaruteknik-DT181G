@@ -4,12 +4,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * The ResourcePool class represents a resource pool in the Producer / Consumer simulation
+ *
+ * @author Andreas Backman
+ */
 public class ResourcePool {
 
+    // Atomic integer to ensure atomic operations on the amount of resources
     private AtomicInteger resourceAmount;
-
     private GUI gui;
 
+    /**
+     * 
+     *
+     * @param startingAmount
+     */
     public ResourcePool(int startingAmount) {
         this.resourceAmount = new AtomicInteger(startingAmount);
 

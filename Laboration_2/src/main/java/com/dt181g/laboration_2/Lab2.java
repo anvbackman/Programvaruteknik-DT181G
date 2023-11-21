@@ -25,33 +25,6 @@ public final class Lab2 {
         SwingUtilities.invokeLater(() -> {
             ResourcePool resourcePool = new ResourcePool(50);
             GUI gui = new GUI(resourcePool);
-
-//        SwingUtilities.invokeLater(() -> {
-//            JFrame frame = new JFrame("Producer / Consumer");
-//            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//
-//            JLabel producerLabel = new JLabel("Producers: 0");
-//            JLabel consumerLabel = new JLabel("Consumers: 0");
-//
-//
-//
-//
-//            ResourcePool resourcePool = new ResourcePool(50);
-//            GUI gui = new GUI(resourcePool);
-//
-//            frame.add(producerLabel, BorderLayout.WEST);
-//            frame.add(consumerLabel, BorderLayout.EAST);
-//            frame.add(gui, BorderLayout.CENTER);
-//
-//            Manager manager = new Manager(resourcePool, producerLabel, consumerLabel);
-//
-//            manager.startSimulation();
-//
-//            frame.setSize(800, 800);
-//            frame.setVisible(true);
-
         });
-
     }
-
 }
