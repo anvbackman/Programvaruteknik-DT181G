@@ -21,8 +21,6 @@ public class Controller implements ActionListener {
         for (Card card : model.getCards()) {
             card.addActionListener(this);
         }
-
-        view.addInstructions(model.getInstructions());
     }
 
     @Override

@@ -3,6 +3,8 @@ package com.dt181g.laboration_3;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Model {
 
@@ -12,46 +14,22 @@ public class Model {
     private int score;
     private int highScore;
 
-    private String instructions;
-
     public Model() {
-        cards = new ArrayList<>();
-        showCards();
+        cards = generateCards();
         this.score = 0;
 
-        instructions = "Clickety";
     }
 
-    private void showCards() {
+    private List<Card> generateCards() {
+        List<Card> cardList = IntStream.rangeClosed(1, 8).boxed().flatMap(i -> List.of(new Card(i), new Card(i)).stream())
+                .collect(Collectors.toList());
 
-        for (int i = 1; i <= 8; i++) {
-            cards.add(new Card(i));
-            cards.add(new Card(i));
-        }
-        Collections.shuffle(cards);
+        Collections.shuffle(cardList);
+        return cardList;
     }
 
     public List<Card> getCards() {
         return cards;
-    }
-
-    public void selectCards(Card card) {
-        if (firstCard == null) {
-            firstCard = card;
-        }
-        else if (secondCard == null) {
-            secondCard = card;
-            checkMatch();
-        }
-    }
-
-    private void checkMatch() {
-        if (firstCard.getValue() == secondCard.getValue()) {
-            firstCard.setCardMatch(true);
-            secondCard.setCardMatch(true);
-        }
-        firstCard = null;
-        secondCard = null;
     }
 
     public int getScore() {
@@ -69,10 +47,5 @@ public class Model {
     public void setHighScore(int amount) {
         highScore = score;
     }
-
-    public String getInstructions() {
-        return instructions;
-    }
-
 
 }

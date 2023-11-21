@@ -36,19 +36,6 @@ public class View extends JPanel {
         frame.add(highScoreLabel, BorderLayout.EAST);
 
         instructionsLabel = new JLabel("Instructions: Clickety");
-//        frame.add(instructionsLabel, BorderLayout.SOUTH);
-//
-//        okButton = new JButton("OK");
-//        okButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                instructionsLabel.setVisible(false);
-//            }
-//        });
-//        instructionsLabel.add(okButton);
-
-
-
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
@@ -70,10 +57,4 @@ public class View extends JPanel {
     public void updateHighScore(int highScore) {
         highScoreLabel.setText("High Score: " + highScore);
     }
-
-    public void addInstructions(String instructions) {
-        instructionsLabel.setText(instructions);
-//        instructionsLabel.setVisible(true);
-    }
-
 }

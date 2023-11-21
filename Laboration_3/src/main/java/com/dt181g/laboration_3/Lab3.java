@@ -32,7 +32,7 @@ public final class Lab3 extends JFrame {
                 View view = new View(model.getCards());
                 Controller controller = new Controller(model, view);
 
-                
+
 
 //                frame.add(view);
 //                frame.setLocationRelativeTo(null);
