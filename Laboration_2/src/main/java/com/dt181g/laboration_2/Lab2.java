@@ -25,6 +25,7 @@ public final class Lab2 {
         SwingUtilities.invokeLater(() -> {
             ResourcePool resourcePool = new ResourcePool(50);
             GUI gui = new GUI(resourcePool);
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 //        SwingUtilities.invokeLater(() -> {
@@ -103,6 +104,8 @@ public final class Lab2 {
 
         manager.startAdjustmentTimer();
 >>>>>>> laboration_3
+=======
+        });
+>>>>>>> laboration_2
     }
-
 }
