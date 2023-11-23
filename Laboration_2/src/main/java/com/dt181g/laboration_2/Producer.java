@@ -29,13 +29,9 @@ public class Producer implements Runnable {
         isRunning = false;
     }
 
-<<<<<<< HEAD
-    @Override
-=======
     /**
      * Method to execute the producer by continuously produce resources until stopped
      */
->>>>>>> laboration_2
     public void run() {
         Random random = new Random();
 
