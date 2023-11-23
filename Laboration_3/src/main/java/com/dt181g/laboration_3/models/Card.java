@@ -12,7 +12,6 @@ public class Card extends JButton {
 
     private int value;
     private boolean cardMatch;
-    private boolean isShowing;
 
     /**
      * Constructor that initializes a card with a specified value
@@ -22,8 +21,6 @@ public class Card extends JButton {
     public Card(int value) {
         this.value = value;
         this.cardMatch = false;
-        this.isShowing = false;
-
     }
 
     /**
@@ -51,23 +48,5 @@ public class Card extends JButton {
      */
     public void setCardMatch(boolean cardMatch) {
         this.cardMatch = cardMatch;
-    }
-
-    /**
-     * Method to show the face of a card and its value and specify if the card is showing
-     */
-    public void showCard() {
-        if (!cardMatch && !isShowing) {
-            setText((String.valueOf(value)));
-            isShowing = true;
-        }
-    }
-
-    /**
-     * Method to hide the card
-     */
-    public void hideCard() {
-        setText("");
-        isShowing = false;
     }
 }

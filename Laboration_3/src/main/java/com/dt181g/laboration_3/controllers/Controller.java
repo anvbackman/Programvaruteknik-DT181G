@@ -2,10 +2,13 @@ package com.dt181g.laboration_3.controllers;
 
 import com.dt181g.laboration_3.models.Card;
 import com.dt181g.laboration_3.models.Model;
+import com.dt181g.laboration_3.views.CardView;
 import com.dt181g.laboration_3.views.View;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Controller class that handles user interactions an update the model and view classes based on it
@@ -20,6 +23,8 @@ public class Controller implements ActionListener {
     private boolean cardsBeingProcessed = false;
     private int score;
     private int streak = 1;
+    private CardView cardView;
+    private List<CardView> cardViewList;
 
     /**
      * Constructor that takes the model and view as parameters. It then set the score to 0 and adds an action
@@ -32,11 +37,27 @@ public class Controller implements ActionListener {
         this.model = model;
         this.view = view;
         this.score = 0;
+        cardView = new CardView();
+        cardViewList = new ArrayList<>();
 
         // Adds an action listener to each card in the model
         for (Card card : model.getCards()) {
-            card.addActionListener(this);
+            CardView cardButton = new CardView();
+            cardButton.addActionListener(e -> cardClicked(cardButton, card));
+            view.addCardToView(cardButton);
         }
+
+        view.setCardList(getCardViewList());
+    }
+
+    private void cardClicked(CardView cardView, Card card) {
+        if (!card.isMatched() && !card.isShowing()) {
+            cardView.showCard(card.getValue());
+        }
+    }
+
+    public List<CardView> getCardViewList() {
+        return cardViewList;
     }
 
     /**
@@ -52,15 +73,15 @@ public class Controller implements ActionListener {
         if (!currentCard.isMatched() && !cardsBeingProcessed) {
             if (chosenCard == null) {
                 chosenCard = currentCard;
-                chosenCard.showCard(); // Shows the card clicked
+//                chosenCard.showCard(); // Shows the card clicked
             } else if (chosenCard == currentCard) { // Turn card if clicking the same one twice
-                chosenCard.hideCard();
+//                chosenCard.hideCard();
                 chosenCard = null;
             } else {
                 cardsBeingProcessed = true;  // Set to true to indicate that card are being processed
 
                 Card secondCard = currentCard;
-                currentCard.showCard(); // Shows the next card
+//                currentCard.showCard(); // Shows the next card
 
                 // Get values before starting the timer
                 int chosenCardValue = chosenCard.getValue();
@@ -72,8 +93,8 @@ public class Controller implements ActionListener {
                     public void actionPerformed(ActionEvent e) {
                         // Use the captured values instead of accessing chosenCard directly
                         if (chosenCardValue != secondCardValue) { // Hides the cards if not a match
-                            chosenCard.hideCard();
-                            secondCard.hideCard();
+//                            chosenCard.hideCard();
+//                            secondCard.hideCard();
                             streak = 1;  // Resets a streak if cards don't match
                         } else { // Otherwise its a match
                             chosenCard.setCardMatch(true);
