@@ -13,6 +13,6 @@ public class Lab1 {
      * @throws InterruptedException if a thread is interrupted during sleep
      */
     public static void main(String[] args) throws InterruptedException {
-        Runner.startThreads();
+        Runner.startThreads(); // Starts the threads
     }
 }
