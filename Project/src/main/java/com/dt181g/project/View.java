@@ -2,6 +2,7 @@ package com.dt181g.project;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class View extends JPanel {
 
@@ -12,32 +13,19 @@ public class View extends JPanel {
     private int birdWidth;
     private int birdHeight;
 
-    public View() {
-//        gamePanel = new GamePanel();
-//        add(gamePanel);
-//
-//        setSize(800, 800);
-//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        setTitle("Flappy Bird");
-//        setVisible(true);
+    private int obstacleX;
+    private int obstacleY;
+    private int obstacleWidth;
+    private int obstacleHeight;
+    private ArrayList<Rectangle> obstacles;
 
-//        JFrame frame = new JFrame("Flappy Bird");
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setSize(800, 800);
-//        frame.setResizable(false);
-//        frame.add(this);
-//        frame.setVisible(true);
+
+    public View() {
 
 
     }
 
-//    public void setbX(int value) {
-//        this.bX += value;
-//    }
-//
-//    public void setbY(int value) {
-//        this.bY += value;
-//    }
+
 
 
     public void updateBirdPosition(int x, int y, int width, int height) {
@@ -46,8 +34,16 @@ public class View extends JPanel {
         this.birdY = y;
         this.birdWidth = width;
         this.birdHeight = height;
-        System.out.println("Bird Position: x=" + birdX + ", y=" + birdY + ", width=" + birdWidth + ", height=" + birdHeight);
+//        System.out.println("Bird Position: x=" + birdX + ", y=" + birdY + ", width=" + birdWidth + ", height=" + birdHeight);
 
+
+        // Trigger a repaint
+        repaint();
+    }
+
+    public void updateObstaclePosition(ArrayList<Rectangle> obstacles) {
+        // Update the obstacle positions
+        this.obstacles = obstacles;
 
         // Trigger a repaint
         repaint();
@@ -69,7 +65,6 @@ public class View extends JPanel {
 
         g.setColor(Color.red);
         g.fillRect(birdX, birdY, birdWidth, birdHeight);
-//        g.fillRect(getWidth() / 2 - 10, getHeight() / 2 - 10, 40, 40);
 
         g.setColor(Color.ORANGE);
         g.fillRect(0, getHeight() - 120, getWidth(), 120);
@@ -77,7 +72,12 @@ public class View extends JPanel {
         g.setColor(Color.green);
         g.fillRect(0, getHeight() - 120, getWidth(), 20);
 
+        g.setColor(Color.green.darker());
 
+        // Draw obstacles
+        for (Rectangle obstacle : obstacles) {
+            g.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+        }
     }
 
 }

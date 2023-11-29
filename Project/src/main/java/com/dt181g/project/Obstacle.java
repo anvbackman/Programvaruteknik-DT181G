@@ -1,26 +1,24 @@
 package com.dt181g.project;
 
-import java.awt.*;
-
-public class Bird {
+public class Obstacle {
 
     private int x;
     private int y;
     private int width;
     private int height;
 
-    public Bird(int x, int y, int width, int height) {
+
+
+    public Obstacle(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-//        System.out.println("Bird is set with: " + this.x + y + width + height);
     }
 
-    public void setY(int value) {
-        this.y = value;
+    public void setX(int value) {
+        this.x += value;
     }
-
     public int getX() {
         return x;
     }
@@ -36,4 +34,5 @@ public class Bird {
     public int getHeight() {
         return height;
     }
+
 }
