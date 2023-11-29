@@ -14,6 +14,7 @@ public class Model {
     private boolean isStarted;
     private int yMotion;
     private int ticks;
+    private int score;
     private Random rand;
 
     private ArrayList<Rectangle> obstacles;
@@ -35,17 +36,25 @@ public class Model {
         return obstacle;
     }
 
+    public void gameOver() {
+        bird.setY(HEIGHT / 2 - 10);
 
+        yMotion = 0;
+        obstacles.clear();
+        score = 0;
+
+        for (int i = 0; i < 4; i++) {
+            addObstacle(true);
+        }
+
+        isGameOver = false;
+    }
 
     public void jump() {
-        if (isGameOver)
-        {
-            bird.setY(HEIGHT / 2 - 10);
-
-            yMotion = 0;
-
-            isGameOver = false;
-        }
+//        if (isGameOver)
+//        {
+//            newGame();
+//        }
 
         if (!isStarted)
         {
@@ -68,6 +77,14 @@ public class Model {
 
     public int getHeight() {
         return HEIGHT;
+    }
+
+    public void setScore(int value) {
+        this.score += value;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     public void setTicks(int value) {
@@ -102,6 +119,7 @@ public class Model {
 
     public void newGame() {
         yMotion = 0;
+        score = 0;
         obstacles = new ArrayList<>();
         bird = new Bird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 40, 40);
         for (int i = 0; i < 4; i++) {

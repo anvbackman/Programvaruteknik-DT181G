@@ -20,7 +20,7 @@ public class Controller implements ActionListener, KeyListener {
         this.model = model;
         this.view = view;
 
-        timer = new Timer(100, this);
+        timer = new Timer(20, this);
         timer.start();
 
     }
@@ -28,18 +28,19 @@ public class Controller implements ActionListener, KeyListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        int speed = 10;
 
-//        if (model.getGameOverStatus()) {
-//            model.getBird().setY(view.getHeight() + 1);
-//            view.repaint();
-//            return;
-//        }
+        if (model.getGameOverStatus()) {
+            model.getBird().setY(view.getHeight() + 1);
+            view.repaint();
+            return;
+        }
+
+        int speed = 10;
 
 
         model.setTicks(1);
-//        Rectangle b = new Rectangle(bird.getX(), bird.getY(), bird.getWidth(), bird.getHeight());
-//        view.updateBirdPosition(bird.getX(), bird.getY(), bird.getWidth(), bird.getHeight());
+        Rectangle b = new Rectangle(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
+
 
         if (model.getStartedStatus()) {
 
@@ -52,20 +53,40 @@ public class Controller implements ActionListener, KeyListener {
                 model.setYMotion(2);
             }
 
-            for (int i = 0; i < model.getObstacle().size(); i++)
-            {
+            for (int i = 0; i < model.getObstacle().size(); i++) {
                 Rectangle obstacles = model.getObstacle().get(i);
 
-                if (obstacles.x + obstacles.width < 0)
-                {
+                if (obstacles.x + obstacles.width < 0) {
                     model.getObstacle().remove(obstacles);
 
-                    if (obstacles.y == 0)
-                    {
+                    if (obstacles.y == 0) {
                         model.addObstacle(false);
                     }
                 }
             }
+
+
+            for (Rectangle o : model.getObstacle()) {
+                if (o.y == 0 && model.getBird().getX() + model.getBird().getWidth() / 2 > o.x + o.width / 2 - 10 && model.getBird().getX() + model.getBird().getWidth() / 2 < o.x + o.width / 2 + 10) {
+                    model.setScore(1);
+                }
+                Rectangle obs = new Rectangle(o.x, o.y, o.width, o.height);
+
+                if (obs.intersects(b)) {
+                    model.setGameOver(true);
+
+                    if (model.getBird().getX() <= o.x) {
+                        model.getBird().setX(o.y - model.getBird().getHeight());
+                    } else {
+                        if (o.y != 0) {
+                            model.getBird().setY(o.y - model.getBird().getHeight());
+                        } else if (model.getBird().getY() < o.height) {
+                            model.getBird().setY(o.height);
+                        }
+                    }
+                }
+            }
+
 
             model.getBird().setY(model.getBird().getY() + model.getYMotion());
 
@@ -79,24 +100,11 @@ public class Controller implements ActionListener, KeyListener {
 
             view.updateBirdPosition(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
             view.updateObstaclePosition(model.getObstacle());
-        }
 
-//
-//
-//
-////            model.getBird().setY(model.getBird().getY() + model.getYMotion());
-////            model.getBird().setY(model.getBird().getY() + model.getYMotion());
-//
-////            if (model.getBird().getY() > view.getHeight() - 120 || model.getBird().getY() < 0) {
-////                model.setGameOver(true);
-////            }
-////
-////            if (model.getBird().getY() + model.getYMotion() >= view.getHeight() - 120) {
-////                model.getBird().setY((view.getHeight() - 120) - model.getBird().getHeight());
-////            }
-//
-////            view.updateBirdPosition(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
-//
+
+        }
+        System.out.println("Score is now: " + model.getScore());
+
         view.repaint();
 
 

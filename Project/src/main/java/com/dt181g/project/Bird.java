@@ -21,6 +21,10 @@ public class Bird {
         this.y = value;
     }
 
+    public void setX(int value) {
+        this.y = value;
+    }
+
     public int getX() {
         return x;
     }
