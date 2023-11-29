@@ -67,7 +67,7 @@ public class Model {
                 yMotion = 0;
             }
             System.out.println("Bird Jumped");
-            yMotion -= 15;
+            yMotion -= 10;
         }
     }
 

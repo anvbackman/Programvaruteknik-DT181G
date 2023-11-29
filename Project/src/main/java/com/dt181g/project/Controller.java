@@ -19,10 +19,14 @@ public class Controller implements ActionListener, KeyListener {
     private BufferedImage birdImage;
     private BufferedImage birdImageJump;
 
+    private BufferedImage backgroundImage;
+    private int backgroundX;
+
     public Controller(Model model, View view) {
         this.model = model;
         this.view = view;
-
+        backgroundImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\bg.png");
+        backgroundX = 0;
         birdImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\flappy1.png");
         birdImageJump = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\flappy2.png");
 
@@ -50,10 +54,12 @@ public class Controller implements ActionListener, KeyListener {
 
         if (model.getStartedStatus()) {
 
-            for (int i = 0; i < model.getObstacle().size(); i++) {
-                Rectangle obstacles = model.getObstacle().get(i);
-                obstacles.x -= speed; // BIG IDK
-            }
+            view.updateBackgroundPosition();
+
+//            for (int i = 0; i < model.getObstacle().size(); i++) {
+//                Rectangle obstacles = model.getObstacle().get(i);
+//                obstacles.x -= speed; // BIG IDK
+//            }
 
             if (model.getTicks() % 2 == 0 && model.getYMotion() < 15) {
                 model.setYMotion(2);
@@ -67,8 +73,10 @@ public class Controller implements ActionListener, KeyListener {
                 view.setBirdImage(false, birdImageJump);
             }
 
+//             ORIGINAL CODE BEFORE STREAMS API
             for (int i = 0; i < model.getObstacle().size(); i++) {
                 Rectangle obstacles = model.getObstacle().get(i);
+                obstacles.x -= speed;
 
                 if (obstacles.x + obstacles.width < 0) {
                     model.getObstacle().remove(obstacles);
@@ -78,6 +86,17 @@ public class Controller implements ActionListener, KeyListener {
                     }
                 }
             }
+
+//            // Using Streams API
+//            model.getObstacle().forEach(obstacles -> obstacles.x -= speed);
+//
+//            // Remove obstacles based on the condition
+//            model.getObstacle().removeIf(obstacles -> obstacles.x + obstacles.width < 0);
+//
+//            // Add obstacles if needed
+//            model.getObstacle().stream()
+//                    .filter(obstacles -> obstacles.y == 0)
+//                    .forEach(obstacles -> model.addObstacle(false));
 
 
             for (Rectangle o : model.getObstacle()) {
@@ -110,6 +129,7 @@ public class Controller implements ActionListener, KeyListener {
 
             if (model.getBird().getY() + model.getBird().getHeight() >= view.getHeight() - 120) {
                 model.getBird().setY(view.getHeight() - 120 - model.getBird().getHeight());
+                model.setGameOver(true);
             }
 
             view.updateBirdPosition(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
