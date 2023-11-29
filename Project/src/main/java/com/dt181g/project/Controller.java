@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 
 public class Controller implements ActionListener, KeyListener {
 
@@ -15,10 +16,15 @@ public class Controller implements ActionListener, KeyListener {
 
     private Timer timer;
 
+    private BufferedImage birdImage;
+    private BufferedImage birdImageJump;
 
     public Controller(Model model, View view) {
         this.model = model;
         this.view = view;
+
+        birdImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\flappy1.png");
+        birdImageJump = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\flappy2.png");
 
         timer = new Timer(20, this);
         timer.start();
@@ -51,6 +57,14 @@ public class Controller implements ActionListener, KeyListener {
 
             if (model.getTicks() % 2 == 0 && model.getYMotion() < 15) {
                 model.setYMotion(2);
+            }
+
+            if (model.getYMotion() >= 0) {
+                view.setBirdImage(true, birdImage);
+
+            }
+            else {
+                view.setBirdImage(false, birdImageJump);
             }
 
             for (int i = 0; i < model.getObstacle().size(); i++) {
@@ -125,6 +139,7 @@ public class Controller implements ActionListener, KeyListener {
         }
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             model.jump();
+
 
         }
     }

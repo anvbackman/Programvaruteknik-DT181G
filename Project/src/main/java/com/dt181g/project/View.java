@@ -2,6 +2,7 @@ package com.dt181g.project;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class View extends JPanel {
@@ -19,12 +20,23 @@ public class View extends JPanel {
     private int obstacleHeight;
     private ArrayList<Rectangle> obstacles;
 
+    private BufferedImage currentBirdImage;
+    private BufferedImage birdImageJump;
+
+    private boolean birdState = true;
+
 
     public View() {
 
-
     }
 
+
+
+    public void setBirdImage(boolean state, BufferedImage currentBirdImage) {
+        birdState = state;
+        this.currentBirdImage = currentBirdImage;
+        repaint();
+    }
 
 
 
@@ -63,8 +75,17 @@ public class View extends JPanel {
         g.setColor(Color.cyan);
         g.fillRect(0, 0, getWidth(), getHeight());
 
-        g.setColor(Color.red);
-        g.fillRect(birdX, birdY, birdWidth, birdHeight);
+//        g.setColor(Color.red);
+//        g.fillRect(birdX, birdY, birdWidth, birdHeight);
+
+//        g.drawImage(birdImage, birdX, birdY, birdWidth, birdHeight, null);
+        if (birdState) {
+            // Bird is moving downwards or not moving
+            g.drawImage(currentBirdImage, birdX, birdY, birdWidth, birdHeight, null);
+        } else {
+            // Bird is moving upwards
+            g.drawImage(currentBirdImage, birdX, birdY, birdWidth, birdHeight, null);
+        }
 
         g.setColor(Color.ORANGE);
         g.fillRect(0, getHeight() - 120, getWidth(), 120);
