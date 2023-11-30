@@ -26,7 +26,9 @@ public class View extends JPanel {
     private boolean birdState = true;
     private BufferedImage backgroundImage;
     private BufferedImage groundImage;
-    private BufferedImage obstacleImage;
+//    private BufferedImage obstacleImage;
+    private BufferedImage obstacleImageTop;
+    private BufferedImage obstacleImageBottom;
 //    private BufferedImage backgroundImage;
     private int backgroundX;
 
@@ -37,7 +39,8 @@ public class View extends JPanel {
     public View() {
         backgroundImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\bg.png");
         groundImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\ground.png");
-        obstacleImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe1.png");
+        obstacleImageTop = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe1.png");
+        obstacleImageBottom = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe2.png");
         backgroundX = 0;
     }
 
@@ -119,6 +122,15 @@ public class View extends JPanel {
 
         // Draw obstacles
         for (Rectangle obstacle : obstacles) {
+            BufferedImage obstacleImage;
+
+            if (obstacle.y == 0) {
+                obstacleImage = obstacleImageTop;
+            }
+            else {
+                obstacleImage = obstacleImageBottom;
+            }
+
             g.drawImage(obstacleImage, obstacle.x, obstacle.y, obstacle.width, obstacle.height, null);
         }
         repaint();

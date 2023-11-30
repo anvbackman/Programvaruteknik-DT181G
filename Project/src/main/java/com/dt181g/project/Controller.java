@@ -65,6 +65,8 @@ public class Controller implements ActionListener, KeyListener {
                 model.setYMotion(2);
             }
 
+
+            // Changing image of bird when jumpint
             if (model.getYMotion() >= 0) {
                 view.setBirdImage(true, birdImage);
 
@@ -72,6 +74,11 @@ public class Controller implements ActionListener, KeyListener {
             else {
                 view.setBirdImage(false, birdImageJump);
             }
+
+
+
+
+
 
 //             ORIGINAL CODE BEFORE STREAMS API
             for (int i = 0; i < model.getObstacle().size(); i++) {
