@@ -13,23 +13,27 @@ public class View extends JPanel {
     private int birdY;
     private int birdWidth;
     private int birdHeight;
+    private int score;
 
     private int obstacleX;
     private int obstacleY;
     private int obstacleWidth;
     private int obstacleHeight;
-    private ArrayList<Rectangle> obstacles;
+    private ArrayList<Obstacle> obstacles;
 
     private BufferedImage currentBirdImage;
-
+    private BufferedImage obstacleImage;
 
     private boolean birdState = true;
     private BufferedImage backgroundImage;
     private BufferedImage groundImage;
 //    private BufferedImage obstacleImage;
-    private BufferedImage obstacleImageTop;
-    private BufferedImage obstacleImageBottom;
-//    private BufferedImage backgroundImage;
+//    private BufferedImage obstacleImageTop;
+//    private BufferedImage obstacleImageBottom;
+
+    private BufferedImage birdImage;
+    private BufferedImage birdImageJump;
+    //    private BufferedImage backgroundImage;
     private int backgroundX;
 
     private static final int BACKGROUND_SCROLL_SPEED = 5; // Adjust the speed as needed
@@ -39,8 +43,9 @@ public class View extends JPanel {
     public View() {
         backgroundImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\bg.png");
         groundImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\ground.png");
-        obstacleImageTop = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe1.png");
-        obstacleImageBottom = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe2.png");
+        obstacleImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe1.png");
+
+
         backgroundX = 0;
     }
 
@@ -56,6 +61,10 @@ public class View extends JPanel {
     }
 
 
+    public void updateScore(int value) {
+        this.score = value;
+    }
+
 
     public void updateBirdPosition(int x, int y, int width, int height) {
         // Update the bird position
@@ -70,7 +79,7 @@ public class View extends JPanel {
         repaint();
     }
 
-    public void updateObstaclePosition(ArrayList<Rectangle> obstacles) {
+    public void updateObstaclePosition(ArrayList<Obstacle> obstacles) {
         // Update the obstacle positions
         this.obstacles = obstacles;
 
@@ -118,21 +127,23 @@ public class View extends JPanel {
 
 
 
-        g.setColor(Color.green.darker());
+
 
         // Draw obstacles
-        for (Rectangle obstacle : obstacles) {
-            BufferedImage obstacleImage;
+        for (Obstacle obstacle : obstacles) {
 
-            if (obstacle.y == 0) {
-                obstacleImage = obstacleImageTop;
-            }
-            else {
-                obstacleImage = obstacleImageBottom;
-            }
+//            g.drawImage(obstacleImage, obstacle.getX(), obstacle.getY(), obstacle.getWidth(), obstacle.getHeight(), null);
+            g.setColor(Color.green.darker());
+            g.fillRect(obstacle.getX(), obstacle.getY(), obstacle.getWidth(), obstacle.getHeight());
 
-            g.drawImage(obstacleImage, obstacle.x, obstacle.y, obstacle.width, obstacle.height, null);
+
+
         }
+
+        g.setColor(Color.white);
+        g.setFont(new Font("Arial", 1, 25));
+        g.drawString(String.valueOf(score), getWidth() / 2 - 100, 100);
+
         repaint();
     }
 

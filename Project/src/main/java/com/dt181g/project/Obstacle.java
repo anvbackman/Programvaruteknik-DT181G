@@ -9,6 +9,7 @@ public class Obstacle {
 
 
 
+
     public Obstacle(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
@@ -34,5 +35,7 @@ public class Obstacle {
     public int getHeight() {
         return height;
     }
+
+
 
 }

@@ -17,7 +17,7 @@ public class Model {
     private int score;
     private Random rand;
 
-    private ArrayList<Rectangle> obstacles;
+    private ArrayList<Obstacle> obstacles;
 
     public Model() {
         rand = new Random();
@@ -30,6 +30,9 @@ public class Model {
 
     public Bird getBird() {
         return bird;
+    }
+    public Obstacle getObstacles() {
+        return obstacle;
     }
 
     public Obstacle getObstaclePosition() {
@@ -80,7 +83,9 @@ public class Model {
     }
 
     public void setScore(int value) {
-        this.score += value;
+        if (isStarted && !isGameOver) {
+            this.score += value;
+        }
     }
 
     public int getScore() {
@@ -127,7 +132,7 @@ public class Model {
         }
     }
 
-    public ArrayList<Rectangle> getObstacle() {
+    public ArrayList<Obstacle> getObstacle() {
         return obstacles;
     }
 
@@ -136,13 +141,13 @@ public class Model {
         int width = 100;
         int height = 50 + rand.nextInt(300);
 
-        if (isStarted) {
-            obstacles.add(new Rectangle(WIDTH + width + obstacles.size() * 300, HEIGHT - height - 120, width, height));
-            obstacles.add(new Rectangle(WIDTH + width + (obstacles.size() - 1) * 300, 0, width, HEIGHT - height - space));
+        if (state) {
+            obstacles.add(new Obstacle(WIDTH + width + obstacles.size() * 300, HEIGHT - height - 158, width, height)); //
+            obstacles.add(new Obstacle(WIDTH + width + (obstacles.size() - 1) * 300, 0, width, HEIGHT - height - space));
         }
         else {
-            obstacles.add(new Rectangle(obstacles.get(obstacles.size() - 1).x + 600, HEIGHT - height - 120, width, height));
-            obstacles.add(new Rectangle(obstacles.get(obstacles.size() - 1).x, 0, width, HEIGHT - height - space));
+            obstacles.add(new Obstacle(obstacles.get(obstacles.size() - 1).getX() + 600, HEIGHT - height - 158, width, height)); //
+            obstacles.add(new Obstacle(obstacles.get(obstacles.size() - 1).getX(), 0, width, HEIGHT - height - space));
         }
 
     }

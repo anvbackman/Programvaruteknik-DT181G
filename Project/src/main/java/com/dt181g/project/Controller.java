@@ -20,7 +20,10 @@ public class Controller implements ActionListener, KeyListener {
     private BufferedImage birdImageJump;
 
     private BufferedImage backgroundImage;
+    private BufferedImage obstacleImageTop;
+    private BufferedImage obstacleImageBottom;
     private int backgroundX;
+    private boolean lastObstacleIsTop = false;
 
     public Controller(Model model, View view) {
         this.model = model;
@@ -29,7 +32,8 @@ public class Controller implements ActionListener, KeyListener {
         backgroundX = 0;
         birdImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\flappy1.png");
         birdImageJump = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\flappy2.png");
-
+//        obstacleImageTop = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe1.png");
+//        obstacleImageBottom = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe2.png");
         timer = new Timer(20, this);
         timer.start();
 
@@ -70,8 +74,7 @@ public class Controller implements ActionListener, KeyListener {
             if (model.getYMotion() >= 0) {
                 view.setBirdImage(true, birdImage);
 
-            }
-            else {
+            } else {
                 view.setBirdImage(false, birdImageJump);
             }
 
@@ -79,20 +82,19 @@ public class Controller implements ActionListener, KeyListener {
 
 
 
-
 //             ORIGINAL CODE BEFORE STREAMS API
-            for (int i = 0; i < model.getObstacle().size(); i++) {
-                Rectangle obstacles = model.getObstacle().get(i);
-                obstacles.x -= speed;
+                for (int i = 0; i < model.getObstacle().size(); i++) {
+                    Obstacle obstacles = model.getObstacle().get(i);
+                    obstacles.setX(-speed);
 
-                if (obstacles.x + obstacles.width < 0) {
-                    model.getObstacle().remove(obstacles);
+                    if (obstacles.getX() + obstacles.getWidth() < 0) {
+                        model.getObstacle().remove(obstacles);
 
-                    if (obstacles.y == 0) {
-                        model.addObstacle(false);
+                        if (obstacles.getY() == 0) {
+                            model.addObstacle(false);
+                        }
                     }
                 }
-            }
 
 //            // Using Streams API
 //            model.getObstacle().forEach(obstacles -> obstacles.x -= speed);
@@ -106,50 +108,52 @@ public class Controller implements ActionListener, KeyListener {
 //                    .forEach(obstacles -> model.addObstacle(false));
 
 
-            for (Rectangle o : model.getObstacle()) {
-                if (o.y == 0 && model.getBird().getX() + model.getBird().getWidth() / 2 > o.x + o.width / 2 - 10 && model.getBird().getX() + model.getBird().getWidth() / 2 < o.x + o.width / 2 + 10) {
-                    model.setScore(1);
-                }
-                Rectangle obs = new Rectangle(o.x, o.y, o.width, o.height);
+                for (Obstacle o : model.getObstacle()) {
+                    if (o.getY() == 0 && model.getBird().getX() + model.getBird().getWidth() / 2 > o.getX() + o.getWidth() / 2 - 10 && model.getBird().getX() + model.getBird().getWidth() / 2 < o.getX() + o.getWidth() / 2 + 10) {
+                        model.setScore(1);
+                        view.updateScore(model.getScore());
+                    }
+                    Rectangle obs = new Rectangle(o.getX(), o.getY(), o.getWidth(), o.getHeight());
 
-                if (obs.intersects(b)) {
-                    model.setGameOver(true);
+                    if (obs.intersects(b)) {
+                        model.setGameOver(true);
 
-                    if (model.getBird().getX() <= o.x) {
-                        model.getBird().setX(o.y - model.getBird().getHeight());
-                    } else {
-                        if (o.y != 0) {
-                            model.getBird().setY(o.y - model.getBird().getHeight());
-                        } else if (model.getBird().getY() < o.height) {
-                            model.getBird().setY(o.height);
+                        if (model.getBird().getX() <= o.getX()) {
+                            model.getBird().setX(o.getY() - model.getBird().getHeight());
+                        } else {
+                            if (o.getY() != 0) {
+                                model.getBird().setY(o.getY() - model.getBird().getHeight());
+                            } else if (model.getBird().getY() < o.getHeight()) {
+                                model.getBird().setY(o.getHeight());
+                            }
                         }
                     }
                 }
+
+
+                model.getBird().setY(model.getBird().getY() + model.getYMotion());
+
+                if (model.getBird().getY() > view.getHeight() - 120 || model.getBird().getY() < 0) {
+                    model.setGameOver(true);
+                }
+
+                if (model.getBird().getY() + model.getBird().getHeight() >= view.getHeight() - 120) {
+                    model.getBird().setY(view.getHeight() - 120 - model.getBird().getHeight());
+                    model.setGameOver(true);
+                }
+
+                view.updateBirdPosition(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
+                view.updateObstaclePosition(model.getObstacle());
+
+
             }
+            System.out.println("Score is now: " + model.getScore());
 
-
-            model.getBird().setY(model.getBird().getY() + model.getYMotion());
-
-            if (model.getBird().getY() > view.getHeight() - 120 || model.getBird().getY() < 0) {
-                model.setGameOver(true);
-            }
-
-            if (model.getBird().getY() + model.getBird().getHeight() >= view.getHeight() - 120) {
-                model.getBird().setY(view.getHeight() - 120 - model.getBird().getHeight());
-                model.setGameOver(true);
-            }
-
-            view.updateBirdPosition(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
-            view.updateObstaclePosition(model.getObstacle());
+            view.repaint();
 
 
         }
-        System.out.println("Score is now: " + model.getScore());
 
-        view.repaint();
-
-
-    }
 
 
 
