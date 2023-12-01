@@ -96,16 +96,7 @@ public class Controller implements ActionListener, KeyListener {
                     }
                 }
 
-//            // Using Streams API
-//            model.getObstacle().forEach(obstacles -> obstacles.x -= speed);
-//
-//            // Remove obstacles based on the condition
-//            model.getObstacle().removeIf(obstacles -> obstacles.x + obstacles.width < 0);
-//
-//            // Add obstacles if needed
-//            model.getObstacle().stream()
-//                    .filter(obstacles -> obstacles.y == 0)
-//                    .forEach(obstacles -> model.addObstacle(false));
+
 
 
                 for (Obstacle o : model.getObstacle()) {
