@@ -62,14 +62,11 @@ public class GamePanel extends JPanel {
         startButton = new JButton();
         quitButton = new JButton();
 
-
+        setVisible(true);
         backgroundX = 0;
     }
 
-    public void setButtonVisible(boolean state) {
-        startButton.setVisible(state);
-        quitButton.setVisible(state);
-    }
+
 
     public void setQuitButton(ActionListener listener, String text) {
 

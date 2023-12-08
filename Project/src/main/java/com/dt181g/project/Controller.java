@@ -2,10 +2,7 @@ package com.dt181g.project;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 
 public class Controller implements GameController, ActionListener, KeyListener {
@@ -188,19 +185,32 @@ public class Controller implements GameController, ActionListener, KeyListener {
     @Override
     public void startGame() {
 
-        if (!model.getStartedStatus()) {
-            view.add(gamePanel);
-            gamePanel.setButtonVisible(true);
-            gamePanel.updateBackgroundPosition();
-            gamePanel.updateBirdPosition(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
-            gamePanel.updateObstaclePosition(model.getObstacle());
-            gamePanel.updateScore(0);
-            model.setStarted(true);
-            model.setGameOver(false);
-        }
-        else {
-            gamePanel.setButtonVisible(false);
-        }
+        buttonPanel.setButtonVisible(false);
+        view.add(gamePanel);
+        gamePanel.updateBackgroundPosition();
+        gamePanel.updateBirdPosition(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
+        gamePanel.updateObstaclePosition(model.getObstacle());
+        gamePanel.updateScore(0);
+//        model.setStarted(true);
+//        model.setGameOver(false);
+
+
+//        if (!model.getStartedStatus()) {
+//            view.add(gamePanel);
+//            view.add(buttonPanel);
+////            view.remove(buttonPanel);
+//            buttonPanel.setButtonVisible(true);
+//            gamePanel.updateBackgroundPosition();
+//            gamePanel.updateBirdPosition(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
+//            gamePanel.updateObstaclePosition(model.getObstacle());
+//            gamePanel.updateScore(0);
+//            model.setStarted(true);
+//            model.setGameOver(false);
+//
+//        }
+//        else {
+//
+//        }
 
 
 

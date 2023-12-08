@@ -19,6 +19,7 @@ public class ButtonPanel extends JPanel {
 
         add(startButton);
         add(quitButton);
+        setVisible(true);
     }
     public void setQuitButton(ActionListener listener) {
         quitButton.addActionListener(listener);
@@ -26,5 +27,10 @@ public class ButtonPanel extends JPanel {
 
     public void setStartButton(ActionListener listener) {
         startButton.addActionListener(listener);
+    }
+
+    public void setButtonVisible(boolean state) {
+        startButton.setVisible(state);
+        quitButton.setVisible(state);
     }
 }

@@ -36,6 +36,8 @@ public final class Project {
                 view.addKeyListener(controller);
                 view.add(gamePanel);
 
+
+
                 // Assuming this is the main frame
                 JFrame frame = view.getFrame();
                 frame.setVisible(true);

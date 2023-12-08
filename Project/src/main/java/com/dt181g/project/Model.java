@@ -25,9 +25,12 @@ public class Model {
 
         rand = new Random();
         isGameOver = false;
-        isStarted = true;
+        isStarted = false;
         isGameInitialized = false;
         obstacles = new ArrayList<>();
+        System.out.println("isStarted: " + isStarted);
+        System.out.println("isGameOver: " + isGameOver);
+        System.out.println("isGameInitialized: " + isGameInitialized);
 
 //        yMotion = 0;
 //        ticks = 0;
