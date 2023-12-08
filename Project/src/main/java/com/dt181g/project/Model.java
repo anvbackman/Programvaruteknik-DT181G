@@ -17,12 +17,18 @@ public class Model {
     private int score;
     private Random rand;
 
+    private boolean isGameInitialized;
     private ArrayList<Obstacle> obstacles;
 
+
     public Model() {
+
         rand = new Random();
         isGameOver = false;
         isStarted = true;
+        isGameInitialized = false;
+        obstacles = new ArrayList<>();
+
 //        yMotion = 0;
 //        ticks = 0;
         newGame();
@@ -53,11 +59,18 @@ public class Model {
         isGameOver = false;
     }
 
+    public void startGame() {
+        if (!isGameInitialized) {
+            newGame();  // Initialize the game only if it's not already initialized
+            isGameInitialized = true;
+        }
+    }
+
     public void jump() {
-//        if (isGameOver)
-//        {
-//            newGame();
-//        }
+        if (isGameOver)
+        {
+            newGame();
+        }
 
         if (!isStarted)
         {
@@ -123,10 +136,13 @@ public class Model {
     }
 
     public void newGame() {
-        yMotion = 0;
-        score = 0;
-        obstacles = new ArrayList<>();
         bird = new Bird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 40, 40);
+        yMotion = 0;
+        setScore(0);
+        obstacles.clear();
+
+
+
         for (int i = 0; i < 4; i++) {
             addObstacle(true);
         }

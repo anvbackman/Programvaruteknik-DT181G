@@ -17,24 +17,30 @@ public final class Project {
      * @param args command arguments.
      */
     public static void main(final String... args) {
+
+        // SwingUtilities.invokeLater(GUI::new);
+
+
+
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 Model model = new Model();
                 View view = new View();
-                Controller controller = new Controller(model, view);
+                GamePanel gamePanel = view.getGamePanel();
+                ButtonPanel buttonPanel = view.getButtonPanel();
 
+                Controller controller = new Controller(model, gamePanel);
+                gamePanel.setGameController(controller);
 
-                JFrame frame = new JFrame("Flappy Bird");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setSize(800, 800);
-                frame.setResizable(false);
-                frame.add(view);
+                view.addKeyListener(controller);
+                view.add(gamePanel);
+
+                // Assuming this is the main frame
+                JFrame frame = view.getFrame();
                 frame.setVisible(true);
 
-                // Add key listener to the frame
-                frame.addKeyListener(controller);
-//                view.setController(controller);
+
             }
         });
     }
