@@ -65,14 +65,14 @@ public class Controller implements GameController, ActionListener, KeyListener {
 //        };
 //        buttonPanel.setStartButton(startActionListener);
 
-//        // Create the startActionListener
-//        ActionListener startActionListener = new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                System.out.println("Starting the program...");
-//                startGame();
-//            }
-//        };
+        // Create the startActionListener
+        ActionListener infoActionListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(view, "Press space to start\nPress space to make the bird jump\nAvoid the obstacles to earn points\nAvoid the obstacles as they result in Game Over" +
+                        "\nAvoid the ground and the top of the screen as they result in Game Over\nClick Quit to exit", "Game Information", JOptionPane.INFORMATION_MESSAGE);
+            }
+        };
 
         // Create the quitActionListener
         ActionListener quitActionListener = new ActionListener() {
@@ -84,7 +84,7 @@ public class Controller implements GameController, ActionListener, KeyListener {
         };
 
         // Pass the quitActionListener to the ButtonPanel
-        buttonPanel = new ButtonPanel(quitActionListener);
+        buttonPanel = new ButtonPanel(infoActionListener, quitActionListener);
         view.setLayout(new BorderLayout());
         view.add(gamePanel, BorderLayout.CENTER);
         view.add(buttonPanel, BorderLayout.SOUTH);
@@ -106,6 +106,7 @@ public class Controller implements GameController, ActionListener, KeyListener {
 
         if (model.getGameOverStatus()) {
             model.getBird().setY(gamePanel.getHeight() + 1);
+
             gamePanel.repaint();
             return;
         }
@@ -169,6 +170,7 @@ public class Controller implements GameController, ActionListener, KeyListener {
 
                     if (obs.intersects(b)) {
                         model.setGameOver(true);
+                        gamePanel.setGameOver(true);
 
                         if (model.getBird().getX() <= o.getX()) {
                             model.getBird().setX(o.getY() - model.getBird().getHeight());
@@ -187,11 +189,13 @@ public class Controller implements GameController, ActionListener, KeyListener {
 
                 if (model.getBird().getY() > gamePanel.getHeight() - 120 || model.getBird().getY() < 0) {
                     model.setGameOver(true);
+                    gamePanel.setGameOver(true);
                 }
 
                 if (model.getBird().getY() + model.getBird().getHeight() >= gamePanel.getHeight() - 120) {
                     model.getBird().setY(gamePanel.getHeight() - 120 - model.getBird().getHeight());
                     model.setGameOver(true);
+                    gamePanel.setGameOver(true);
                 }
 
             gamePanel.updateBirdPosition(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
@@ -199,7 +203,7 @@ public class Controller implements GameController, ActionListener, KeyListener {
 
 
             }
-            System.out.println("Score is now: " + model.getScore());
+//            System.out.println("Score is now: " + model.getScore());
 
             gamePanel.repaint();
 
@@ -217,6 +221,7 @@ public class Controller implements GameController, ActionListener, KeyListener {
         gamePanel.updateScore(0);
         model.setStarted(true);
         model.setGameOver(false);
+        gamePanel.setGameOver(false);
 
 
 //        if (!model.getStartedStatus()) {
@@ -266,6 +271,7 @@ public class Controller implements GameController, ActionListener, KeyListener {
     public void keyPressed(KeyEvent e) {
         if (model.getGameOverStatus()) {
             model.setGameOver(false);
+            gamePanel.setGameOver(false);
             model.setStarted(true);
             model.newGame();
         }

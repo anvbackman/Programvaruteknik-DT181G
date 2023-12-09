@@ -8,16 +8,18 @@ import java.awt.event.ActionListener;
 public class ButtonPanel extends JPanel {
 
     private JButton quitButton;
-    private JButton startButton;
+    private JButton infoButton;
 
-    public ButtonPanel(ActionListener quitActionListener) {
+    public ButtonPanel(ActionListener infoActionListener, ActionListener quitActionListener) {
         setLayout(new FlowLayout());
 
-//        startButton = new JButton("RESTART");
-//        add(startButton);
-//
-//        // Add the provided ActionListener for the startButton
-//        startButton.addActionListener(startActionListener);
+        infoButton = new JButton("Game Info");
+        add(infoButton);
+
+        infoButton.setFocusable(false);
+
+        // Add the provided ActionListener for the infoButton
+        infoButton.addActionListener(infoActionListener);
 
         quitButton = new JButton("Quit");
         add(quitButton);
@@ -48,17 +50,17 @@ public class ButtonPanel extends JPanel {
 //        });
 //
 //    }
-    public void setQuitButton(ActionListener listener) {
-        System.out.println("quitButton set");
-        quitButton.addActionListener(listener);
+//    public void setQuitButton(ActionListener listener) {
+//        System.out.println("quitButton set");
+//        quitButton.addActionListener(listener);
+//    }
+//
+//    public void setStartButton(ActionListener listener) {
+//        this.startButton.addActionListener(listener);
+//    }
+//
+//    public void setButtonVisible(boolean state) {
+//        startButton.setVisible(state);
+//        quitButton.setVisible(state);
     }
 
-    public void setStartButton(ActionListener listener) {
-        this.startButton.addActionListener(listener);
-    }
-
-    public void setButtonVisible(boolean state) {
-        startButton.setVisible(state);
-        quitButton.setVisible(state);
-    }
-}

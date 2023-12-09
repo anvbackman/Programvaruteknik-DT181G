@@ -27,6 +27,7 @@ public class GamePanel extends JPanel {
     private BufferedImage obstacleImage;
 
     private boolean birdState = true;
+    private boolean isGameOver;
     private BufferedImage backgroundImage;
     private BufferedImage groundImage;
 //    private BufferedImage obstacleImage;
@@ -61,13 +62,17 @@ public class GamePanel extends JPanel {
 //        initializeButton();
         startButton = new JButton();
         quitButton = new JButton();
+        isGameOver = false;
 
 
         setVisible(true);
         backgroundX = 0;
     }
 
-
+    public void setGameOver(boolean state) {
+        isGameOver = state;
+        repaint();
+    }
 
     public void setQuitButton(ActionListener listener, String text) {
 
@@ -160,6 +165,13 @@ public class GamePanel extends JPanel {
 
     private void doDraw(Graphics g) {
 
+//        if (isGameOver) {
+//            System.out.println("Is game over");
+//            g.setColor(Color.red);
+//            g.setFont(new Font("Arial", Font.BOLD, 40));
+//
+//            g.drawString("Game Over! Press Space to start!", getWidth() / 2, getHeight() / 2 - 50);
+//        }
 
 
 //        g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null);
@@ -205,7 +217,7 @@ public class GamePanel extends JPanel {
 
         g.setColor(Color.white);
         g.setFont(new Font("Arial", 1, 25));
-        g.drawString(String.valueOf(score), getWidth() / 2 - 100, 100);
+        g.drawString("Score: " + String.valueOf(score), getWidth() / 2 - 50, 50);
 
         repaint();
     }
