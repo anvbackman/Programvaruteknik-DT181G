@@ -2,6 +2,7 @@ package com.dt181g.project;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ButtonPanel extends JPanel {
@@ -9,24 +10,42 @@ public class ButtonPanel extends JPanel {
     private JButton quitButton;
     private JButton startButton;
 
-    public ButtonPanel() {
-//        startButton = new JButton();
-//        quitButton = new JButton();
-        setLayout(new FlowLayout()); // Use FlowLayout for simplicity
+    public ButtonPanel(ActionListener quitActionListener) {
+        setLayout(new FlowLayout());
 
-        startButton = new JButton("Start");
         quitButton = new JButton("Quit");
-
-        add(startButton);
         add(quitButton);
-        setVisible(true);
+
+        // Add the provided ActionListener for the quitButton
+        quitButton.addActionListener(quitActionListener);
     }
+
+//    public ButtonPanel() {
+//
+//        setLayout(new FlowLayout());
+//
+//        startButton = new JButton("Start");
+//        quitButton = new JButton("Quit");
+//        add(startButton);
+//        add(quitButton);
+//
+//        // Add ActionListener for the quitButton
+//        quitButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                System.out.println("Quitting the program...");
+//                System.exit(0);
+//            }
+//        });
+//
+//    }
     public void setQuitButton(ActionListener listener) {
+        System.out.println("quitButton set");
         quitButton.addActionListener(listener);
     }
 
     public void setStartButton(ActionListener listener) {
-        startButton.addActionListener(listener);
+        this.startButton.addActionListener(listener);
     }
 
     public void setButtonVisible(boolean state) {

@@ -29,13 +29,14 @@ public class Controller implements GameController, ActionListener, KeyListener {
         this.model = model;
         view = new View();
         this.gamePanel = gamePanel;
-        buttonPanel = new ButtonPanel();
+//        buttonPanel = new ButtonPanel();
 //        view.setGameController(this);
-        view.add(buttonPanel);
-        view.setLayout(null);
-        gamePanel.setBounds(0, 0, 800, 800);
-        buttonPanel.setBounds(0, 600, 800, 200);
+//        view.add(buttonPanel);
+//        view.setLayout(null);
+//        gamePanel.setBounds(0, 0, 800, 800);
+//        buttonPanel.setBounds(0, 600, 800, 200);
         view.addKeyListener(this);
+//        view.add(gamePanel);
 
         backgroundImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\bg.png");
         backgroundX = 0;
@@ -45,25 +46,39 @@ public class Controller implements GameController, ActionListener, KeyListener {
 //        obstacleImageBottom = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe2.png");
 //        view.setQuitButton(this, "Quit");
 
+//        ActionListener quitActionListener = new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                System.out.println("Quitted");
+//                System.exit(0);
+//            }
+//        };
+//        buttonPanel.setQuitButton(quitActionListener);
+//
+//        ActionListener startActionListener = new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                System.out.println("Started");
+//                startGame();
+////                gamePanel.requestFocusInWindow();
+//            }
+//        };
+//        buttonPanel.setStartButton(startActionListener);
+
+        // Create the quitActionListener
         ActionListener quitActionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Quitted");
+                System.out.println("Quitting the program...");
                 System.exit(0);
             }
         };
-        buttonPanel.setQuitButton(quitActionListener);
 
-        ActionListener startActionListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Started");
-                startGame();
-//                gamePanel.requestFocusInWindow();
-            }
-        };
-        buttonPanel.setStartButton(startActionListener);
-
+        // Pass the quitActionListener to the ButtonPanel
+        buttonPanel = new ButtonPanel(quitActionListener);
+        view.setLayout(new BorderLayout());
+        view.add(gamePanel, BorderLayout.CENTER);
+        view.add(buttonPanel, BorderLayout.SOUTH);
 
 
         timer = new Timer(20, this);

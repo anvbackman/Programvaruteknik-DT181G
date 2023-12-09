@@ -19,16 +19,33 @@ public class View extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 800);
 
-        buttonPanel = new ButtonPanel();
+//        buttonPanel = new ButtonPanel();
         gamePanel = new GamePanel();
 
-
-
 //        setLayout(new BorderLayout());
-//        add(gamePanel);
+//        add(gamePanel, BorderLayout.CENTER);
 //        add(buttonPanel, BorderLayout.SOUTH);
 
         setVisible(true);
+
+
+//        buttonPanel = new ButtonPanel();
+//        gamePanel = new GamePanel();
+//
+//
+//
+//        setLayout(new BorderLayout());
+//        add(gamePanel, BorderLayout.CENTER);
+////        add(buttonPanel, BorderLayout.SOUTH);
+//
+//        setButtonPanel(buttonPanel);
+//
+//        setVisible(true);
+    }
+
+    public void setButtonPanel(ButtonPanel buttonPanel) {
+        this.buttonPanel = buttonPanel;
+        add(buttonPanel, BorderLayout.SOUTH);
     }
 
     public GamePanel getGamePanel() {

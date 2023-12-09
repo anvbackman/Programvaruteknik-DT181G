@@ -26,21 +26,16 @@ public final class Project {
             @Override
             public void run() {
                 Model model = new Model();
-                View view = new View();
-                GamePanel gamePanel = view.getGamePanel();
-                ButtonPanel buttonPanel = view.getButtonPanel();
+
+                GamePanel gamePanel = new GamePanel();
+//                ButtonPanel buttonPanel = new ButtonPanel();
 
                 Controller controller = new Controller(model, gamePanel);
                 gamePanel.setGameController(controller);
 
-                view.addKeyListener(controller);
-                view.add(gamePanel);
+//                View view = new View();
+//                view.setButtonPanel(buttonPanel);
 
-
-
-                // Assuming this is the main frame
-                JFrame frame = view.getFrame();
-                frame.setVisible(true);
 
 
             }
