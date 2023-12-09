@@ -13,11 +13,20 @@ public class ButtonPanel extends JPanel {
     public ButtonPanel(ActionListener quitActionListener) {
         setLayout(new FlowLayout());
 
+//        startButton = new JButton("RESTART");
+//        add(startButton);
+//
+//        // Add the provided ActionListener for the startButton
+//        startButton.addActionListener(startActionListener);
+
         quitButton = new JButton("Quit");
         add(quitButton);
 
+        quitButton.setFocusable(false);
+
         // Add the provided ActionListener for the quitButton
         quitButton.addActionListener(quitActionListener);
+
     }
 
 //    public ButtonPanel() {

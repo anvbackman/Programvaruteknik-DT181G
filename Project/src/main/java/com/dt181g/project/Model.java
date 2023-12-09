@@ -32,8 +32,6 @@ public class Model {
         System.out.println("isGameOver: " + isGameOver);
         System.out.println("isGameInitialized: " + isGameInitialized);
 
-//        yMotion = 0;
-//        ticks = 0;
         newGame();
     }
 

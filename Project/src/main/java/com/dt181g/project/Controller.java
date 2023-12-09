@@ -65,6 +65,15 @@ public class Controller implements GameController, ActionListener, KeyListener {
 //        };
 //        buttonPanel.setStartButton(startActionListener);
 
+//        // Create the startActionListener
+//        ActionListener startActionListener = new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                System.out.println("Starting the program...");
+//                startGame();
+//            }
+//        };
+
         // Create the quitActionListener
         ActionListener quitActionListener = new ActionListener() {
             @Override
@@ -200,14 +209,14 @@ public class Controller implements GameController, ActionListener, KeyListener {
     @Override
     public void startGame() {
 
-        buttonPanel.setButtonVisible(false);
+//        buttonPanel.setButtonVisible(false);
         view.add(gamePanel);
         gamePanel.updateBackgroundPosition();
         gamePanel.updateBirdPosition(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
         gamePanel.updateObstaclePosition(model.getObstacle());
         gamePanel.updateScore(0);
-//        model.setStarted(true);
-//        model.setGameOver(false);
+        model.setStarted(true);
+        model.setGameOver(false);
 
 
 //        if (!model.getStartedStatus()) {
