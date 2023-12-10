@@ -13,7 +13,7 @@ In order to do so, the project will aim to accomplish the following purposes:
 * The implementation need to include the use of atomic updates
 * The implementation need to include at least 3 unique Swing components
 * The implementation need to include at least 1 unique Swing layout
-* The implementation need to include at least 2 design patterns
+* The implementation need to include at least 2 design patterns not including the MVC pattern
 * The implementation need to conform to the MVC pattern
 
 ## Procedures
@@ -48,6 +48,64 @@ Based on the above we may establish that the assigned goal: "The implementation 
 has been accomplished. By using a Swing Timer for the UI updates and the background thread for the background processing,
 the implementation achieves a separation between the two. The invokeLater method is then used to update 
 Swing components safely from the background thread.
+
+#### Synchronization 
+In the Model class the getObstacle and addObstacle methods are implemented using synchronized. This ensures
+that when multiple threads try to access the methods, only one thread can execute them at a time.
+Thus preventing potential issues related to modification of the obstacles list.
+
+Based on the above we may establish that the assigned goal: "The implementation need to include synchronization of parallel processes"
+has been accomplished. By marking said methods with synchronized, the code ensures that the resources are accessed
+safely, thus minimizing riskt that can arise in a multithread environment.
+
+#### Atomic updates
+To ensure that shared data is accessed and modified safely in a thread, the use of atomic updates is crusial.
+In the Model class atomic updates are used for managing the game score. This by the use of AtomicInteger.
+The score can then safely be incremented, reset and retrieved from the Controller.
+
+Based on the above we may establish that the assigned goal: "The implementation need to include the use of atomic updates"
+has been accomplished. This due to the implementation ensuring atomic updates regarding the score of the game
+with the use of AtomicInteger methods. Providing thread safety.
+
+#### Swing Components
+The implementation includes the Swing components JFrame in the View class which is used in the View class to represent the main 
+window of the game by creating the GUI window with its defined configuration.
+The implementation also includes the JPanel in the GamePanel class which is used to manage the rendering
+of the game, such as the background, bird, obstacles and ground.
+Lastly the implementation includes the JButton component in the ButtonPanel class, which are used for the
+Game Info button and the Quit button. These button each have their own action listeners to handle user interaction.
+
+Based on the above we may establish that the assigned goal: "The implementation need to include at least 3 unique Swing components"
+has been accomplished. The implementation contains three different Swing components used in the game.
+These includes the main window frame and panels for rendering the game and create buttons.
+
+#### Swing Layout
+The implementation includes the use of the FlowLayout in the ButtonLabel due to its simplicity in
+arranging the buttons from the left to right, making the position easy to control.
+
+Based on the above we may establish that the assigned goal: "The implementation need to include at least 1 unique Swing layout"
+has been accomplished. This by implementing at least one Swing Layout, which in this case were the FlowLayout
+due to its ease of use.
+
+#### Additional design patterns
+The implementation incorporates the Observer pattern which is used between the Model class and Controller class
+by notifying the Controller when the score is updated in the Model class.
+The implementation also incorporates the Factory Method pattern which is used to create 
+the Bird and Obstacle objects. Where the ConcreteGameObject class acts as a factory for creating said objects.
+
+Based on the above we may establish that the assigned goal: "The implementation need to include at least 2 design patterns not including the MVC pattern"
+has been accomplished. This due to the use of the Observer pattern to notify the Controller of updates to the score
+and the Factory Method for a flexible way of creating objects.
+
+#### The MVC pattern
+The game make use of the Models, Views and Controllers in its implementation, while making sure that
+the communication between the roles complies with the rules. The Model and View is implemented to not
+communicate with each other and rely on the Controller to update the game logic and trigger rendering.
+
+Based on the above we may establish that the assigned goal: "The implementation need to conform to the MVC pattern"
+has been accomplished. This since the implementation has been made so that changes to the logic and rendering
+only is made through the controller. Not only does the Model and View not know about each other, they
+don't know about the Controller either.
 
 ### Alternative Approaches
 [replace this with relevant information]
