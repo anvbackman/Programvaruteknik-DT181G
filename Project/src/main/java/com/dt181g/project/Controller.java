@@ -18,8 +18,6 @@ public class Controller implements GameController, ActionListener, KeyListener, 
     private Timer timer;
     private BufferedImage birdImage;
     private BufferedImage birdImageJump;
-    private BufferedImage backgroundImage;
-    private int backgroundX;
     private boolean lastObstacleIsTop = false;
 
     /**
@@ -34,21 +32,12 @@ public class Controller implements GameController, ActionListener, KeyListener, 
         view.addKeyListener(this);
         model.addObserver(this);
 
-
-
-
-
-
+        // Loading images for the bird to be used
         birdImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\flappy1.png");
         birdImageJump = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\flappy2.png");
-//        obstacleImageTop = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe1.png");
-//        obstacleImageBottom = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe2.png");
-//        view.setQuitButton(this, "Quit");
 
 
-
-
-        // Create the startActionListener
+        // Create the infoActionListener used to show game information
         ActionListener infoActionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -57,7 +46,7 @@ public class Controller implements GameController, ActionListener, KeyListener, 
             }
         };
 
-        // Create the quitActionListener
+        // Create the quitActionListener used to quit the game
         ActionListener quitActionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -66,57 +55,57 @@ public class Controller implements GameController, ActionListener, KeyListener, 
             }
         };
 
-        // Pass the quitActionListener to the ButtonPanel
+        // Passes the infoActionListener and quitActionListener to the ButtonPanel
         buttonPanel = new ButtonPanel(infoActionListener, quitActionListener);
+
+        // Setting up the layout of the components
         view.setLayout(new BorderLayout());
         view.add(gamePanel, BorderLayout.CENTER);
         view.add(buttonPanel, BorderLayout.SOUTH);
 
+        // Also gives the game information at the start of the game
         JOptionPane.showMessageDialog(view, "Press space to start\nPress space to make the bird jump\nAvoid the obstacles to earn points\nAvoid the obstacles as they result in Game Over" +
                 "\nAvoid the ground and the top of the screen as they result in Game Over\nClick Quit to exit", "Game Information", JOptionPane.INFORMATION_MESSAGE);
+
+        // Setting up the game timer
         timer = new Timer(20, this);
         timer.start();
-
-
-
     }
 
+    /**
+     * Handles the actionPerformed event for the timer
+     * @param e the ActionEvent triggered by the timer
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 
-
-
-
+        // Updates logic and render when game is over
         if (model.getGameOverStatus()) {
             model.getBird().setY(gamePanel.getHeight() + 1);
             model.resetScore();
-
-
-
             gamePanel.repaint();
             return;
         }
 
+        // Sets the speed and ticks
         int speed = 10;
-
-
         model.setTicks(1);
+
+        // Creates a rectangle of the bird to be used to check for intersects with obstacles later on
         Rectangle b = new Rectangle(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
 
-
+        // If game is started
         if (model.getStartedStatus()) {
-//            gamePanel.updateScore(model.getScore());
+            // Updates the background and adds obstacles
             gamePanel.updateBackgroundPosition();
             model.addObstacle(true);
 
-
-
+            // If number of ticks is even and the vertical motion is less than 15
             if (model.getTicks() % 2 == 0 && model.getYMotion() < 15) {
-                model.setYMotion(2);
+                model.setYMotion(2); // Then set the vertical motion to 2 to control the acceleration
             }
 
-
-            // Changing image of bird when jumpint
+            // Changing image of bird when jumping
             if (model.getYMotion() >= 0) {
                 gamePanel.setBirdImage(true, birdImage);
 
@@ -124,106 +113,65 @@ public class Controller implements GameController, ActionListener, KeyListener, 
                 gamePanel.setBirdImage(false, birdImageJump);
             }
 
-
-//             ORIGINAL CODE BEFORE STREAMS API
+            // Iterates through the list of obstacles retreives current obstacle and moves the obstacle to the left at the
+            // specified speed
             for (int i = 0; i < model.getObstacle().size(); i++) {
                 Obstacle obstacles = model.getObstacle().get(i);
                 obstacles.setX(-speed);
 
+                // Check if obstacle has moved past the screen to be removed
                 if (obstacles.getX() + obstacles.getWidth() < 0) {
                     model.getObstacle().remove(obstacles);
-
-                    if (obstacles.getY() == 0) {
-                        model.addObstacle(false);
-                    }
                 }
             }
 
-
-
-
-
-
+            // Checks if birds coordinates passes between the obstacles to increment the score
             for (Obstacle o : model.getObstacle()) {
                 if (o.getY() == 0 && model.getBird().getX() + model.getBird().getWidth() / 2 > o.getX() + o.getWidth() / 2 - 10 && model.getBird().getX() + model.getBird().getWidth() / 2 < o.getX() + o.getWidth() / 2 + 10) {
-
-
-                    model.updateScore();
-                    System.out.println("Incremented score: " + model.getScore());
-
+                    model.updateScore(); // Updates the score in the Model
                 }
-                Rectangle obs = new Rectangle(o.getX(), o.getY(), o.getWidth(), o.getHeight());
 
+                // Creates a rectangle based on the obstacles and checks for collisions between bird and obstacles
+                Rectangle obs = new Rectangle(o.getX(), o.getY(), o.getWidth(), o.getHeight());
                 if (obs.intersects(b)) {
+                    // If there is a collision the game is set to game over
                     model.setGameOver(true);
                     gamePanel.setGameOver(true);
-
-                    if (model.getBird().getX() <= o.getX()) {
-                        model.getBird().setX(o.getY() - model.getBird().getHeight());
-                    } else {
-                        if (o.getY() != 0) {
-                            model.getBird().setY(o.getY() - model.getBird().getHeight());
-                        } else if (model.getBird().getY() < o.getHeight()) {
-                            model.getBird().setY(o.getHeight());
-                        }
-                    }
                 }
             }
 
-
+            // Updates the birds virtical position based on current position
             model.getBird().setY(model.getBird().getY() + model.getYMotion());
 
+            // If the bird is out of bounds (touches the top part of the screen) set game over
             if (model.getBird().getY() > gamePanel.getHeight() - 120 || model.getBird().getY() < 0) {
                 model.setGameOver(true);
                 gamePanel.setGameOver(true);
             }
 
+            // If the bird touches the ground, game is set to game over
             if (model.getBird().getY() + model.getBird().getHeight() >= gamePanel.getHeight() - 120) {
                 model.getBird().setY(gamePanel.getHeight() - 120 - model.getBird().getHeight());
                 model.setGameOver(true);
                 gamePanel.setGameOver(true);
             }
 
+            // Updates the GamePanel with the current bird and obstacle positions
             gamePanel.updateBirdPosition(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
             gamePanel.updateObstaclePosition(model.getObstacle());
-
-
         }
-//            System.out.println("Score is now: " + model.getScore());
-
+        // Calls repaint
         gamePanel.repaint();
-
-
     }
 
-    @Override
-    public void startGame() {
 
-//        buttonPanel.setButtonVisible(false);
-        view.add(gamePanel);
-        gamePanel.updateBackgroundPosition();
-        gamePanel.updateBirdPosition(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
-        gamePanel.updateObstaclePosition(model.getObstacle());
-
-        model.setStarted(true);
-        model.setGameOver(false);
-        gamePanel.setGameOver(false);
-
-
-    }
-
-//    private void generateObstacles() {
-//        model.addObstacle(true);
-//    }
-
+    /**
+     * Method to override the observer
+     */
     @Override
     public void updateObserver() {
-        // Update the GamePanel based on changes in the Model
         System.out.println("Observer updated");
-        gamePanel.updateScore(model.getScore());
-//        gamePanel.updateBackgroundPosition();
-//        gamePanel.updateBirdPosition(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
-//        gamePanel.updateObstaclePosition(model.getObstacle());
+        gamePanel.updateScore(model.getScore()); // This calls the updateObserver method in the Model class
         gamePanel.repaint();
     }
 
@@ -234,21 +182,21 @@ public class Controller implements GameController, ActionListener, KeyListener, 
 
     @Override
     public void keyPressed(KeyEvent e) {
+        // Check if game is over
         if (model.getGameOverStatus()) {
+            // Then reset game states
             model.setGameOver(false);
             gamePanel.setGameOver(false);
             model.setStarted(true);
             model.newGame();
         }
+        // If space key is pressed the bird jump
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             model.jump();
-
-
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-
     }
 }
