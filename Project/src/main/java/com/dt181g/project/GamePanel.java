@@ -17,10 +17,7 @@ public class GamePanel extends JPanel {
     private int birdHeight;
     private int score;
 
-    private int obstacleX;
-    private int obstacleY;
-    private int obstacleWidth;
-    private int obstacleHeight;
+
     private ArrayList<Obstacle> obstacles = new ArrayList<>();
 
     private BufferedImage currentBirdImage;
@@ -48,11 +45,7 @@ public class GamePanel extends JPanel {
     private static final int BACKGROUND_WIDTH = 800;
     private static final int BACKGROUND_OVERLAP = 120;
 
-    private String restartButtonText;
-    private String quitButtonText;
-    private ActionListener listener;
-//    private MenuButton startButton;
-//    private MenuButton quitButton;
+
 
 
 
@@ -75,38 +68,6 @@ public class GamePanel extends JPanel {
         isGameOver = state;
         repaint();
     }
-
-    public void setQuitButton(ActionListener listener, String text) {
-
-//        JButton button = new JButton(text);
-//        button.addActionListener(listener);
-//        add(button);
-
-//        this.requestFocusInWindow();
-    }
-
-    public void setStartButton(ActionListener listener, String text) {
-//        JButton button = new JButton(text);
-//        button.addActionListener(listener);
-//        add(button);
-    }
-
-//    public void initializeButton() {
-//        ActionListener quitActionListener = new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                System.exit(0);
-//            }
-//
-////        restartButton = new JButton(restartButtonText);
-////        restartButton.addActionListener(new ActionListener() {
-////            @Override
-////            public void actionPerformed(ActionEvent e) {
-////
-////            }
-////        });
-////        add(restartButton);
-//    }
 
 
 
@@ -158,11 +119,7 @@ public class GamePanel extends JPanel {
         repaint();
     }
 
-//    public void paintStartScreen(boolean isStartScreen) {
-//        if (isStartScreen) {
-//
-//        }
-//    }
+
 
     @Override
     public void paintComponent(Graphics g) {

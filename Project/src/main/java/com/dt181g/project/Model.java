@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Model {
 
     private Bird bird;
-    private Obstacle obstacle;
+
     private int WIDTH = 800;
     private int HEIGHT = 800;
     private boolean isGameOver;
@@ -43,27 +43,9 @@ public class Model {
     public Bird getBird() {
         return bird;
     }
-    public Obstacle getObstacles() {
-        return obstacle;
-    }
 
-    public Obstacle getObstaclePosition() {
-        return obstacle;
-    }
 
-//    public void gameOver() {
-//        bird.setY(HEIGHT / 2 - 10);
-//
-//        yMotion = 0;
-//        obstacles.clear();
-//        score = 0;
-//
-//        for (int i = 0; i < 4; i++) {
-//            addObstacle(true);
-//        }
-//
-//        isGameOver = false;
-//    }
+
 
 //    public void playJumpSound() {
 //        try {
@@ -98,13 +80,7 @@ public class Model {
         }
     }
 
-    public int getWidth() {
-        return WIDTH;
-    }
 
-    public int getHeight() {
-        return HEIGHT;
-    }
 
     public void updateScore() {
         score.incrementAndGet();
@@ -114,17 +90,6 @@ public class Model {
         score.set(0);
     }
 
-//    public void setScore(int value) {
-//        if (isStarted && !isGameOver) {
-//            this.score += value;
-//        }
-//        if (isStarted && isGameOver) {
-//
-//        }
-////        if (isGameOver) {
-////            this.score = 0;
-////        }
-//    }
 
     public int getScore() {
         return score.get();
@@ -192,8 +157,6 @@ public class Model {
         }
 
     }
-
-
 
 
 }

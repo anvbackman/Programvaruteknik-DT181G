@@ -28,14 +28,10 @@ public final class Project {
                 Model model = new Model();
 
                 GamePanel gamePanel = new GamePanel();
-//                ButtonPanel buttonPanel = new ButtonPanel();
+
 
                 Controller controller = new Controller(model, gamePanel);
                 gamePanel.setGameController(controller);
-
-//                View view = new View();
-//                view.setButtonPanel(buttonPanel);
-
 
 
             }

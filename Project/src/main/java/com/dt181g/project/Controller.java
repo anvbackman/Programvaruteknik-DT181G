@@ -11,7 +11,7 @@ public class Controller implements GameController, ActionListener, KeyListener {
     private View view;
     private GamePanel gamePanel;
     private ButtonPanel buttonPanel;
-    private Bird bird;
+
 
     private Timer timer;
 
@@ -19,24 +19,18 @@ public class Controller implements GameController, ActionListener, KeyListener {
     private BufferedImage birdImageJump;
 
     private BufferedImage backgroundImage;
-    private BufferedImage obstacleImageTop;
-    private BufferedImage obstacleImageBottom;
+
     private int backgroundX;
     private boolean lastObstacleIsTop = false;
-    private JButton quitButton;
+
 
     public Controller(Model model, GamePanel gamePanel) {
         this.model = model;
         view = new View();
         this.gamePanel = gamePanel;
-//        buttonPanel = new ButtonPanel();
-//        view.setGameController(this);
-//        view.add(buttonPanel);
-//        view.setLayout(null);
-//        gamePanel.setBounds(0, 0, 800, 800);
-//        buttonPanel.setBounds(0, 600, 800, 200);
+
         view.addKeyListener(this);
-//        view.add(gamePanel);
+
 
 
 
@@ -85,7 +79,7 @@ public class Controller implements GameController, ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+
 
         if (model.getGameOverStatus()) {
             model.getBird().setY(gamePanel.getHeight() + 1);
@@ -208,42 +202,6 @@ public class Controller implements GameController, ActionListener, KeyListener {
         gamePanel.setGameOver(false);
 
 
-//        if (!model.getStartedStatus()) {
-//            view.add(gamePanel);
-//            view.add(buttonPanel);
-////            view.remove(buttonPanel);
-//            buttonPanel.setButtonVisible(true);
-//            gamePanel.updateBackgroundPosition();
-//            gamePanel.updateBirdPosition(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
-//            gamePanel.updateObstaclePosition(model.getObstacle());
-//            gamePanel.updateScore(0);
-//            model.setStarted(true);
-//            model.setGameOver(false);
-//
-//        }
-//        else {
-//
-//        }
-
-
-
-
-////        model.setStarted(true);
-////        this.view.getContentPane();
-//        model.startGame();
-//
-//        // Reset the view
-//        gamePanel.updateBackgroundPosition();
-//        gamePanel.updateBirdPosition(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
-//        gamePanel.updateObstaclePosition(model.getObstacle());
-//        gamePanel.updateScore(0);
-//
-//        // Set the game as started
-//        model.setStarted(true);
-//        model.setGameOver(false);
-//
-//        // Trigger a repaint
-//        gamePanel.repaint();
     }
 
     @Override

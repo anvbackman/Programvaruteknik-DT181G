@@ -31,36 +31,6 @@ public class ButtonPanel extends JPanel {
 
     }
 
-//    public ButtonPanel() {
-//
-//        setLayout(new FlowLayout());
-//
-//        startButton = new JButton("Start");
-//        quitButton = new JButton("Quit");
-//        add(startButton);
-//        add(quitButton);
-//
-//        // Add ActionListener for the quitButton
-//        quitButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                System.out.println("Quitting the program...");
-//                System.exit(0);
-//            }
-//        });
-//
-//    }
-//    public void setQuitButton(ActionListener listener) {
-//        System.out.println("quitButton set");
-//        quitButton.addActionListener(listener);
-//    }
-//
-//    public void setStartButton(ActionListener listener) {
-//        this.startButton.addActionListener(listener);
-//    }
-//
-//    public void setButtonVisible(boolean state) {
-//        startButton.setVisible(state);
-//        quitButton.setVisible(state);
+
     }
 
