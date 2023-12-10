@@ -96,11 +96,25 @@ public class Model {
         return HEIGHT;
     }
 
-    public void setScore(int value) {
-        if (isStarted && !isGameOver) {
-            this.score += value;
-        }
+    public void updateScore() {
+        score++;
     }
+
+    public void resetScore() {
+        score = 0;
+    }
+
+//    public void setScore(int value) {
+//        if (isStarted && !isGameOver) {
+//            this.score += value;
+//        }
+//        if (isStarted && isGameOver) {
+//
+//        }
+////        if (isGameOver) {
+////            this.score = 0;
+////        }
+//    }
 
     public int getScore() {
         return score;
@@ -139,7 +153,7 @@ public class Model {
     public void newGame() {
         bird = new Bird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 40, 40);
         yMotion = 0;
-        setScore(0);
+        resetScore();
         obstacles.clear();
 
 

@@ -46,24 +46,7 @@ public class Controller implements GameController, ActionListener, KeyListener {
 //        obstacleImageBottom = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe2.png");
 //        view.setQuitButton(this, "Quit");
 
-//        ActionListener quitActionListener = new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                System.out.println("Quitted");
-//                System.exit(0);
-//            }
-//        };
-//        buttonPanel.setQuitButton(quitActionListener);
-//
-//        ActionListener startActionListener = new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                System.out.println("Started");
-//                startGame();
-////                gamePanel.requestFocusInWindow();
-//            }
-//        };
-//        buttonPanel.setStartButton(startActionListener);
+
 
         // Create the startActionListener
         ActionListener infoActionListener = new ActionListener() {
@@ -106,6 +89,8 @@ public class Controller implements GameController, ActionListener, KeyListener {
 
         if (model.getGameOverStatus()) {
             model.getBird().setY(gamePanel.getHeight() + 1);
+            model.resetScore();
+            gamePanel.updateScore(0);
 
             gamePanel.repaint();
             return;
@@ -163,7 +148,10 @@ public class Controller implements GameController, ActionListener, KeyListener {
 
                 for (Obstacle o : model.getObstacle()) {
                     if (o.getY() == 0 && model.getBird().getX() + model.getBird().getWidth() / 2 > o.getX() + o.getWidth() / 2 - 10 && model.getBird().getX() + model.getBird().getWidth() / 2 < o.getX() + o.getWidth() / 2 + 10) {
-                        model.setScore(1);
+
+
+                        model.updateScore();
+                        System.out.println("Incremented score: " + model.getScore());
                         gamePanel.updateScore(model.getScore());
                     }
                     Rectangle obs = new Rectangle(o.getX(), o.getY(), o.getWidth(), o.getHeight());
@@ -218,7 +206,7 @@ public class Controller implements GameController, ActionListener, KeyListener {
         gamePanel.updateBackgroundPosition();
         gamePanel.updateBirdPosition(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
         gamePanel.updateObstaclePosition(model.getObstacle());
-        gamePanel.updateScore(0);
+//        gamePanel.updateScore(model.getScore());
         model.setStarted(true);
         model.setGameOver(false);
         gamePanel.setGameOver(false);
