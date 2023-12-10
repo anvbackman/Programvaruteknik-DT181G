@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Model {
 
     private Bird bird;
+    private GameObjectInterface gameObjectInterface;
 
     private int WIDTH = 800;
     private int HEIGHT = 800;
@@ -27,7 +28,8 @@ public class Model {
 
 
     public Model() {
-
+//        bird = new Bird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 40, 40);
+        gameObjectInterface = new ConcreteGameObject();
         rand = new Random();
         isGameOver = false;
         isStarted = false;
@@ -44,8 +46,13 @@ public class Model {
         return bird;
     }
 
+    public int getWidth() {
+        return WIDTH;
+    }
 
-
+    public int getHeight() {
+        return HEIGHT;
+    }
 
 //    public void playJumpSound() {
 //        try {
@@ -126,7 +133,7 @@ public class Model {
     }
 
     public void newGame() {
-        bird = new Bird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 40, 40);
+        bird = gameObjectInterface.createBird(WIDTH / 2 - 10, HEIGHT / 2 - 10, 40, 40);
         yMotion = 0;
         resetScore();
         obstacles.clear();
@@ -148,12 +155,12 @@ public class Model {
         int height = 50 + rand.nextInt(300);
 
         if (state) {
-            obstacles.add(new Obstacle(WIDTH + width + obstacles.size() * 300, HEIGHT - height - 158, width, height)); //
-            obstacles.add(new Obstacle(WIDTH + width + (obstacles.size() - 1) * 300, 0, width, HEIGHT - height - space));
+            obstacles.add(gameObjectInterface.createObstacle(WIDTH + width + obstacles.size() * 300, HEIGHT - height - 195, width, height)); //
+            obstacles.add(gameObjectInterface.createObstacle(WIDTH + width + (obstacles.size() - 1) * 300, 0, width, HEIGHT - height - space));
         }
         else {
-            obstacles.add(new Obstacle(obstacles.get(obstacles.size() - 1).getX() + 600, HEIGHT - height - 158, width, height)); //
-            obstacles.add(new Obstacle(obstacles.get(obstacles.size() - 1).getX(), 0, width, HEIGHT - height - space));
+            obstacles.add(gameObjectInterface.createObstacle(obstacles.get(obstacles.size() - 1).getX() + 600, height - 195, width, height)); //
+            obstacles.add(gameObjectInterface.createObstacle(obstacles.get(obstacles.size() - 1).getX(), 0, width, HEIGHT - height - space));
         }
 
     }

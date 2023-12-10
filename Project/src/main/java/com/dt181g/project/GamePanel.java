@@ -54,10 +54,14 @@ public class GamePanel extends JPanel {
         groundImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\ground.png");
         obstacleImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe.png");
 //        initializeButton();
+//        currentBirdImage = birdImage;
         startButton = new JButton();
         quitButton = new JButton();
         isGameOver = false;
         isStartScreen = true;
+
+
+        currentBirdImage = birdImage;
 
 
         setVisible(true);
@@ -129,6 +133,7 @@ public class GamePanel extends JPanel {
     }
 
     private void doDraw(Graphics g) {
+
 
 //        if (isGameOver) {
 //            System.out.println("Is game over");
