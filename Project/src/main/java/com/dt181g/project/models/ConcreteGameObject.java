@@ -1,4 +1,4 @@
-package com.dt181g.project;
+package com.dt181g.project.models;
 
 /**
  * The ConcreteGameObject class implements the GameObjectInterface for creating Bird and Obstacle objects

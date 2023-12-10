@@ -1,4 +1,10 @@
-package com.dt181g.project;
+package com.dt181g.project.controllers;
+
+import com.dt181g.project.models.Model;
+import com.dt181g.project.models.Obstacle;
+import com.dt181g.project.views.ButtonPanel;
+import com.dt181g.project.views.GamePanel;
+import com.dt181g.project.views.View;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

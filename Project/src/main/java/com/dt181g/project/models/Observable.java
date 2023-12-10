@@ -1,4 +1,6 @@
-package com.dt181g.project;
+package com.dt181g.project.models;
+
+import com.dt181g.project.controllers.Observer;
 
 /**
  * Observable interface used to define the Observers. The objects implementing this can then notify the observers

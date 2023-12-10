@@ -1,24 +1,24 @@
-package com.dt181g.project;
+package com.dt181g.project.models;
 
 /**
- * The Bird class represents the obstacles in the Flappy Bird game
- * It encapsulates the position and dimensions of the obstacles
+ * The Bird class represents the playable character in the Flappy Bird game
+ * It encapsulates the position and dimensions of the bird
  * @author Andreas Backman
  */
-public class Obstacle {
+public class Bird {
     private int x;
     private int y;
     private int width;
     private int height;
 
     /**
-     * Constructor that creates a new Obstacle object with specified position and dimensions
+     * Constructor that creates a new Bird object with specified position and dimensions
      * @param x the x-coordinates
      * @param y the y-coordinates
      * @param width the width
      * @param height the height
      */
-    public Obstacle(int x, int y, int width, int height) {
+    public Bird(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -26,11 +26,19 @@ public class Obstacle {
     }
 
     /**
+     * Method to set the Y-coordinates
+     * @param value the new Y-coordinate
+     */
+    public void setY(int value) {
+        this.y = value;
+    }
+
+    /**
      * Method to set the X-coordinates
      * @param value the new X-coordinate
      */
     public void setX(int value) {
-        this.x += value;
+        this.y = value;
     }
 
     /**

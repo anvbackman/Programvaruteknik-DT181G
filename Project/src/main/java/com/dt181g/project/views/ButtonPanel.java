@@ -1,4 +1,4 @@
-package com.dt181g.project;
+package com.dt181g.project.views;
 
 import javax.swing.*;
 import java.awt.*;

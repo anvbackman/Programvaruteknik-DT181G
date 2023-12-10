@@ -1,5 +1,7 @@
 package com.dt181g.project;
 
+import com.dt181g.project.controllers.Controller;
+
 import javax.swing.*;
 
 /**

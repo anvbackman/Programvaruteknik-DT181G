@@ -1,4 +1,6 @@
-package com.dt181g.project;
+package com.dt181g.project.views;
+
+import com.dt181g.project.models.Obstacle;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
