@@ -116,10 +116,12 @@ public class Model implements Observable {
 
     public void resetScore() {
         score.set(0);
+
     }
 
 
     public int getScore() {
+
         return score.get();
     }
 
@@ -158,12 +160,15 @@ public class Model implements Observable {
         yMotion = 0;
         resetScore();
         obstacles.clear();
+        updateObserver();
 
-
-
-        for (int i = 0; i < 4; i++) {
+        while (getStartedStatus()) {
             addObstacle(true);
         }
+
+//        for (int i = 0; i < 4; i++) {
+//            addObstacle(true);
+//        }
     }
 
     public synchronized ArrayList<Obstacle> getObstacle() {
@@ -171,16 +176,16 @@ public class Model implements Observable {
     }
 
     public synchronized void addObstacle(boolean state) {
-        int space = 300;
+        int space = 400;
         int width = 100;
         int height = 50 + rand.nextInt(300);
 
         if (state) {
-            obstacles.add(gameObjectInterface.createObstacle(WIDTH + width + obstacles.size() * 300, HEIGHT - height - 195, width, height)); //
+            obstacles.add(gameObjectInterface.createObstacle(WIDTH + width + obstacles.size() * 300, HEIGHT - height - 195, width, height));
             obstacles.add(gameObjectInterface.createObstacle(WIDTH + width + (obstacles.size() - 1) * 300, 0, width, HEIGHT - height - space));
         }
         else {
-            obstacles.add(gameObjectInterface.createObstacle(obstacles.get(obstacles.size() - 1).getX() + 600, height - 195, width, height)); //
+            obstacles.add(gameObjectInterface.createObstacle(obstacles.get(obstacles.size() - 1).getX() + 600, height - 195, width, height));
             obstacles.add(gameObjectInterface.createObstacle(obstacles.get(obstacles.size() - 1).getX(), 0, width, HEIGHT - height - space));
         }
 

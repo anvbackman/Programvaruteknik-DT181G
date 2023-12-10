@@ -85,9 +85,12 @@ public class Controller implements GameController, ActionListener, KeyListener, 
     public void actionPerformed(ActionEvent e) {
 
 
+
+
         if (model.getGameOverStatus()) {
             model.getBird().setY(gamePanel.getHeight() + 1);
             model.resetScore();
+
 
 
             gamePanel.repaint();
@@ -102,8 +105,9 @@ public class Controller implements GameController, ActionListener, KeyListener, 
 
 
         if (model.getStartedStatus()) {
-            gamePanel.updateScore(model.getScore());
+//            gamePanel.updateScore(model.getScore());
             gamePanel.updateBackgroundPosition();
+            model.addObstacle(true);
 
 
 
@@ -146,7 +150,7 @@ public class Controller implements GameController, ActionListener, KeyListener, 
 
                         model.updateScore();
                         System.out.println("Incremented score: " + model.getScore());
-                        gamePanel.updateScore(model.getScore());
+
                     }
                     Rectangle obs = new Rectangle(o.getX(), o.getY(), o.getWidth(), o.getHeight());
 
@@ -208,10 +212,15 @@ public class Controller implements GameController, ActionListener, KeyListener, 
 
     }
 
+//    private void generateObstacles() {
+//        model.addObstacle(true);
+//    }
+
     @Override
     public void updateObserver() {
         // Update the GamePanel based on changes in the Model
         System.out.println("Observer updated");
+        gamePanel.updateScore(model.getScore());
 //        gamePanel.updateBackgroundPosition();
 //        gamePanel.updateBirdPosition(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
 //        gamePanel.updateObstaclePosition(model.getObstacle());
