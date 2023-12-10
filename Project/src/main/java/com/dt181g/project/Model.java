@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Model {
+public class Model implements Observable {
+
+    private ArrayList<Observer> observers = new ArrayList<>();
 
     private Bird bird;
     private GameObjectInterface gameObjectInterface;
@@ -40,6 +42,23 @@ public class Model {
         System.out.println("isGameInitialized: " + isGameInitialized);
         score = new AtomicInteger(0);
         newGame();
+    }
+
+    @Override
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void updateObserver() {
+        for (Observer observer : observers) {
+            observer.updateObserver();
+        }
     }
 
     public Bird getBird() {
@@ -83,6 +102,7 @@ public class Model {
             }
             System.out.println("Bird Jumped");
 //            playJumpSound();
+
             yMotion -= 10;
         }
     }
@@ -91,6 +111,7 @@ public class Model {
 
     public void updateScore() {
         score.incrementAndGet();
+        updateObserver();
     }
 
     public void resetScore() {

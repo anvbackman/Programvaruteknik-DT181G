@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 
-public class Controller implements GameController, ActionListener, KeyListener {
+public class Controller implements GameController, ActionListener, KeyListener, Observer {
 
     private Model model;
     private View view;
@@ -30,6 +30,8 @@ public class Controller implements GameController, ActionListener, KeyListener {
         this.gamePanel = gamePanel;
 
         view.addKeyListener(this);
+
+        model.addObserver(this);
 
 
 
@@ -198,12 +200,22 @@ public class Controller implements GameController, ActionListener, KeyListener {
         gamePanel.updateBackgroundPosition();
         gamePanel.updateBirdPosition(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
         gamePanel.updateObstaclePosition(model.getObstacle());
-//        gamePanel.updateScore(model.getScore());
+
         model.setStarted(true);
         model.setGameOver(false);
         gamePanel.setGameOver(false);
 
 
+    }
+
+    @Override
+    public void updateObserver() {
+        // Update the GamePanel based on changes in the Model
+        System.out.println("Observer updated");
+//        gamePanel.updateBackgroundPosition();
+//        gamePanel.updateBirdPosition(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
+//        gamePanel.updateObstaclePosition(model.getObstacle());
+        gamePanel.repaint();
     }
 
     @Override
