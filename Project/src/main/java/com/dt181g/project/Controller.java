@@ -1,9 +1,12 @@
 package com.dt181g.project;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
 
 /**
  * The Controller class represents the controller in the Flappy Bird game and manages interactions between the
@@ -31,8 +34,13 @@ public class Controller implements ActionListener, KeyListener, Observer {
         model.addObserver(this);
 
         // Loading images for the bird to be used
-        birdImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\flappy1.png");
-        birdImageJump = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\flappy2.png");
+        try {
+            birdImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/flappy1.png")));
+            birdImageJump = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/flappy2.png")));
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         // Create the infoActionListener used to show game information

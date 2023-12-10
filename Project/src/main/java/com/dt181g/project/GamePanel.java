@@ -1,9 +1,12 @@
 package com.dt181g.project;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * The GamePanel represents the main panel used to render the game
@@ -32,9 +35,14 @@ public class GamePanel extends JPanel {
      * Constructor to create images, buttons and set the backgroundX
      */
     public GamePanel() {
-        backgroundImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\bg.png");
-        groundImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\ground.png");
-        obstacleImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe.png");
+        try {
+            backgroundImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/bg.png")));
+            groundImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/ground.png")));
+            obstacleImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/pipe.png")));
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
         startButton = new JButton();
         quitButton = new JButton();
         backgroundX = 0;
