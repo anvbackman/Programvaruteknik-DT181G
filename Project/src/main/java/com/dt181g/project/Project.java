@@ -31,7 +31,7 @@ public final class Project {
 
 
                 Controller controller = new Controller(model, gamePanel);
-                gamePanel.setGameController(controller);
+//                gamePanel.setController(controller);
 
 
             }

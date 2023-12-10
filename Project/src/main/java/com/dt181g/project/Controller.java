@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
  * game logic and the user interface with the use of the GameController, ActionListener, KeyListener and Observer interfaces
  * @author Andreas Backman
  */
-public class Controller implements GameController, ActionListener, KeyListener, Observer {
+public class Controller implements ActionListener, KeyListener, Observer {
     private Model model;
     private View view;
     private GamePanel gamePanel;
@@ -136,7 +136,6 @@ public class Controller implements GameController, ActionListener, KeyListener, 
                 if (obs.intersects(b)) {
                     // If there is a collision the game is set to game over
                     model.setGameOver(true);
-                    gamePanel.setGameOver(true);
                 }
             }
 
@@ -146,14 +145,12 @@ public class Controller implements GameController, ActionListener, KeyListener, 
             // If the bird is out of bounds (touches the top part of the screen) set game over
             if (model.getBird().getY() > gamePanel.getHeight() - 120 || model.getBird().getY() < 0) {
                 model.setGameOver(true);
-                gamePanel.setGameOver(true);
             }
 
             // If the bird touches the ground, game is set to game over
             if (model.getBird().getY() + model.getBird().getHeight() >= gamePanel.getHeight() - 120) {
                 model.getBird().setY(gamePanel.getHeight() - 120 - model.getBird().getHeight());
                 model.setGameOver(true);
-                gamePanel.setGameOver(true);
             }
 
             // Updates the GamePanel with the current bird and obstacle positions
@@ -186,7 +183,6 @@ public class Controller implements GameController, ActionListener, KeyListener, 
         if (model.getGameOverStatus()) {
             // Then reset game states
             model.setGameOver(false);
-            gamePanel.setGameOver(false);
             model.setStarted(true);
             model.newGame();
         }
