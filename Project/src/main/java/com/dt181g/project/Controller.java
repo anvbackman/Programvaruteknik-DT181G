@@ -38,6 +38,8 @@ public class Controller implements GameController, ActionListener, KeyListener {
         view.addKeyListener(this);
 //        view.add(gamePanel);
 
+
+
         backgroundImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\bg.png");
         backgroundX = 0;
         birdImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\flappy1.png");
@@ -72,7 +74,8 @@ public class Controller implements GameController, ActionListener, KeyListener {
         view.add(gamePanel, BorderLayout.CENTER);
         view.add(buttonPanel, BorderLayout.SOUTH);
 
-
+        JOptionPane.showMessageDialog(view, "Press space to start\nPress space to make the bird jump\nAvoid the obstacles to earn points\nAvoid the obstacles as they result in Game Over" +
+                "\nAvoid the ground and the top of the screen as they result in Game Over\nClick Quit to exit", "Game Information", JOptionPane.INFORMATION_MESSAGE);
         timer = new Timer(20, this);
         timer.start();
 
@@ -82,10 +85,7 @@ public class Controller implements GameController, ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
-
-
-
+        
 
         if (model.getGameOverStatus()) {
             model.getBird().setY(gamePanel.getHeight() + 1);
@@ -107,10 +107,7 @@ public class Controller implements GameController, ActionListener, KeyListener {
             gamePanel.updateScore(model.getScore());
             gamePanel.updateBackgroundPosition();
 
-//            for (int i = 0; i < model.getObstacle().size(); i++) {
-//                Rectangle obstacles = model.getObstacle().get(i);
-//                obstacles.x -= speed; // BIG IDK
-//            }
+
 
             if (model.getTicks() % 2 == 0 && model.getYMotion() < 15) {
                 model.setYMotion(2);
@@ -126,9 +123,6 @@ public class Controller implements GameController, ActionListener, KeyListener {
             }
 
 
-
-
-
 //             ORIGINAL CODE BEFORE STREAMS API
                 for (int i = 0; i < model.getObstacle().size(); i++) {
                     Obstacle obstacles = model.getObstacle().get(i);
@@ -142,6 +136,8 @@ public class Controller implements GameController, ActionListener, KeyListener {
                         }
                     }
                 }
+
+
 
 
 

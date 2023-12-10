@@ -28,6 +28,7 @@ public class GamePanel extends JPanel {
 
     private boolean birdState = true;
     private boolean isGameOver;
+    private boolean isStartScreen;
     private BufferedImage backgroundImage;
     private BufferedImage groundImage;
 //    private BufferedImage obstacleImage;
@@ -58,11 +59,12 @@ public class GamePanel extends JPanel {
     public GamePanel() {
         backgroundImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\bg.png");
         groundImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\ground.png");
-        obstacleImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe1.png");
+        obstacleImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe.png");
 //        initializeButton();
         startButton = new JButton();
         quitButton = new JButton();
         isGameOver = false;
+        isStartScreen = true;
 
 
         setVisible(true);
@@ -156,6 +158,12 @@ public class GamePanel extends JPanel {
         repaint();
     }
 
+//    public void paintStartScreen(boolean isStartScreen) {
+//        if (isStartScreen) {
+//
+//        }
+//    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -207,9 +215,9 @@ public class GamePanel extends JPanel {
         // Draw obstacles
         for (Obstacle obstacle : obstacles) {
 
-//            g.drawImage(obstacleImage, obstacle.getX(), obstacle.getY(), obstacle.getWidth(), obstacle.getHeight(), null);
-            g.setColor(Color.green.darker());
-            g.fillRect(obstacle.getX(), obstacle.getY(), obstacle.getWidth(), obstacle.getHeight());
+            g.drawImage(obstacleImage, obstacle.getX(), obstacle.getY(), obstacle.getWidth(), obstacle.getHeight(), null);
+//            g.setColor(Color.green.darker());
+//            g.fillRect(obstacle.getX(), obstacle.getY(), obstacle.getWidth(), obstacle.getHeight());
 
 
 

@@ -1,8 +1,13 @@
 package com.dt181g.project;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Model {
 
@@ -14,7 +19,7 @@ public class Model {
     private boolean isStarted;
     private int yMotion;
     private int ticks;
-    private int score;
+    private AtomicInteger score;
     private Random rand;
 
     private boolean isGameInitialized;
@@ -31,7 +36,7 @@ public class Model {
         System.out.println("isStarted: " + isStarted);
         System.out.println("isGameOver: " + isGameOver);
         System.out.println("isGameInitialized: " + isGameInitialized);
-
+        score = new AtomicInteger(0);
         newGame();
     }
 
@@ -46,26 +51,30 @@ public class Model {
         return obstacle;
     }
 
-    public void gameOver() {
-        bird.setY(HEIGHT / 2 - 10);
+//    public void gameOver() {
+//        bird.setY(HEIGHT / 2 - 10);
+//
+//        yMotion = 0;
+//        obstacles.clear();
+//        score = 0;
+//
+//        for (int i = 0; i < 4; i++) {
+//            addObstacle(true);
+//        }
+//
+//        isGameOver = false;
+//    }
 
-        yMotion = 0;
-        obstacles.clear();
-        score = 0;
-
-        for (int i = 0; i < 4; i++) {
-            addObstacle(true);
-        }
-
-        isGameOver = false;
-    }
-
-    public void startGame() {
-        if (!isGameInitialized) {
-            newGame();  // Initialize the game only if it's not already initialized
-            isGameInitialized = true;
-        }
-    }
+//    public void playJumpSound() {
+//        try {
+//            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\SOUND\\jump.wav"));
+//            Clip clip = AudioSystem.getClip();
+//            clip.open(audioInputStream);
+//            clip.start();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public void jump() {
         if (isGameOver)
@@ -84,6 +93,7 @@ public class Model {
                 yMotion = 0;
             }
             System.out.println("Bird Jumped");
+//            playJumpSound();
             yMotion -= 10;
         }
     }
@@ -97,11 +107,11 @@ public class Model {
     }
 
     public void updateScore() {
-        score++;
+        score.incrementAndGet();
     }
 
     public void resetScore() {
-        score = 0;
+        score.set(0);
     }
 
 //    public void setScore(int value) {
@@ -117,7 +127,7 @@ public class Model {
 //    }
 
     public int getScore() {
-        return score;
+        return score.get();
     }
 
     public void setTicks(int value) {
@@ -163,11 +173,11 @@ public class Model {
         }
     }
 
-    public ArrayList<Obstacle> getObstacle() {
+    public synchronized ArrayList<Obstacle> getObstacle() {
         return obstacles;
     }
 
-    public void addObstacle(boolean state) {
+    public synchronized void addObstacle(boolean state) {
         int space = 300;
         int width = 100;
         int height = 50 + rand.nextInt(300);
