@@ -5,40 +5,40 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * The Controller class represents the controller in the Flappy Bird game and manages interactions between the
+ * game logic and the user interface with the use of the GameController, ActionListener, KeyListener and Observer interfaces
+ * @author Andreas Backman
+ */
 public class Controller implements GameController, ActionListener, KeyListener, Observer {
-
     private Model model;
     private View view;
     private GamePanel gamePanel;
     private ButtonPanel buttonPanel;
-
-
     private Timer timer;
-
     private BufferedImage birdImage;
     private BufferedImage birdImageJump;
-
     private BufferedImage backgroundImage;
-
     private int backgroundX;
     private boolean lastObstacleIsTop = false;
 
-
+    /**
+     * Constructor to create a Controller taking the Model and GamePanel as parameters
+     * @param model the Model containing the game logic
+     * @param gamePanel the GamePanel which renders the game
+     */
     public Controller(Model model, GamePanel gamePanel) {
         this.model = model;
         view = new View();
         this.gamePanel = gamePanel;
-
         view.addKeyListener(this);
-
         model.addObserver(this);
 
 
 
 
 
-        backgroundImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\bg.png");
-        backgroundX = 0;
+
         birdImage = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\flappy1.png");
         birdImageJump = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\flappy2.png");
 //        obstacleImageTop = ImageLoader.loadIMG("C:\\Users\\Andre\\JavaProjects\\Java2\\anba2205_solutions_ht23\\Project\\src\\main\\resources\\IMG\\pipe1.png");
