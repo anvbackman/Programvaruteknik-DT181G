@@ -90,7 +90,7 @@ public class Controller implements GameController, ActionListener, KeyListener {
         if (model.getGameOverStatus()) {
             model.getBird().setY(gamePanel.getHeight() + 1);
             model.resetScore();
-            gamePanel.updateScore(0);
+
 
             gamePanel.repaint();
             return;
@@ -104,7 +104,7 @@ public class Controller implements GameController, ActionListener, KeyListener {
 
 
         if (model.getStartedStatus()) {
-
+            gamePanel.updateScore(model.getScore());
             gamePanel.updateBackgroundPosition();
 
 //            for (int i = 0; i < model.getObstacle().size(); i++) {
