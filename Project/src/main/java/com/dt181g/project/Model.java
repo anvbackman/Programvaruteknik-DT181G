@@ -162,9 +162,9 @@ public class Model implements Observable {
         obstacles.clear();
         updateObserver();
 
-        while (getStartedStatus()) {
-            addObstacle(true);
-        }
+//        while (getStartedStatus()) {
+//            addObstacle(true);
+//        }
 
 //        for (int i = 0; i < 4; i++) {
 //            addObstacle(true);

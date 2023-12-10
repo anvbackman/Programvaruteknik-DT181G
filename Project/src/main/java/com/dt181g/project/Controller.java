@@ -126,75 +126,75 @@ public class Controller implements GameController, ActionListener, KeyListener, 
 
 
 //             ORIGINAL CODE BEFORE STREAMS API
-                for (int i = 0; i < model.getObstacle().size(); i++) {
-                    Obstacle obstacles = model.getObstacle().get(i);
-                    obstacles.setX(-speed);
+            for (int i = 0; i < model.getObstacle().size(); i++) {
+                Obstacle obstacles = model.getObstacle().get(i);
+                obstacles.setX(-speed);
 
-                    if (obstacles.getX() + obstacles.getWidth() < 0) {
-                        model.getObstacle().remove(obstacles);
+                if (obstacles.getX() + obstacles.getWidth() < 0) {
+                    model.getObstacle().remove(obstacles);
 
-                        if (obstacles.getY() == 0) {
-                            model.addObstacle(false);
+                    if (obstacles.getY() == 0) {
+                        model.addObstacle(false);
+                    }
+                }
+            }
+
+
+
+
+
+
+            for (Obstacle o : model.getObstacle()) {
+                if (o.getY() == 0 && model.getBird().getX() + model.getBird().getWidth() / 2 > o.getX() + o.getWidth() / 2 - 10 && model.getBird().getX() + model.getBird().getWidth() / 2 < o.getX() + o.getWidth() / 2 + 10) {
+
+
+                    model.updateScore();
+                    System.out.println("Incremented score: " + model.getScore());
+
+                }
+                Rectangle obs = new Rectangle(o.getX(), o.getY(), o.getWidth(), o.getHeight());
+
+                if (obs.intersects(b)) {
+                    model.setGameOver(true);
+                    gamePanel.setGameOver(true);
+
+                    if (model.getBird().getX() <= o.getX()) {
+                        model.getBird().setX(o.getY() - model.getBird().getHeight());
+                    } else {
+                        if (o.getY() != 0) {
+                            model.getBird().setY(o.getY() - model.getBird().getHeight());
+                        } else if (model.getBird().getY() < o.getHeight()) {
+                            model.getBird().setY(o.getHeight());
                         }
                     }
                 }
+            }
 
 
+            model.getBird().setY(model.getBird().getY() + model.getYMotion());
 
+            if (model.getBird().getY() > gamePanel.getHeight() - 120 || model.getBird().getY() < 0) {
+                model.setGameOver(true);
+                gamePanel.setGameOver(true);
+            }
 
-
-
-                for (Obstacle o : model.getObstacle()) {
-                    if (o.getY() == 0 && model.getBird().getX() + model.getBird().getWidth() / 2 > o.getX() + o.getWidth() / 2 - 10 && model.getBird().getX() + model.getBird().getWidth() / 2 < o.getX() + o.getWidth() / 2 + 10) {
-
-
-                        model.updateScore();
-                        System.out.println("Incremented score: " + model.getScore());
-
-                    }
-                    Rectangle obs = new Rectangle(o.getX(), o.getY(), o.getWidth(), o.getHeight());
-
-                    if (obs.intersects(b)) {
-                        model.setGameOver(true);
-                        gamePanel.setGameOver(true);
-
-                        if (model.getBird().getX() <= o.getX()) {
-                            model.getBird().setX(o.getY() - model.getBird().getHeight());
-                        } else {
-                            if (o.getY() != 0) {
-                                model.getBird().setY(o.getY() - model.getBird().getHeight());
-                            } else if (model.getBird().getY() < o.getHeight()) {
-                                model.getBird().setY(o.getHeight());
-                            }
-                        }
-                    }
-                }
-
-
-                model.getBird().setY(model.getBird().getY() + model.getYMotion());
-
-                if (model.getBird().getY() > gamePanel.getHeight() - 120 || model.getBird().getY() < 0) {
-                    model.setGameOver(true);
-                    gamePanel.setGameOver(true);
-                }
-
-                if (model.getBird().getY() + model.getBird().getHeight() >= gamePanel.getHeight() - 120) {
-                    model.getBird().setY(gamePanel.getHeight() - 120 - model.getBird().getHeight());
-                    model.setGameOver(true);
-                    gamePanel.setGameOver(true);
-                }
+            if (model.getBird().getY() + model.getBird().getHeight() >= gamePanel.getHeight() - 120) {
+                model.getBird().setY(gamePanel.getHeight() - 120 - model.getBird().getHeight());
+                model.setGameOver(true);
+                gamePanel.setGameOver(true);
+            }
 
             gamePanel.updateBirdPosition(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
             gamePanel.updateObstaclePosition(model.getObstacle());
 
 
-            }
+        }
 //            System.out.println("Score is now: " + model.getScore());
 
-            gamePanel.repaint();
+        gamePanel.repaint();
 
 
-        }
+    }
 
     @Override
     public void startGame() {
