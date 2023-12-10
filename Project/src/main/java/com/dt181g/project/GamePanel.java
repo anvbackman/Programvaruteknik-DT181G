@@ -132,15 +132,16 @@ public class GamePanel extends JPanel {
             g.drawImage(currentBirdImage, birdX, birdY, birdWidth, birdHeight, null);
         }
 
+        ArrayList<Obstacle> obstaclesCopy = new ArrayList<>(obstacles); // Creates copy of obstacles to avoid errors
         // Draws the obstacles
-        for (Obstacle obstacle : obstacles) {
+        for (Obstacle obstacle : obstaclesCopy) {
             g.drawImage(obstacleImage, obstacle.getX(), obstacle.getY(), obstacle.getWidth(), obstacle.getHeight(), null);
         }
 
         // Draws the score
         g.setColor(Color.white);
         g.setFont(new Font("Arial", 1, 25));
-        g.drawString("Score: " + String.valueOf(score), getWidth() / 2 - 50, 50);
+        g.drawString("Score: " + score, getWidth() / 2 - 50, 50);
 
         repaint();
     }

@@ -22,13 +22,11 @@ public class Controller implements ActionListener, KeyListener, Observer {
 
     /**
      * Constructor to create a Controller taking the Model and GamePanel as parameters
-     * @param model the Model containing the game logic
-     * @param gamePanel the GamePanel which renders the game
      */
-    public Controller(Model model, GamePanel gamePanel) {
-        this.model = model;
-        view = new View();
-        this.gamePanel = gamePanel;
+    public Controller() {
+        this.model = new Model();
+        this.view = new View();
+        this.gamePanel = new GamePanel();
         view.addKeyListener(this);
         model.addObserver(this);
 
@@ -70,6 +68,27 @@ public class Controller implements ActionListener, KeyListener, Observer {
         // Setting up the game timer
         timer = new Timer(20, this);
         timer.start();
+
+        // Create and start a thread for background processing
+        Thread backgroundThread = new Thread(this::backgroundProcessing);
+        backgroundThread.start();
+    }
+
+    /**
+     * Method to perform background processing
+     */
+    private void backgroundProcessing() {
+        while (true) {
+            gamePanel.updateBackgroundPosition();
+            model.addObstacle(true);
+
+            // Sleep for 1 second
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -167,9 +186,11 @@ public class Controller implements ActionListener, KeyListener, Observer {
      */
     @Override
     public void updateObserver() {
-        System.out.println("Observer updated");
-        gamePanel.updateScore(model.getScore()); // This calls the updateObserver method in the Model class
-        gamePanel.repaint();
+        SwingUtilities.invokeLater(() -> { // Updates swing components
+            System.out.println("Observer updated");
+            gamePanel.updateScore(model.getScore());
+            gamePanel.repaint();
+        });
     }
 
     @Override

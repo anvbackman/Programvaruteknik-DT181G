@@ -18,22 +18,10 @@ public final class Project {
      */
     public static void main(final String... args) {
 
-        // SwingUtilities.invokeLater(GUI::new);
-
-
-
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                Model model = new Model();
-
-                GamePanel gamePanel = new GamePanel();
-
-
-                Controller controller = new Controller(model, gamePanel);
-//                gamePanel.setController(controller);
-
-
+                Controller controller = new Controller();
             }
         });
     }
