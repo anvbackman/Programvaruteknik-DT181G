@@ -57,6 +57,8 @@ public class View extends JPanel {
             add(card);
         }
 
+
+        frame.setTitle("Memory");
         // Label to show the current score
         scoreLabel = new JLabel("Score: 0");
         frame.add(scoreLabel, BorderLayout.NORTH);

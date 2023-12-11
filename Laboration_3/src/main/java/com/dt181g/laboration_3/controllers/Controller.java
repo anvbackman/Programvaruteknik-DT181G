@@ -24,13 +24,10 @@ public class Controller implements ActionListener {
     /**
      * Constructor that takes the model and view as parameters. It then set the score to 0 and adds an action
      * listener to each card
-     *
-     * @param model the model containing game logic
-     * @param view the view displaying the game
      */
-    public Controller(Model model, View view) {
-        this.model = model;
-        this.view = view;
+    public Controller() {
+        model = new Model();
+        view = new View(model.getCards());
         this.score = 0;
 
         // Adds an action listener to each card in the model
