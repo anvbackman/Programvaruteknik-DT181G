@@ -1,14 +1,13 @@
 package com.dt181g.laboration_3.models;
 
-import javax.swing.*;
+
 
 /**
- * The Card class representing the cards use in the game Memory which extends JButton to provide
- * interaction
+ * The Card class representing the cards use in the game Memory
  *
  * @author Andreas Backman
  */
-public class Card extends JButton {
+public class Card {
 
     private int value;
     private boolean cardMatch;
@@ -38,6 +37,7 @@ public class Card extends JButton {
      * @return True if cars are matched, false otherwise
      */
     public boolean isMatched() {
+
         return cardMatch;
     }
 

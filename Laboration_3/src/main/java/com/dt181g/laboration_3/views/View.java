@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class View extends JPanel {
 
-    private Controller controller;
+//    private Controller controller;
     private JFrame frame;
     private List<CardView> cardList;
     private JLabel scoreLabel;
@@ -29,32 +29,31 @@ public class View extends JPanel {
      * The View constructor takes a list as a parameter, sets the layout of the game (how many columns)
      * and calls the initialize method
      *
-     *
      */
-    public View() {
-        this.cardList = new ArrayList<>();
+    public View(List<CardView> cardList) {
+        this.cardList = cardList;
         setLayout(new GridLayout(4, 4));
         initialize();
     }
 
-    /**
-     * Method that sets the controller
-     *
-     * @param controller the controller
-     */
-    public void setController(Controller controller) {
-        this.controller = controller;
-    }
+//    /**
+//     * Method that sets the controller
+//     *
+//     * @param controller the controller
+//     */
+//    public void setController(Controller controller) {
+//        this.controller = controller;
+//    }
 
-    public void setCardList(List<CardView> cardList) {
-        this.cardList = cardList;
-        removeAll(); // Clear existing components in the panel
-        for (CardView card : cardList) {
-            add(card);
-        }
-        revalidate(); // Ensure the layout is updated
-        repaint(); // Repaint the panel
-    }
+//    public void setCardList(List<CardView> cardList) {
+//        this.cardList = cardList;
+//        removeAll(); // Clear existing components in the panel
+//        for (CardView card : cardList) {
+//            add(card);
+//        }
+//        revalidate(); // Ensure the layout is updated
+//        repaint(); // Repaint the panel
+//    }
 
 
     /**
@@ -117,7 +116,7 @@ public class View extends JPanel {
         dialog.setVisible(true);
     }
 
-    public void addCardToView(CardView cardButton) {
-        add(cardButton);
-    }
+//    public void addCardToView(CardView cardButton) {
+//        add(cardButton);
+//    }
 }
