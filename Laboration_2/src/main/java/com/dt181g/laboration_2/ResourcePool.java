@@ -80,7 +80,7 @@ public class ResourcePool {
         else if (current < 100) {
             return Color.YELLOW;
         }
-        else if (current < 150) {
+        else if (current >= 100 && current < 150) {
             return Color.GREEN;
         }
         else {
