@@ -22,6 +22,10 @@ public class Card {
         this.cardMatch = false;
     }
 
+    public void setCardValue(int value) {
+        this.value = value;
+    }
+
     /**
      * Method to get the card value
      *

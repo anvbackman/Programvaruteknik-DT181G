@@ -1,6 +1,7 @@
 package com.dt181g.laboration_3.views;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * The CardView class representing the graphical representation of a card in the game Memory.
@@ -13,19 +14,32 @@ public class CardView extends JButton {
 
     private boolean isShowing;
 
-    private int aa = 99;
-
     /**
      * Constructor that initializes a card button.
      */
     public CardView() {
+        initcards();
+    }
+
+    public void initcards(){
         setText(""); // Sets the text as empty
         this.isShowing = false;
     }
 
-    public int getCardValue() {
-        return Integer.parseInt(getText());
-    }
+
+
+//    public int getCardValue() {
+//
+//        return Integer.parseInt(getText());
+
+//        String text = getText();
+//        if (text.isEmpty()) {
+//            return -1;
+//        }
+//        else {
+//            return Integer.parseInt(text);
+//        }
+
 
     /**
      * Method to show the face of a card and specify if the card is showing.
@@ -34,9 +48,18 @@ public class CardView extends JButton {
      */
     public void showCard(int value) {
         if (!isShowing) {
-            setText(String.valueOf(value));
+            System.out.println("showCard called");
+            setText((String.valueOf(value)));
+//            setBackground(color);
             isShowing = true;
+            repaint();
+
         }
+//        else {
+//            setText("");
+//            isShowing = false;
+//        }
+
     }
 
     /**
@@ -48,9 +71,8 @@ public class CardView extends JButton {
 //            isShowing = false;
 //        });
 //        showCard();
-//        setText(String.valueOf(aa));
-
         setText("");
+
         isShowing = false;
         repaint();
 

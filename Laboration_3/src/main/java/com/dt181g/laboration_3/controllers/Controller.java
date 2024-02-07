@@ -5,12 +5,12 @@ import com.dt181g.laboration_3.models.Model;
 import com.dt181g.laboration_3.views.CardView;
 import com.dt181g.laboration_3.views.View;
 import javax.swing.*;
+import javax.swing.Timer;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 /**
  * The Controller class that handles user interactions an update the model and view classes based on it
@@ -22,6 +22,9 @@ public class Controller implements ActionListener {
     private Model model;
     private View view;
     private Card cardValue;
+    private Deque<CardView> selectedCards = new ArrayDeque<>();
+    private CardView secondCard;
+
     private CardView chosenCard;
     private CardView chosenCardView;
     private CardView secondCardView;
@@ -62,27 +65,48 @@ public class Controller implements ActionListener {
 
     }
 
-    private void cardClicked(CardView cardView, Card card) {
-        if (!card.isMatched() && !cardView.isShowing()) {
-            cardView.showCard(card.getValue());
-//            cardView.hideCard();
 
-            if (chosenCard == null) {
-//                chosenCard = card.getValue();
-                chosenCardView = cardView;
-                System.out.println(card.getValue());
-//                System.out.println(Integer.parseInt(chosenCardView.getText()));
-            } else {
-                secondCardView = cardView;
-                System.out.println(card.getValue());
-//                System.out.println(Integer.parseInt(secondCardView.getText()));
-            }
+    private static List<Color> generateRandomColors() {
+        List<Color> colors = new ArrayList<>();
 
+        // Add eight distinct colors to the list
+        colors.add(Color.RED);
+        colors.add(Color.GREEN);
+        colors.add(Color.BLUE);
+        colors.add(Color.YELLOW);
+        colors.add(Color.CYAN);
+        colors.add(Color.MAGENTA);
+        colors.add(Color.ORANGE);
+        colors.add(Color.PINK);
 
+        // Shuffle the list to randomize the order of colors
+        Collections.shuffle(colors);
 
-
-        }
+        return colors;
     }
+
+//    private void cardClicked(CardView cardView, Card card) {
+//        if (!card.isMatched() && !cardView.isShowing()) {
+//            cardView.showCard(card.getValue());
+////            cardView.hideCard();
+//
+//            if (chosenCard == null) {
+////                chosenCard = card.getValue();
+//                chosenCardView = cardView;
+////                System.out.println(card.getValue());
+////                System.out.println(Integer.parseInt(chosenCardView.getText()));
+//            } else {
+//                secondCardView = cardView;
+////                System.out.println(card.getValue());
+////                System.out.println(Integer.parseInt(secondCardView.getText()));
+//
+//            }
+//
+//
+//
+//
+//        }
+//    }
 
     public List<CardView> getCardViewList() {
         return cardViewList;
@@ -95,65 +119,200 @@ public class Controller implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-
         CardView currentCard = (CardView) e.getSource();
-        System.out.println("HÖ");
-
         Card clickedCard = cardMap.get(currentCard);
 
-        cardClicked(currentCard, clickedCard);
 
+        if (!clickedCard.isMatched() && !currentCard.isShowing()) {
+            currentCard.showCard(clickedCard.getValue());
+            selectedCards.add(currentCard);
 
+            if (selectedCards.size() == 2) {
 
-        if (!clickedCard.isMatched() && !cardsBeingProcessed) {
-            if (chosenCard == null) {
-                chosenCard = currentCard;
-                System.out.println("Chosen card = " + chosenCard.getCardValue() + " clicked = " + clickedCard.getValue());
-
-            }
-            else if (chosenCard == currentCard) { // Turn card if clicking the same one twice
-                chosenCard.setText("");
-                chosenCard = null;
-            }
-
-            else {
-
-
-                cardsBeingProcessed = true;
-
-                CardView secondCard =  currentCard;
-
-
-                int chosenCardValue = chosenCard.getCardValue();
-                int secondCardValue = secondCard.getCardValue();
-
-                System.out.println("chosen" + chosenCardValue);
-                System.out.println("second" + secondCardValue);
-
-
+                for (CardView cardView : selectedCards) {
+                    System.out.println(cardView);
+                }
                 Timer timer = new Timer(1000, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+//                        processSelectedCards();
+                        CardView firstCard = selectedCards.poll();
+                        CardView secondCard = selectedCards.poll();
 
-                        if (chosenCardValue != secondCardValue) {
-                            chosenCardView.setText("");
-//                            System.out.println("No match");
-                            secondCardView.setText("");
+                        String firstCardValue = firstCard.getText();
+                        String secondCardValue = secondCard.getText();
+
+                        if (!firstCardValue.equals(secondCardValue)) {
+                            Timer timer = new Timer(1000, new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    System.out.println("No match");
+                                    currentCard.setText("");
+                                    selectedCards.remove(currentCard);
+
+
+//                    firstCard.setText("");
+//                    secondCard.setText("");
+
+
+//                    firstCard.hideCard();
+//                    secondCard.hideCard();
+
+//                    firstCard.setText("11");
+//                    secondCard.setText("11");
+
+
+                                    System.out.println("Here are selectedCards: " + selectedCards);
+
+//                    chosenCard = null;
+
+
+                                }
+
+                            });
+                            timer.setRepeats(false);
+                            timer.start();
                         }
-
-                        else {
-                            clickedCard.setCardMatch(true);
-                        }
-
-
-                        chosenCard = null;
-                        cardsBeingProcessed = false;
-
                     }
-
                 });
                 timer.setRepeats(false);
                 timer.start();
+            }
+        }
+    }
+
+//    private void processSelectedCards() {
+//        CardView firstCard = selectedCards.poll();
+//        CardView secondCard = selectedCards.poll();
+//
+//        String firstCardValue = firstCard.getText();
+//        String secondCardValue = secondCard.getText();
+//
+//        System.out.println("First: " + firstCardValue + " Second: " + secondCardValue);
+
+//        if (!firstCardValue.equals(secondCardValue)) {
+//            Timer timer = new Timer(1000, new ActionListener() {
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
+//                    System.out.println("No match");
+//
+//
+//
+////                    firstCard.setText("");
+////                    secondCard.setText("");
+//
+//
+////                    firstCard.hideCard();
+////                    secondCard.hideCard();
+//
+////                    firstCard.setText("11");
+////                    secondCard.setText("11");
+//
+//
+//
+//                    System.out.println("Here are selectedCards: " + selectedCards);
+//
+////                    chosenCard = null;
+//
+//
+//                }
+//
+////            });
+//            timer.setRepeats(false);
+//            timer.start();
+//        }
+//
+//        else {
+//            selectedCards.clear();
+//
+//        }
+////        else {
+//////            firstCard.setText("");
+//////            secondCard.setText("");
+////
+////        }
+//
+//
+//
+//    }
+
+    public void restoreCard() {
+
+    }
+
+
+//        cardView.showCard(Integer.valueOf(1));
+//        cardView.setText("2");
+
+//
+//
+//
+//
+//        if (!clickedCard.isMatched() && !cardsBeingProcessed) {
+//            if (chosenCard == null) {
+//                chosenCard = currentCard;
+////                cardClicked(chosenCard, clickedCard);
+//                cardView.showCard(clickedCard.getValue());
+//
+////                System.out.println("Chosen card = " + chosenCard.getCardValue() + " clicked = " + clickedCard.getValue());
+//
+//            }
+//            else if (chosenCard == currentCard) { // Turn card if clicking the same one twice
+//                chosenCard.setText("X");
+//                chosenCard = null;
+//            }
+//
+//            else {
+//
+//
+//                cardsBeingProcessed = true;
+//
+//                CardView secondCard =  currentCard;
+//
+//                cardClicked(currentCard, clickedCard);
+//                Card secondClickedCard = cardMap.get(secondCard);
+//
+////                int chosenCardValue = chosenCard.getCardValue();
+////                int secondCardValue = secondCard.getCardValue();
+//
+////                System.out.println("chosen" + chosenCardValue);
+////                System.out.println("second" + secondCardValue);
+//
+////                secondCardView.showCard(secondClickedCard.getValue());
+//
+//
+//                Timer timer = new Timer(1000, new ActionListener() {
+//                    @Override
+//                    public void actionPerformed(ActionEvent e) {
+//
+////                        if (chosenCardValue != secondCardValue) {
+////                            chosenCard.setText("X");
+//////                            System.out.println("No match");
+////                            secondCard.setText("X");
+////                            streak = 1;
+////                        }
+//
+////                        else {
+////                            clickedCard.setCardMatch(true);
+////                            secondClickedCard.setCardMatch(true);
+////                            model.setScore(streak);
+////                            streak *= 2;
+////                        }
+//                        view.updateScore(model.getScore());
+//
+//                        if (model.isWon()) {
+//                            view.showGameWon();
+//                        }
+//
+//
+//                        chosenCard = null;
+//                        cardsBeingProcessed = false;
+//
+//                    }
+//
+//                });
+//                timer.setRepeats(false);
+//                timer.start();
 
 
                 //            if (chosenCardValue != secondCardValue) {
@@ -162,13 +321,13 @@ public class Controller implements ActionListener {
                 //                System.out.println("NOT");
                 //            }
 
-            }
+//            }
 //            else if (chosenCard == currentCard) {
 //                chosenCard.hideCard();
 //                chosenCard = null;
 //            }
 
-        }
+//        }
 
 
 
@@ -256,7 +415,5 @@ public class Controller implements ActionListener {
 //            }
 //        }
 
-    }
+
 }
-
-
