@@ -87,11 +87,11 @@ public class Manager implements ActionListener {
         int availableResources = resourcePool.getResourceAmount();
         System.out.println(availableResources);
 
-        // If the amount of available resources are high enough, the consumers are increased and producers are decreased
+        // Increases consumers and decreases producers once the available resources gets above 150
         if (availableResources > 150) {
             increaseConsumers();
             decreaseProducers();
-            // Otherwise if the amount is to low, the amount of producers are increased while the consumers are decreased
+            // Otherwise increase producers and decrease consumers
         } else if (availableResources < 45) {
             increaseProducers();
             decreaseConsumers();
