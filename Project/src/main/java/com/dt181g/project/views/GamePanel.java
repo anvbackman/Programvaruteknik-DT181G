@@ -29,22 +29,14 @@ public class GamePanel extends JPanel {
     private int topObstacleY;
     private int topObstacleWidth;
     private int topObstacleHeight;
-
-
-
-    private Collection<Point> obstacleInfo;
     private int score;
-//    private ArrayList<Obstacle> obstacles = new ArrayList<>();
     private BufferedImage currentBirdImage;
     private BufferedImage obstacleImage;
     private boolean birdState = true;
     private BufferedImage backgroundImage;
     private BufferedImage groundImage;
-    private Rectangle obstacle;
-    private Rectangle topObstacle;
     private int backgroundX;
-    private JButton quitButton;
-    private JButton startButton;
+    private int groundX;
     private static final int BACKGROUND_SCROLL_SPEED = 5; // Adjust the speed as needed
     private static final int BACKGROUND_OVERLAP = 120;
 
@@ -61,17 +53,28 @@ public class GamePanel extends JPanel {
         catch (IOException e) {
             e.printStackTrace();
         }
-        startButton = new JButton();
-        quitButton = new JButton();
-        backgroundX = 0;
+        JButton startButton = new JButton();
+        JButton quitButton = new JButton();
+//        backgroundX = 0;
     }
 
     /**
      * Method to update the background position
      */
-    public void updateBackgroundPosition() {
-        backgroundX -= BACKGROUND_SCROLL_SPEED;
+//    public void updateBackgroundPosition() {
+//        backgroundX -= BACKGROUND_SCROLL_SPEED;
+//        repaint();
+//    }
+
+    public void updateBackgroundXPosition(int x) {
+        this.backgroundX = x;
         repaint();
+
+    }
+    public void updateGroundXPosition(int x) {
+        this.groundX = x;
+        repaint();
+
     }
 
     /**
@@ -153,10 +156,10 @@ public class GamePanel extends JPanel {
         }
 
         // Draws the ground based on the backgroundX value
-        xPos = backgroundX;
-        while (xPos < getWidth()) { // While less than width of screen
-            g.drawImage(groundImage, xPos, getHeight() - 120, getWidth(), 120, null);
-            xPos += groundImage.getWidth();
+        int groundXPos = groundX;
+        while (groundXPos < getWidth()) { // While less than width of screen
+            g.drawImage(groundImage, groundXPos, getHeight() - 120, getWidth(), 120, null);
+            groundXPos += groundImage.getWidth();
         }
 
         // Checks if bird is jumping or not
@@ -168,9 +171,6 @@ public class GamePanel extends JPanel {
             g.drawImage(currentBirdImage, birdX, birdY, birdWidth, birdHeight, null);
         }
 
-
-
-
         g.drawImage(obstacleImage, obstacleX, obstacleY, obstacleWidth, obstacleHeight, null);
         g.drawImage(obstacleImage, topObstacleX, topObstacleY, topObstacleWidth, topObstacleHeight, null);
 
@@ -181,6 +181,6 @@ public class GamePanel extends JPanel {
         g.setFont(new Font("Arial", 1, 25));
         g.drawString("Score: " + score, getWidth() / 2 - 50, 50);
 
-        repaint();
+
     }
 }

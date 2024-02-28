@@ -28,6 +28,7 @@ public class Model implements Observable {
     private Random rand;
     private boolean isGameInitialized;
     private ArrayList<Obstacle> obstacles;
+    private Background background;
 
     /**
      * Constructor that starts a new game and creates game objects
@@ -39,6 +40,7 @@ public class Model implements Observable {
         isStarted = false;
         isGameInitialized = false;
         obstacles = new ArrayList<>();
+        background = new Background(0, 0, 5);
         score = new AtomicInteger(0);
         newGame();
     }
@@ -266,6 +268,15 @@ public class Model implements Observable {
             obstacles.add(gameObjectInterface.createObstacle(obstacles.get(obstacles.size() - 1).getX(), 0, width, HEIGHT - height - space));
             System.out.println("IS THIS SECUND?");
         }
+    }
+
+    public void updateBackgroundPosition() {
+        background.updatePosition();
+        updateObserver();
+    }
+
+    public Background getBackground() {
+        return background;
     }
 
 

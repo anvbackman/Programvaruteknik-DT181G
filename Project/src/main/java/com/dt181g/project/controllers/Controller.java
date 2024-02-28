@@ -98,7 +98,7 @@ public class Controller implements ActionListener, KeyListener, Observer {
      */
     private void backgroundProcessing() {
         while (true) {
-            gamePanel.updateBackgroundPosition();
+            updateBackground();
 //            model.addObstacle(true);
 //            updateTopObstaclePosition();
 
@@ -109,6 +109,11 @@ public class Controller implements ActionListener, KeyListener, Observer {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void updateBackground() {
+        model.updateBackgroundPosition();
+        view.render();
     }
 
     private void gameOver() {
@@ -135,6 +140,8 @@ public class Controller implements ActionListener, KeyListener, Observer {
         // Sets the speed and ticks
         int speed = 10;
         model.setTicks(1);
+        gamePanel.updateBackgroundXPosition(model.getBackground().getX());
+        gamePanel.updateGroundXPosition(model.getBackground().getX());
 
         // Creates a rectangle of the bird to be used to check for intersects with obstacles later on
         Rectangle b = new Rectangle(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());

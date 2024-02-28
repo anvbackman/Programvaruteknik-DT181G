@@ -26,7 +26,7 @@ public class View extends JFrame {
     /**
      * Method to repaint the GamePanel to update the graphics
      */
-    public void repaint() {
+    public void render() {
         gamePanel.repaint();
     }
 
