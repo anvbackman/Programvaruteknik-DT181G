@@ -1,4 +1,4 @@
-package com.dt181g.project.controllers;
+package com.dt181g.project.observer_pattern;
 
 /**
  * The Observer interface is used for the object that want to be notified of changes.

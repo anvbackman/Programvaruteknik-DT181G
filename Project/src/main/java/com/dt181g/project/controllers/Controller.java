@@ -2,6 +2,7 @@ package com.dt181g.project.controllers;
 
 import com.dt181g.project.models.Model;
 import com.dt181g.project.models.Obstacle;
+import com.dt181g.project.observer_pattern.Observer;
 import com.dt181g.project.views.ButtonPanel;
 import com.dt181g.project.views.GamePanel;
 import com.dt181g.project.views.View;
@@ -12,6 +13,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -27,6 +29,7 @@ public class Controller implements ActionListener, KeyListener, Observer {
     private Timer timer;
     private BufferedImage birdImage;
     private BufferedImage birdImageJump;
+    private BufferedImage obstacleImage;
     private boolean lastObstacleIsTop = false;
 
     /**
@@ -43,6 +46,8 @@ public class Controller implements ActionListener, KeyListener, Observer {
         try {
             birdImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/flappy1.png")));
             birdImageJump = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/flappy2.png")));
+            obstacleImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/pipe.png")));
+
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -94,15 +99,21 @@ public class Controller implements ActionListener, KeyListener, Observer {
     private void backgroundProcessing() {
         while (true) {
             gamePanel.updateBackgroundPosition();
-            model.addObstacle(true);
+//            model.addObstacle(true);
+//            updateTopObstaclePosition();
 
-            // Sleep for 1 second
+
             try {
-                Thread.sleep(1000);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void gameOver() {
+//        view.showGameOver(); ------------------------------------------------------------------
+        model.setGameOver(true);
     }
 
     /**
@@ -111,6 +122,7 @@ public class Controller implements ActionListener, KeyListener, Observer {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+
 
         // Updates logic and render when game is over
         if (model.getGameOverStatus()) {
@@ -130,8 +142,14 @@ public class Controller implements ActionListener, KeyListener, Observer {
         // If game is started
         if (model.getStartedStatus()) {
             // Updates the background and adds obstacles
-            gamePanel.updateBackgroundPosition();
-            model.addObstacle(true);
+//            gamePanel.updateBackgroundPosition();
+//            model.addObstacle(true);
+
+            if (model.getObstacle().isEmpty()) {
+                model.addObstacle(true);
+            }
+
+
 
             // If number of ticks is even and the vertical motion is less than 15
             if (model.getTicks() % 2 == 0 && model.getYMotion() < 15) {
@@ -152,14 +170,29 @@ public class Controller implements ActionListener, KeyListener, Observer {
                 Obstacle obstacles = model.getObstacle().get(i);
                 obstacles.setX(-speed);
 
+
+
                 // Check if obstacle has moved past the screen to be removed
                 if (obstacles.getX() + obstacles.getWidth() < 0) {
                     model.getObstacle().remove(obstacles);
+//                    model.addObstacle(true);
+                    System.out.println("width: " + view.getWidth());
+
+
+
                 }
             }
 
-            // Checks if birds coordinates passes between the obstacles to increment the score
-            for (Obstacle o : model.getObstacle()) {
+
+
+            // Adds obstacles
+            // Then checks if birds coordinates passes between the obstacles to increment the score
+//            ArrayList<Point> obstacleInfo = new ArrayList<>();
+            ArrayList<Obstacle> obstaclesCopy = new ArrayList<>(model.getObstacle());
+            for (Obstacle o : obstaclesCopy) {
+
+
+//                updateObstaclePosition();
                 if (o.getY() == 0 && model.getBird().getX() + model.getBird().getWidth() / 2 > o.getX() + o.getWidth() / 2 - 10 && model.getBird().getX() + model.getBird().getWidth() / 2 < o.getX() + o.getWidth() / 2 + 10) {
                     model.updateScore(); // Updates the score in the Model
                 }
@@ -168,32 +201,48 @@ public class Controller implements ActionListener, KeyListener, Observer {
                 Rectangle obs = new Rectangle(o.getX(), o.getY(), o.getWidth(), o.getHeight());
                 if (obs.intersects(b)) {
                     // If there is a collision the game is set to game over
-                    model.setGameOver(true);
+                    gameOver();
                 }
+
+
             }
 
-            // Updates the birds virtical position based on current position
+
+            // Updates the birds vertical position based on current position
             model.getBird().setY(model.getBird().getY() + model.getYMotion());
 
-            // If the bird is out of bounds (touches the top part of the screen) set game over
+
+            // If the bird touches the top part of the screen, game is set to game over
             if (model.getBird().getY() > gamePanel.getHeight() - 120 || model.getBird().getY() < 0) {
-                model.setGameOver(true);
+                gameOver();
             }
 
             // If the bird touches the ground, game is set to game over
             if (model.getBird().getY() + model.getBird().getHeight() >= gamePanel.getHeight() - 120) {
                 model.getBird().setY(gamePanel.getHeight() - 120 - model.getBird().getHeight());
-                model.setGameOver(true);
+                gameOver();
             }
 
             // Updates the GamePanel with the current bird and obstacle positions
             gamePanel.updateBirdPosition(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
-            gamePanel.updateObstaclePosition(model.getObstacle());
+            updateObstaclePosition();
+            updateTopObstaclePosition();
+
+
         }
         // Calls repaint
         gamePanel.repaint();
     }
 
+    public void updateObstaclePosition() {
+        int[] obstacleInfo = model.getObstacleValue();
+        gamePanel.updateObstaclePosition(obstacleInfo[0], obstacleInfo[1], obstacleInfo[2], obstacleInfo[3]);
+    }
+
+    public void updateTopObstaclePosition() {
+        int[] obstacleInfo = model.getTopObstacleValue();
+        gamePanel.updateTopObstaclePosition(obstacleInfo[0], obstacleInfo[1], obstacleInfo[2], obstacleInfo[3]);
+    }
 
     /**
      * Method to override the observer

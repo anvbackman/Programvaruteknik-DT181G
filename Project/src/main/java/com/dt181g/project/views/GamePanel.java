@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Objects;
 
 /**
@@ -20,13 +21,27 @@ public class GamePanel extends JPanel {
     private int birdY;
     private int birdWidth;
     private int birdHeight;
+    private int obstacleX;
+    private int obstacleY;
+    private int obstacleWidth;
+    private int obstacleHeight;
+    private int topObstacleX;
+    private int topObstacleY;
+    private int topObstacleWidth;
+    private int topObstacleHeight;
+
+
+
+    private Collection<Point> obstacleInfo;
     private int score;
-    private ArrayList<Obstacle> obstacles = new ArrayList<>();
+//    private ArrayList<Obstacle> obstacles = new ArrayList<>();
     private BufferedImage currentBirdImage;
     private BufferedImage obstacleImage;
     private boolean birdState = true;
     private BufferedImage backgroundImage;
     private BufferedImage groundImage;
+    private Rectangle obstacle;
+    private Rectangle topObstacle;
     private int backgroundX;
     private JButton quitButton;
     private JButton startButton;
@@ -41,6 +56,7 @@ public class GamePanel extends JPanel {
             backgroundImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/bg.png")));
             groundImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/ground.png")));
             obstacleImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/pipe.png")));
+
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -93,12 +109,22 @@ public class GamePanel extends JPanel {
         repaint();
     }
 
-    /**
-     * Method to update the obstacle position to be drawn
-     * @param obstacles the obstacle to be drawn
-     */
-    public void updateObstaclePosition(ArrayList<Obstacle> obstacles) {
-        this.obstacles = obstacles;
+
+    public void updateObstaclePosition(int x, int y, int width, int height) {
+
+        this.obstacleX = x;
+        this.obstacleY = y;
+        this.obstacleWidth = width;
+        this.obstacleHeight = height;
+        repaint();
+    }
+
+    public void updateTopObstaclePosition(int x, int y, int width, int height) {
+
+        this.topObstacleX = x;
+        this.topObstacleY = y;
+        this.topObstacleWidth = width;
+        this.topObstacleHeight = height;
         repaint();
     }
 
@@ -142,11 +168,13 @@ public class GamePanel extends JPanel {
             g.drawImage(currentBirdImage, birdX, birdY, birdWidth, birdHeight, null);
         }
 
-        ArrayList<Obstacle> obstaclesCopy = new ArrayList<>(obstacles); // Creates copy of obstacles to avoid errors
-        // Draws the obstacles
-        for (Obstacle obstacle : obstaclesCopy) {
-            g.drawImage(obstacleImage, obstacle.getX(), obstacle.getY(), obstacle.getWidth(), obstacle.getHeight(), null);
-        }
+
+
+
+        g.drawImage(obstacleImage, obstacleX, obstacleY, obstacleWidth, obstacleHeight, null);
+        g.drawImage(obstacleImage, topObstacleX, topObstacleY, topObstacleWidth, topObstacleHeight, null);
+
+
 
         // Draws the score
         g.setColor(Color.white);

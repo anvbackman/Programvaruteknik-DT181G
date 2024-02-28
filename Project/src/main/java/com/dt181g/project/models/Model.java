@@ -1,6 +1,7 @@
 package com.dt181g.project.models;
 
-import com.dt181g.project.controllers.Observer;
+import com.dt181g.project.observer_pattern.Observable;
+import com.dt181g.project.observer_pattern.Observer;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -206,6 +207,43 @@ public class Model implements Observable {
         return obstacles;
     }
 
+    public int[] getObstacleValue() {
+        if (!obstacles.isEmpty()) {
+            Obstacle obstacle = obstacles.get(0);
+
+
+            int x = obstacle.getX();
+            int y = obstacle.getY();
+            int width = obstacle.getWidth();
+            int height = obstacle.getHeight();
+
+            return new int[]{x, y, width, height};
+        }
+        else {
+            return new int[]{0, 0, 0, 0};
+        }
+
+    }
+
+    public int[] getTopObstacleValue() {
+        if (!obstacles.isEmpty() && obstacles.size() > 1) {
+            Obstacle obstacle = obstacles.get(1);
+
+
+            int x = obstacle.getX();
+            int y = obstacle.getY();
+            int width = obstacle.getWidth();
+            int height = obstacle.getHeight();
+
+            return new int[]{x, y, width, height};
+
+        }
+        else {
+            return new int[]{0, 0, 0, 0};
+        }
+
+    }
+
     /**
      * Method to add an obstacle to the game with a randomized height
      * @param state if true, adds obstacles to the top and bottom
@@ -218,11 +256,17 @@ public class Model implements Observable {
 
         if (state) {
             obstacles.add(gameObjectInterface.createObstacle(WIDTH + width + obstacles.size() * 300, HEIGHT - height - 195, width, height));
+            System.out.println("JADÅ: " + WIDTH + (obstacles.size() - 1));
             obstacles.add(gameObjectInterface.createObstacle(WIDTH + width + (obstacles.size() - 1) * 300, 0, width, HEIGHT - height - space));
+
+
         }
         else {
             obstacles.add(gameObjectInterface.createObstacle(obstacles.get(obstacles.size() - 1).getX() + 600, height - 195, width, height));
             obstacles.add(gameObjectInterface.createObstacle(obstacles.get(obstacles.size() - 1).getX(), 0, width, HEIGHT - height - space));
+            System.out.println("IS THIS SECUND?");
         }
     }
+
+
 }

@@ -1,7 +1,5 @@
 package com.dt181g.project.models;
 
-import com.dt181g.project.models.Bird;
-import com.dt181g.project.models.Obstacle;
 
 /**
  * The GameObjectInterface is used to create game objects such as the Bird and Obstacles
