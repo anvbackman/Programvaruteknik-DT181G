@@ -12,7 +12,7 @@ public class View extends JFrame {
     private GamePanel gamePanel;
 
     /**
-     * Constructor to create a View object that sets the title, defult close operation and size of the frame
+     * Constructor to create a View object that sets the title, default close operation and size of the frame
      * It then initializes the GamePanel
      */
     public View() {
@@ -29,6 +29,4 @@ public class View extends JFrame {
     public void render() {
         gamePanel.repaint();
     }
-
-
 }

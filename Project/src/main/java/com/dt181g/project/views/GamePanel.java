@@ -158,8 +158,6 @@ public class GamePanel extends JPanel {
             xPos += backgroundImage.getWidth() - BACKGROUND_OVERLAP; // subtracts a overlap to make the image not have a gap in it
         }
 
-        g.drawImage(backgroundImage, xPos, 0, getWidth(), getHeight(), null);
-
         // Draws the ground based on the groundX value
         int groundXPos = groundX;
         while (groundXPos < getWidth()) { // While less than width of screen
