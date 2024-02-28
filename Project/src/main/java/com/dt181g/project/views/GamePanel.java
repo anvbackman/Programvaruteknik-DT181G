@@ -44,15 +44,15 @@ public class GamePanel extends JPanel {
      * Constructor to create images, buttons and set the backgroundX
      */
     public GamePanel() {
-        try {
-            backgroundImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/bg.png")));
-            groundImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/ground.png")));
-            obstacleImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/pipe.png")));
-
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            backgroundImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/bg.png")));
+//            groundImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/ground.png")));
+//            obstacleImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/pipe.png")));
+//
+//        }
+//        catch (IOException e) {
+//            e.printStackTrace();
+//        }
         JButton startButton = new JButton();
         JButton quitButton = new JButton();
 //        backgroundX = 0;
@@ -82,11 +82,28 @@ public class GamePanel extends JPanel {
      * @param state is the bird jumping or not
      * @param currentBirdImage the image to be used
      */
-    public void setBirdImage(boolean state, BufferedImage currentBirdImage) {
-        birdState = state;
+    public void setBirdImage(BufferedImage currentBirdImage) {
+//        birdState = state;
         this.currentBirdImage = currentBirdImage;
         repaint();
     }
+
+    public void setObstacleImage(BufferedImage obstacleImage) {
+        this.obstacleImage = obstacleImage;
+        repaint();
+    }
+
+    public void setGroundImage(BufferedImage groundImage) {
+        this.groundImage = groundImage;
+        repaint();
+    }
+
+    public void setBackgroundImage(BufferedImage backgroundImage) {
+        this.backgroundImage = backgroundImage;
+        repaint();
+    }
+
+
 
     /**
      * Updates the score to be shown
@@ -163,13 +180,14 @@ public class GamePanel extends JPanel {
         }
 
         // Checks if bird is jumping or not
-        if (birdState) {
-            // Bird is moving downwards or not moving
-            g.drawImage(currentBirdImage, birdX, birdY, birdWidth, birdHeight, null);
-        } else {
-            // Bird is moving upwards
-            g.drawImage(currentBirdImage, birdX, birdY, birdWidth, birdHeight, null);
-        }
+        g.drawImage(currentBirdImage, birdX, birdY, birdWidth, birdHeight, null);
+//        if (birdState) {
+//            // Bird is moving downwards or not moving
+//
+//        } else {
+//            // Bird is moving upwards
+//            g.drawImage(currentBirdImage, birdX, birdY, birdWidth, birdHeight, null);
+//        }
 
         g.drawImage(obstacleImage, obstacleX, obstacleY, obstacleWidth, obstacleHeight, null);
         g.drawImage(obstacleImage, topObstacleX, topObstacleY, topObstacleWidth, topObstacleHeight, null);

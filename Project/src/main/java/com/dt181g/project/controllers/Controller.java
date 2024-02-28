@@ -41,17 +41,20 @@ public class Controller implements ActionListener, KeyListener, Observer {
         this.gamePanel = new GamePanel();
         view.addKeyListener(this);
         model.addObserver(this);
+        gamePanel.setBackgroundImage(model.getBackgroundImage());
+        gamePanel.setGroundImage(model.getGroundImage());
+        gamePanel.setObstacleImage(model.getObstacleImage());
 
-        // Loading images for the bird to be used
-        try {
-            birdImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/flappy1.png")));
-            birdImageJump = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/flappy2.png")));
-            obstacleImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/pipe.png")));
-
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+//        // Loading images for the bird to be used
+//        try {
+//            birdImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/flappy1.png")));
+//            birdImageJump = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/flappy2.png")));
+//            obstacleImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/pipe.png")));
+//
+//        }
+//        catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
 
         // Create the infoActionListener used to show game information
@@ -164,11 +167,11 @@ public class Controller implements ActionListener, KeyListener, Observer {
             }
 
             // Changing image of bird when jumping
-            if (model.getYMotion() >= 0) {
-                gamePanel.setBirdImage(true, birdImage);
+            if (model.getBirdState()) {
+                gamePanel.setBirdImage(model.getBirdImage());
 
             } else {
-                gamePanel.setBirdImage(false, birdImageJump);
+                gamePanel.setBirdImage(model.getBirdJumpingImage());
             }
 
             // Iterates through the list of obstacles retreives current obstacle and moves the obstacle to the left at the

@@ -3,7 +3,11 @@ package com.dt181g.project.models;
 import com.dt181g.project.observer_pattern.Observable;
 import com.dt181g.project.observer_pattern.Observer;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -29,6 +33,13 @@ public class Model implements Observable {
     private boolean isGameInitialized;
     private ArrayList<Obstacle> obstacles;
     private Background background;
+    private BufferedImage obstacleImage;
+    private boolean birdState = true;
+    private BufferedImage backgroundImage;
+    private BufferedImage groundImage;
+    private BufferedImage birdImage;
+    private BufferedImage birdImageJump;
+    private BufferedImage currentBirdImage;
 
     /**
      * Constructor that starts a new game and creates game objects
@@ -42,6 +53,19 @@ public class Model implements Observable {
         obstacles = new ArrayList<>();
         background = new Background(0, 0, 5);
         score = new AtomicInteger(0);
+        try {
+            backgroundImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/bg.png")));
+            groundImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/ground.png")));
+            obstacleImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/pipe.png")));
+            birdImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/flappy1.png")));
+            birdImageJump = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/flappy2.png")));
+
+
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
         newGame();
     }
 
@@ -277,6 +301,31 @@ public class Model implements Observable {
 
     public Background getBackground() {
         return background;
+    }
+
+    public void setBirdState(boolean state) {
+        birdState = state;
+    }
+
+    public boolean getBirdState() {
+        return birdState;
+    }
+
+    public BufferedImage getBirdImage() {
+        return birdImage;
+    }
+    public BufferedImage getBirdJumpingImage() {
+        return birdImageJump;
+    }
+
+    public BufferedImage getBackgroundImage() {
+        return backgroundImage;
+    }
+    public BufferedImage getObstacleImage() {
+        return obstacleImage;
+    }
+    public BufferedImage getGroundImage() {
+        return groundImage;
     }
 
 
