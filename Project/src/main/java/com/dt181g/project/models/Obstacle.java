@@ -1,7 +1,7 @@
 package com.dt181g.project.models;
 
 /**
- * The Bird class represents the obstacles in the Flappy Bird game
+ * The Obstacle class represents the obstacles in the Flappy Bird game
  * It encapsulates the position and dimensions of the obstacles
  * @author Andreas Backman
  */

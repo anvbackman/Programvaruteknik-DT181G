@@ -30,7 +30,6 @@ public class Model implements Observable {
     private int ticks;
     private AtomicInteger score;
     private Random rand;
-    private boolean isGameInitialized;
     private ArrayList<Obstacle> obstacles;
     private Background background;
     private BufferedImage obstacleImage;
@@ -39,7 +38,6 @@ public class Model implements Observable {
     private BufferedImage groundImage;
     private BufferedImage birdImage;
     private BufferedImage birdImageJump;
-    private BufferedImage currentBirdImage;
 
     /**
      * Constructor that starts a new game and creates game objects
@@ -49,18 +47,17 @@ public class Model implements Observable {
         rand = new Random();
         isGameOver = false;
         isStarted = false;
-        isGameInitialized = false;
         obstacles = new ArrayList<>();
         background = new Background(0, 0, 5);
         score = new AtomicInteger(0);
+
+        // Load images
         try {
             backgroundImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/bg.png")));
             groundImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/ground.png")));
             obstacleImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/pipe.png")));
             birdImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/flappy1.png")));
             birdImageJump = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/flappy2.png")));
-
-
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -88,7 +85,7 @@ public class Model implements Observable {
     }
 
     /**
-     * Method that otifies all observers when changes in the model are made
+     * Method that notifies all observers when changes in the model are made
      */
     @Override
     public void updateObserver() {
@@ -233,10 +230,13 @@ public class Model implements Observable {
         return obstacles;
     }
 
-    public int[] getObstacleValue() {
+    /**
+     * Method to get the bottom obstacle coordinates
+     * @return the coordinates
+     */
+    public synchronized int[] getObstacleValue() {
         if (!obstacles.isEmpty()) {
             Obstacle obstacle = obstacles.get(0);
-
 
             int x = obstacle.getX();
             int y = obstacle.getY();
@@ -248,10 +248,13 @@ public class Model implements Observable {
         else {
             return new int[]{0, 0, 0, 0};
         }
-
     }
 
-    public int[] getTopObstacleValue() {
+    /**
+     * Method to get the top obstacle coordinates
+     * @return the coordinates
+     */
+    public synchronized int[] getTopObstacleValue() {
         if (!obstacles.isEmpty() && obstacles.size() > 1) {
             Obstacle obstacle = obstacles.get(1);
 
@@ -267,7 +270,6 @@ public class Model implements Observable {
         else {
             return new int[]{0, 0, 0, 0};
         }
-
     }
 
     /**
@@ -282,51 +284,84 @@ public class Model implements Observable {
 
         if (state) {
             obstacles.add(gameObjectInterface.createObstacle(WIDTH + width + obstacles.size() * 300, HEIGHT - height - 195, width, height));
-            System.out.println("JADÅ: " + WIDTH + (obstacles.size() - 1));
             obstacles.add(gameObjectInterface.createObstacle(WIDTH + width + (obstacles.size() - 1) * 300, 0, width, HEIGHT - height - space));
-
 
         }
         else {
             obstacles.add(gameObjectInterface.createObstacle(obstacles.get(obstacles.size() - 1).getX() + 600, height - 195, width, height));
             obstacles.add(gameObjectInterface.createObstacle(obstacles.get(obstacles.size() - 1).getX(), 0, width, HEIGHT - height - space));
-            System.out.println("IS THIS SECUND?");
         }
     }
 
+    /**
+     * Method to update the position of the background
+     */
     public void updateBackgroundPosition() {
         background.updatePosition();
         updateObserver();
     }
 
+    /**
+     * Method to retrieve the background position
+     * @return the position
+     */
     public Background getBackground() {
         return background;
     }
 
+    /**
+     * Method to set the bird state
+     * @param state the jumping state
+     */
     public void setBirdState(boolean state) {
         birdState = state;
     }
 
+    /**
+     * Method to retrieve the bird state
+     * @return the jumping state
+     */
     public boolean getBirdState() {
         return birdState;
     }
 
+    /**
+     * Method to retrieve the bird image
+     * @return the bird image
+     */
     public BufferedImage getBirdImage() {
         return birdImage;
     }
+
+    /**
+     * Method to retrieve the bird jumping image
+     * @return the bird jumping image
+     */
     public BufferedImage getBirdJumpingImage() {
         return birdImageJump;
     }
 
+    /**
+     * Method to retrieve the background image
+     * @return the background image
+     */
     public BufferedImage getBackgroundImage() {
         return backgroundImage;
     }
+
+    /**
+     * Method to retrieve the obstacle image
+     * @return the obstacle image
+     */
     public BufferedImage getObstacleImage() {
         return obstacleImage;
     }
+
+    /**
+     * Method to retrieve the ground image
+     * @return the ground image
+     */
     public BufferedImage getGroundImage() {
         return groundImage;
     }
-
-
 }

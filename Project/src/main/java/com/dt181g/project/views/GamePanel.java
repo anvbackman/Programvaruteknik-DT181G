@@ -1,15 +1,8 @@
 package com.dt181g.project.views;
 
-import com.dt181g.project.models.Obstacle;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Objects;
 
 /**
  * The GamePanel represents the main panel used to render the game
@@ -32,45 +25,31 @@ public class GamePanel extends JPanel {
     private int score;
     private BufferedImage currentBirdImage;
     private BufferedImage obstacleImage;
-    private boolean birdState = true;
     private BufferedImage backgroundImage;
     private BufferedImage groundImage;
     private int backgroundX;
     private int groundX;
-    private static final int BACKGROUND_SCROLL_SPEED = 5; // Adjust the speed as needed
     private static final int BACKGROUND_OVERLAP = 120;
 
     /**
-     * Constructor to create images, buttons and set the backgroundX
+     * Constructor to create a GamePanel object
      */
     public GamePanel() {
-//        try {
-//            backgroundImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/bg.png")));
-//            groundImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/ground.png")));
-//            obstacleImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/pipe.png")));
-//
-//        }
-//        catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        JButton startButton = new JButton();
-        JButton quitButton = new JButton();
-//        backgroundX = 0;
     }
 
     /**
      * Method to update the background position
+     * @param x the x-coordinates
      */
-//    public void updateBackgroundPosition() {
-//        backgroundX -= BACKGROUND_SCROLL_SPEED;
-//        repaint();
-//    }
-
     public void updateBackgroundXPosition(int x) {
         this.backgroundX = x;
         repaint();
-
     }
+
+    /**
+     * Method to update the ground position
+     * @param x the x-coordinates
+     */
     public void updateGroundXPosition(int x) {
         this.groundX = x;
         repaint();
@@ -78,32 +57,40 @@ public class GamePanel extends JPanel {
     }
 
     /**
-     * Method to set which bird image to be used depending on if the bird is jumping or not
-     * @param state is the bird jumping or not
-     * @param currentBirdImage the image to be used
+     * Method to set the bird image
+     * @param currentBirdImage the bird image
      */
     public void setBirdImage(BufferedImage currentBirdImage) {
-//        birdState = state;
         this.currentBirdImage = currentBirdImage;
         repaint();
     }
 
+    /**
+     * Method to set the obstacle image
+     * @param obstacleImage the obstacle image
+     */
     public void setObstacleImage(BufferedImage obstacleImage) {
         this.obstacleImage = obstacleImage;
         repaint();
     }
 
+    /**
+     * Method to set the ground image
+     * @param groundImage the ground image
+     */
     public void setGroundImage(BufferedImage groundImage) {
         this.groundImage = groundImage;
         repaint();
     }
 
+    /**
+     * Method to set the background image
+     * @param backgroundImage the background image
+     */
     public void setBackgroundImage(BufferedImage backgroundImage) {
         this.backgroundImage = backgroundImage;
         repaint();
     }
-
-
 
     /**
      * Updates the score to be shown
@@ -129,9 +116,8 @@ public class GamePanel extends JPanel {
         repaint();
     }
 
-
+    // Method to update the bottom obstacle position
     public void updateObstaclePosition(int x, int y, int width, int height) {
-
         this.obstacleX = x;
         this.obstacleY = y;
         this.obstacleWidth = width;
@@ -139,8 +125,8 @@ public class GamePanel extends JPanel {
         repaint();
     }
 
+    // Method to update the top obstacle position
     public void updateTopObstaclePosition(int x, int y, int width, int height) {
-
         this.topObstacleX = x;
         this.topObstacleY = y;
         this.topObstacleWidth = width;
@@ -172,33 +158,25 @@ public class GamePanel extends JPanel {
             xPos += backgroundImage.getWidth() - BACKGROUND_OVERLAP; // subtracts a overlap to make the image not have a gap in it
         }
 
-        // Draws the ground based on the backgroundX value
+        g.drawImage(backgroundImage, xPos, 0, getWidth(), getHeight(), null);
+
+        // Draws the ground based on the groundX value
         int groundXPos = groundX;
         while (groundXPos < getWidth()) { // While less than width of screen
             g.drawImage(groundImage, groundXPos, getHeight() - 120, getWidth(), 120, null);
             groundXPos += groundImage.getWidth();
         }
 
-        // Checks if bird is jumping or not
+        // Draws the bird
         g.drawImage(currentBirdImage, birdX, birdY, birdWidth, birdHeight, null);
-//        if (birdState) {
-//            // Bird is moving downwards or not moving
-//
-//        } else {
-//            // Bird is moving upwards
-//            g.drawImage(currentBirdImage, birdX, birdY, birdWidth, birdHeight, null);
-//        }
 
+        // Draws the obstacles
         g.drawImage(obstacleImage, obstacleX, obstacleY, obstacleWidth, obstacleHeight, null);
         g.drawImage(obstacleImage, topObstacleX, topObstacleY, topObstacleWidth, topObstacleHeight, null);
-
-
 
         // Draws the score
         g.setColor(Color.white);
         g.setFont(new Font("Arial", 1, 25));
         g.drawString("Score: " + score, getWidth() / 2 - 50, 50);
-
-
     }
 }

@@ -6,15 +6,11 @@ import com.dt181g.project.observer_pattern.Observer;
 import com.dt181g.project.views.ButtonPanel;
 import com.dt181g.project.views.GamePanel;
 import com.dt181g.project.views.View;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * The Controller class represents the controller in the Flappy Bird game and manages interactions between the
@@ -44,18 +40,7 @@ public class Controller implements ActionListener, KeyListener, Observer {
         gamePanel.setBackgroundImage(model.getBackgroundImage());
         gamePanel.setGroundImage(model.getGroundImage());
         gamePanel.setObstacleImage(model.getObstacleImage());
-
-//        // Loading images for the bird to be used
-//        try {
-//            birdImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/flappy1.png")));
-//            birdImageJump = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/flappy2.png")));
-//            obstacleImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/IMG/pipe.png")));
-//
-//        }
-//        catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
+        gamePanel.setBirdImage(model.getBirdImage());
 
         // Create the infoActionListener used to show game information
         ActionListener infoActionListener = new ActionListener() {
@@ -70,7 +55,6 @@ public class Controller implements ActionListener, KeyListener, Observer {
         ActionListener quitActionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Quitting the program...");
                 System.exit(0);
             }
         };
@@ -86,6 +70,7 @@ public class Controller implements ActionListener, KeyListener, Observer {
         // Also gives the game information at the start of the game
         JOptionPane.showMessageDialog(view, "Press space to start\nPress space to make the bird jump\nAvoid the obstacles to earn points\nAvoid the obstacles as they result in Game Over" +
                 "\nAvoid the ground and the top of the screen as they result in Game Over\nClick Quit to exit", "Game Information", JOptionPane.INFORMATION_MESSAGE);
+
 
         // Setting up the game timer
         timer = new Timer(20, this);
@@ -110,18 +95,38 @@ public class Controller implements ActionListener, KeyListener, Observer {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                Thread.interrupted();
             }
         }
     }
 
     private void updateBackground() {
-        model.updateBackgroundPosition();
-        view.render();
+        if (model.getStartedStatus()) {
+            model.updateBackgroundPosition();
+            view.render();
+        }
     }
 
     private void gameOver() {
 //        view.showGameOver(); ------------------------------------------------------------------
         model.setGameOver(true);
+        SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(view, "Game Over! Your score: " + model.getScore() + "\nPress OK or space to try again", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+
+            model.newGame();
+
+            resetFrame();
+
+
+        });
+
+
+    }
+
+    private void resetFrame() {
+        gamePanel.updateBirdPosition(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
+        gamePanel.updateObstaclePosition(0, 0, 0, 0);
+        gamePanel.updateTopObstaclePosition(0, 0, 0, 0);
     }
 
     /**
@@ -145,12 +150,16 @@ public class Controller implements ActionListener, KeyListener, Observer {
         model.setTicks(1);
         gamePanel.updateBackgroundXPosition(model.getBackground().getX());
         gamePanel.updateGroundXPosition(model.getBackground().getX());
+        gamePanel.updateBirdPosition(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
+
 
         // Creates a rectangle of the bird to be used to check for intersects with obstacles later on
         Rectangle b = new Rectangle(model.getBird().getX(), model.getBird().getY(), model.getBird().getWidth(), model.getBird().getHeight());
 
+
         // If game is started
         if (model.getStartedStatus()) {
+
             // Updates the background and adds obstacles
 //            gamePanel.updateBackgroundPosition();
 //            model.addObstacle(true);
@@ -186,7 +195,7 @@ public class Controller implements ActionListener, KeyListener, Observer {
                 if (obstacles.getX() + obstacles.getWidth() < 0) {
                     model.getObstacle().remove(obstacles);
 //                    model.addObstacle(true);
-                    System.out.println("width: " + view.getWidth());
+
 
 
 
@@ -260,7 +269,6 @@ public class Controller implements ActionListener, KeyListener, Observer {
     @Override
     public void updateObserver() {
         SwingUtilities.invokeLater(() -> { // Updates swing components
-            System.out.println("Observer updated");
             gamePanel.updateScore(model.getScore());
             gamePanel.repaint();
         });
@@ -273,20 +281,27 @@ public class Controller implements ActionListener, KeyListener, Observer {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        // Check if game is over
-        if (model.getGameOverStatus()) {
-            // Then reset game states
-            model.setGameOver(false);
-            model.setStarted(true);
-            model.newGame();
-        }
-        // If space key is pressed the bird jump
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            model.jump();
+
+            // Check if game is over
+            if (model.getGameOverStatus()) {
+                // Then reset game states
+                model.setGameOver(false);
+                model.setStarted(true);
+                model.newGame();
+            }
+
+            else {
+                model.jump();
+                model.setBirdState(true);
+            }
+
+
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        model.setBirdState(false);
     }
 }

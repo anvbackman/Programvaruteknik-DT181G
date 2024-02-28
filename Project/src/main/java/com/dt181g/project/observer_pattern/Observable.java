@@ -1,6 +1,5 @@
 package com.dt181g.project.observer_pattern;
 
-import com.dt181g.project.observer_pattern.Observer;
 
 /**
  * Observable interface used to define the Observers. The objects implementing this can then notify the observers
