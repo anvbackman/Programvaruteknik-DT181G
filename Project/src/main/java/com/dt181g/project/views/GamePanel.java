@@ -43,7 +43,6 @@ public class GamePanel extends JPanel {
      */
     public void updateBackgroundXPosition(int x) {
         this.backgroundX = x;
-        repaint();
     }
 
     /**
@@ -52,8 +51,6 @@ public class GamePanel extends JPanel {
      */
     public void updateGroundXPosition(int x) {
         this.groundX = x;
-        repaint();
-
     }
 
     /**
@@ -62,7 +59,6 @@ public class GamePanel extends JPanel {
      */
     public void setBirdImage(BufferedImage currentBirdImage) {
         this.currentBirdImage = currentBirdImage;
-        repaint();
     }
 
     /**
@@ -71,7 +67,6 @@ public class GamePanel extends JPanel {
      */
     public void setObstacleImage(BufferedImage obstacleImage) {
         this.obstacleImage = obstacleImage;
-        repaint();
     }
 
     /**
@@ -80,7 +75,6 @@ public class GamePanel extends JPanel {
      */
     public void setGroundImage(BufferedImage groundImage) {
         this.groundImage = groundImage;
-        repaint();
     }
 
     /**
@@ -89,7 +83,6 @@ public class GamePanel extends JPanel {
      */
     public void setBackgroundImage(BufferedImage backgroundImage) {
         this.backgroundImage = backgroundImage;
-        repaint();
     }
 
     /**
@@ -98,7 +91,6 @@ public class GamePanel extends JPanel {
      */
     public void updateScore(int value) {
         this.score = value;
-        repaint();
     }
 
     /**
@@ -113,7 +105,6 @@ public class GamePanel extends JPanel {
         this.birdY = y;
         this.birdWidth = width;
         this.birdHeight = height;
-        repaint();
     }
 
     // Method to update the bottom obstacle position
@@ -122,7 +113,6 @@ public class GamePanel extends JPanel {
         this.obstacleY = y;
         this.obstacleWidth = width;
         this.obstacleHeight = height;
-        repaint();
     }
 
     // Method to update the top obstacle position
@@ -131,7 +121,6 @@ public class GamePanel extends JPanel {
         this.topObstacleY = y;
         this.topObstacleWidth = width;
         this.topObstacleHeight = height;
-        repaint();
     }
 
     /**
