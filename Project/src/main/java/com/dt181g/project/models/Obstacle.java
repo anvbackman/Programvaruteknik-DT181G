@@ -7,9 +7,9 @@ package com.dt181g.project.models;
  */
 public class Obstacle {
     private int x;
-    private int y;
-    private int width;
-    private int height;
+    private final int y;
+    private final int width;
+    private final int height;
 
     /**
      * Constructor that creates a new Obstacle object with specified position and dimensions

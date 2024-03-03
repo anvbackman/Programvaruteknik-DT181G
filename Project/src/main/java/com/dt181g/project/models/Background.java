@@ -8,18 +8,15 @@ package com.dt181g.project.models;
 public class Background {
 
     private int x;
-    private int y;
-    private int speed;
+    private final int speed;
 
     /**
      * Constructor that creates a new Background object with specified position and speed
      * @param x the x-coordinates
-     * @param y the y-coordinates
      * @param speed the speed
      */
-    public Background(int x, int y, int speed) {
+    public Background(int x, int speed) {
         this.x = x;
-        this.y = y;
         this.speed = speed;
     }
 

@@ -6,10 +6,10 @@ package com.dt181g.project.models;
  * @author Andreas Backman
  */
 public class Bird {
-    private int x;
+    private final int x;
     private int y;
-    private int width;
-    private int height;
+    private final int width;
+    private final int height;
 
     /**
      * Constructor that creates a new Bird object with specified position and dimensions
@@ -30,14 +30,6 @@ public class Bird {
      * @param value the new Y-coordinate
      */
     public void setY(int value) {
-        this.y = value;
-    }
-
-    /**
-     * Method to set the X-coordinates
-     * @param value the new X-coordinate
-     */
-    public void setX(int value) {
         this.y = value;
     }
 

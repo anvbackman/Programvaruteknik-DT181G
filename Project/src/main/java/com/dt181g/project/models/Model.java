@@ -41,6 +41,7 @@ public class Model implements Observable {
 
     /**
      * Constructor that starts a new game and creates game objects
+     * It also loads the images used in the game
      */
     public Model() {
         gameObjectInterface = new ConcreteGameObject();
@@ -48,7 +49,7 @@ public class Model implements Observable {
         isGameOver = false;
         isStarted = false;
         obstacles = new ArrayList<>();
-        background = new Background(0, 0, 5);
+        background = new Background(0, 5);
         score = new AtomicInteger(0);
 
         // Load images
@@ -95,7 +96,7 @@ public class Model implements Observable {
     }
 
     /**
-     * Retreives the bird object
+     * Retrieves the bird object
      * @return the bird object
      */
     public Bird getBird() {
@@ -258,14 +259,12 @@ public class Model implements Observable {
         if (!obstacles.isEmpty() && obstacles.size() > 1) {
             Obstacle obstacle = obstacles.get(1);
 
-
             int x = obstacle.getX();
             int y = obstacle.getY();
             int width = obstacle.getWidth();
             int height = obstacle.getHeight();
 
             return new int[]{x, y, width, height};
-
         }
         else {
             return new int[]{0, 0, 0, 0};

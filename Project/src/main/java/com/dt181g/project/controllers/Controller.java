@@ -25,6 +25,9 @@ public class Controller implements ActionListener, KeyListener, Observer {
 
     /**
      * Constructor to create a Controller object
+     * Sets up the Model, View, GamePanel, ButtonPanel and Timer
+     * Also sets up the infoActionListener and quitActionListener
+     * and a background thread for background processing
      */
     public Controller() {
         this.model = new Model();
@@ -32,6 +35,8 @@ public class Controller implements ActionListener, KeyListener, Observer {
         this.gamePanel = new GamePanel();
         view.addKeyListener(this);
         model.addObserver(this);
+
+        // Set the background, ground, obstacle and bird images
         gamePanel.setBackgroundImage(model.getBackgroundImage());
         gamePanel.setGroundImage(model.getGroundImage());
         gamePanel.setObstacleImage(model.getObstacleImage());
@@ -134,7 +139,7 @@ public class Controller implements ActionListener, KeyListener, Observer {
         if (model.getGameOverStatus()) {
             model.getBird().setY(gamePanel.getHeight() + 1);
             model.resetScore();
-            gamePanel.repaint();
+            view.render();
             return;
         }
 
@@ -153,7 +158,7 @@ public class Controller implements ActionListener, KeyListener, Observer {
         // If game is started
         if (model.getStartedStatus()) {
 
-            // Adds obstacles if is no current obstacles
+            // Adds obstacles if there is no current obstacles
             if (model.getObstacle().isEmpty()) {
                 model.addObstacle(true);
             }
@@ -183,8 +188,7 @@ public class Controller implements ActionListener, KeyListener, Observer {
                 }
             }
 
-            // Adds obstacles
-            // Then checks if birds coordinates passes between the obstacles to increment the score
+            // Creates a copy of the obstacles and iterates through it
             ArrayList<Obstacle> obstaclesCopy = new ArrayList<>(model.getObstacle()); // Creates a copy of the obstacles
             for (Obstacle o : obstaclesCopy) {
 
