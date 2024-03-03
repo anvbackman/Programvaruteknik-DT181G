@@ -41,12 +41,12 @@ MVC criteria. The only solution seemingly in the end, were to simply start over.
 
 ### Adhering to the criteria
 Although seemingly not adhering to the assignment criteria, focus were shifted on following the criteria outlined
-in the project information. With the first step were to implement a working solution utilizing the Model-View-
+in the project information. With the first being to implement a working solution utilizing the Model-View-
 Controller pattern. Having started from scratch made it seemingly easier to implement a solution where the Model
-only handles the games logic such as the game states and setting the score. Where the View only handles the rendering
+only handles the games logic such as the game states and setting the score and where the View only handles the rendering
 of the graphics such as drawing said score, and where the Controller can act as a communication channel between the 
 two, by for example updating and retrieving the score from the Model to then send it to the View to render the score to
-the UI.
+the UI. Or to handle user input and send it to the Model to alter birds coordinates to then draw the updated position.
 
 ### Other Design patterns
 Integrating the needed amount of design patterns alongside the MVC pattern, were a challenge since these
@@ -59,7 +59,7 @@ then sent to get rendered.
 The other mechanic found that could benefit from a design pattern were the creation of the playable character 
 and the obstacles. By implementing the Abstract Factory Pattern which can be used to create game 
 objects via the Model without the specification of their concrete classes. Although this might not be very useful considering the game only
-contains the Bird and Object, this could be a flexible way to make it easier in the future
+contains the Bird and Obstacle, this could be a flexible way to make it easier in the future
 if one were to implement more objects. 
 
 
@@ -94,7 +94,7 @@ the implementation achieves a separation between the two. The invokeLater method
 Swing components safely from the background thread.
 
 #### Synchronization 
-In the Model class the getObstacle and addObstacle methods are implemented using synchronized. This ensures
+In the Model class the getObstacle, getObstacleValue/getTopObstacleValue and addObstacle methods are implemented using synchronized. This ensures
 that when multiple threads try to access the methods, only one thread can execute them at a time.
 Thus preventing potential issues related to modification of the obstacles list.
 
@@ -125,11 +125,12 @@ These includes the main window frame and panels for rendering the game and creat
 
 #### Swing Layout
 The implementation includes the use of the FlowLayout in the ButtonLabel due to its simplicity in
-arranging the buttons from the left to right, making the position easy to control.
+arranging the buttons from the left to right, making the position easy to control. It also includes the use of the BorderLayout
+in the GamePanel class in order to showcase the score at the top of the frame.
 
 Based on the above we may establish that the assigned goal: "The implementation need to include at least 1 unique Swing layout"
 has been accomplished. This by implementing at least one Swing Layout, which in this case were the FlowLayout
-due to its ease of use.
+due to its ease of use and the BorderLayout to showcase the score at the top of the frame.
 
 #### Additional design patterns
 The implementation incorporates the Observer pattern which is used between the Model class and Controller class
@@ -159,11 +160,12 @@ With the knowledge gained from working on this project, one might benefit from o
 procedures.
 Regarding the challenges of time constraints and managing the order in which to implement the solution,
 one might have benefited from setting up a better plan of, in what order the implementations should be made.
-As highlighted, the biggest issue were not implementing the MVC pattern straight away, which resulted in
+As highlighted, the biggest issue were to not implement a working solution of the MVC pattern straight away, which resulted in
 a lot of unnecessary time being spent trying to transform already written code into the MVC pattern.
 Moving forward, a plan should be made containing in which order the requirements should be implemented. 
 This have been a valuable lesson though, that starting simple to then rework it into something more advanced,
-might be harder to do than just starting with the more advanced part. 
+might be harder to do than just starting with the more advanced part. This of course depends on the person since
+some might find the implementation of the MVC pattern to be the easy part.
 
 The integration of design patterns such as the Observer and Abstract Factory patterns posed a challenge
 in terms of matching the games mechanics and not hinder them or the MVC pattern in any way. An alternative
@@ -171,7 +173,8 @@ approach to this would be to make a more detailed analysis of what the game mech
 This, to incorporate this while implementing the MVC pattern instead of splitting them into two.
 Meaning for example implementing the Observer pattern for the score mechanic along side the MVC pattern.
 Not first figuring out how to update the score in both Model and View, to then change it further down
-the road.
+the road. It might also be a good idea to have this in mind before deciding on the project itself,
+since the project might not be suitable for the different design patterns needed to pass the criteria.
 
 In conclusion this project has shown the importance of structural planning and 
 integrated design pattern implementation. 
@@ -181,7 +184,8 @@ straight forward development process.
 
 ## Personal Reflections
 This project has been both challenging and rewarding. While being one of the most frustrating 
-projects yet, I feel like I have ended up at what my first image of the project was. 
+projects yet, I feel like I have ended up at what my first image of the project was. Even though the
+wish was to implement a more advanced version of the game, the project has been a great learning experience.
 The project allowed for a deeper understanding into the design patterns studied in the modules, giving
 a greater picture of their usability. 
 Getting a feel of the Swing library, although challenging was informative.

@@ -138,7 +138,7 @@ public class Controller implements ActionListener, KeyListener, Observer {
         // Updates logic and render when game is over
         if (model.getGameOverStatus()) {
             model.getBird().setY(gamePanel.getHeight() + 1);
-            model.resetScore();
+//            model.resetScore();
             view.render();
             return;
         }
@@ -190,8 +190,7 @@ public class Controller implements ActionListener, KeyListener, Observer {
 
             // Creates a copy of the obstacles and iterates through it
             ArrayList<Obstacle> obstaclesCopy = new ArrayList<>(model.getObstacle()); // Creates a copy of the obstacles
-            for (Obstacle o : obstaclesCopy) {
-
+            obstaclesCopy.stream().forEach(o -> {
                 // Checks if the bird passes between the obstacles
                 if (o.getY() == 0 && model.getBird().getX() + model.getBird().getWidth() / 2 > o.getX() + o.getWidth() / 2 - 10 &&
                         model.getBird().getX() + model.getBird().getWidth() / 2 < o.getX() + o.getWidth() / 2 + 10) {
@@ -204,7 +203,7 @@ public class Controller implements ActionListener, KeyListener, Observer {
                     // If there is a collision the game is set to game over
                     gameOver();
                 }
-            }
+            });
 
             // Updates the birds vertical position based on current position
             model.getBird().setY(model.getBird().getY() + model.getYMotion());

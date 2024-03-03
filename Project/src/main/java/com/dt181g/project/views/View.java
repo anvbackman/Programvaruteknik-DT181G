@@ -11,6 +11,7 @@ import javax.swing.*;
 public class View extends JFrame {
     private GamePanel gamePanel;
 
+
     /**
      * Constructor to create a View object that sets the title, default close operation and size of the frame
      * It then initializes the GamePanel
@@ -20,6 +21,7 @@ public class View extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 800);
         gamePanel = new GamePanel();
+        setResizable(false);
         setVisible(true);
     }
 

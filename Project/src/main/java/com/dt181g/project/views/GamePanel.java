@@ -30,11 +30,24 @@ public class GamePanel extends JPanel {
     private int backgroundX;
     private int groundX;
     private static final int BACKGROUND_OVERLAP = 120;
+    private final JLabel scoreLabel;
 
     /**
-     * Constructor to create a GamePanel object
+     * Constructor to create a GamePanel object and create a layout for the score label
      */
     public GamePanel() {
+        // Sets the score text, color and size
+        scoreLabel = new JLabel("Score: 0");
+        scoreLabel.setForeground(Color.WHITE);
+        scoreLabel.setFont(new Font("Default", Font.BOLD, 20));
+
+        // Sets the layout for the score panel adding the score label and setting it to transparent
+        JPanel scorePanel = new JPanel(new BorderLayout());
+        scorePanel.add(scoreLabel, BorderLayout.CENTER);
+        scorePanel.setOpaque(false);
+
+        add(scorePanel, BorderLayout.NORTH);
+        setVisible(true);
     }
 
     /**
@@ -91,6 +104,7 @@ public class GamePanel extends JPanel {
      */
     public void updateScore(int value) {
         this.score = value;
+        scoreLabel.setText("Score: " + score);
     }
 
     /**
@@ -159,10 +173,5 @@ public class GamePanel extends JPanel {
         // Draws the obstacles
         g.drawImage(obstacleImage, obstacleX, obstacleY, obstacleWidth, obstacleHeight, null);
         g.drawImage(obstacleImage, topObstacleX, topObstacleY, topObstacleWidth, topObstacleHeight, null);
-
-        // Draws the score
-        g.setColor(Color.white);
-        g.setFont(new Font("Arial", 1, 25));
-        g.drawString("Score: " + score, getWidth() / 2 - 50, 50);
     }
 }
