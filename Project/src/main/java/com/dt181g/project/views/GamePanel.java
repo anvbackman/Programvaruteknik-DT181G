@@ -143,7 +143,6 @@ public class GamePanel extends JPanel {
         int xPos = backgroundX;
         while (xPos < getWidth()) { // While less than width of screen
             g.drawImage(backgroundImage, xPos, 0, getWidth(), getHeight(), null);
-
             xPos += backgroundImage.getWidth() - BACKGROUND_OVERLAP; // subtracts a overlap to make the image not have a gap in it
         }
 

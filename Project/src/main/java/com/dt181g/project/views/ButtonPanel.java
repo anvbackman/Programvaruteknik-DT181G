@@ -9,8 +9,8 @@ import java.awt.event.ActionListener;
  * @author Andreas Backman
  */
 public class ButtonPanel extends JPanel {
-    private JButton quitButton;
-    private JButton infoButton;
+    private final JButton quitButton;
+    private final JButton infoButton;
 
     /**
      * Constructor that takes action listeners as parameter and then configures the buttons
