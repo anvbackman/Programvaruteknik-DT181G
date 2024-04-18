@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -18,9 +17,9 @@ import java.util.List;
  */
 public class View extends JPanel {
 
-//    private Controller controller;
+    private Controller controller;
     private JFrame frame;
-    private List<CardView> cardList;
+    private List<Card> cardList;
     private JLabel scoreLabel;
     private JLabel instructionsLabel;
     private JLabel winningMessage;
@@ -29,32 +28,22 @@ public class View extends JPanel {
      * The View constructor takes a list as a parameter, sets the layout of the game (how many columns)
      * and calls the initialize method
      *
+     * @param cardList the list containing the cards
      */
-    public View(List<CardView> cardList) {
+    public View(List<Card> cardList) {
         this.cardList = cardList;
         setLayout(new GridLayout(4, 4));
         initialize();
     }
 
-//    /**
-//     * Method that sets the controller
-//     *
-//     * @param controller the controller
-//     */
-//    public void setController(Controller controller) {
-//        this.controller = controller;
-//    }
-
-//    public void setCardList(List<CardView> cardList) {
-//        this.cardList = cardList;
-//        removeAll(); // Clear existing components in the panel
-//        for (CardView card : cardList) {
-//            add(card);
-//        }
-//        revalidate(); // Ensure the layout is updated
-//        repaint(); // Repaint the panel
-//    }
-
+    /**
+     * Method that sets the controller
+     *
+     * @param controller the controller
+     */
+    public void setController(Controller controller) {
+        this.controller = controller;
+    }
 
     /**
      * Method that initializes the game by starting a frame, showing the cards and the labels needed.
@@ -63,10 +52,10 @@ public class View extends JPanel {
 
         frame = new JFrame();
 
-        for (CardView card : cardList) {
+        // Iterates over the card list and add them
+        for (Card card : cardList) {
             add(card);
         }
-
 
         // Label to show the current score
         scoreLabel = new JLabel("Score: 0");
@@ -115,8 +104,4 @@ public class View extends JPanel {
 
         dialog.setVisible(true);
     }
-
-//    public void addCardToView(CardView cardButton) {
-//        add(cardButton);
-//    }
 }

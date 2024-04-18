@@ -1,16 +1,18 @@
 package com.dt181g.laboration_3.models;
 
-
+import javax.swing.*;
 
 /**
- * The Card class representing the cards use in the game Memory
+ * The Card class representing the cards use in the game Memory which extends JButton to provide
+ * interaction
  *
  * @author Andreas Backman
  */
-public class Card {
+public class Card extends JButton {
 
     private int value;
     private boolean cardMatch;
+    private boolean isShowing;
 
     /**
      * Constructor that initializes a card with a specified value
@@ -20,10 +22,8 @@ public class Card {
     public Card(int value) {
         this.value = value;
         this.cardMatch = false;
-    }
+        this.isShowing = false;
 
-    public void setCardValue(int value) {
-        this.value = value;
     }
 
     /**
@@ -41,7 +41,6 @@ public class Card {
      * @return True if cars are matched, false otherwise
      */
     public boolean isMatched() {
-
         return cardMatch;
     }
 
@@ -52,5 +51,23 @@ public class Card {
      */
     public void setCardMatch(boolean cardMatch) {
         this.cardMatch = cardMatch;
+    }
+
+    /**
+     * Method to show the face of a card and its value and specify if the card is showing
+     */
+    public void showCard() {
+        if (!cardMatch && !isShowing) {
+            setText((String.valueOf(value)));
+            isShowing = true;
+        }
+    }
+
+    /**
+     * Method to hide the card
+     */
+    public void hideCard() {
+        setText("");
+        isShowing = false;
     }
 }
