@@ -33,6 +33,7 @@ public class View extends JFrame {
         add(scoreLabel, BorderLayout.NORTH);
         add(gridPanel, BorderLayout.CENTER);
         setSize(800, 800);
+        setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -89,7 +90,7 @@ public class View extends JFrame {
      * Method to show the instructions for the game
      */
     private void showInstructions() {
-        JOptionPane.showMessageDialog(instructionsLabel, "Welcome to Memory! \nIn this game you will try to match numbers with each other by clicking on the cards showing.\n" +
+        JOptionPane.showMessageDialog(this, "Welcome to Memory! \nIn this game you will try to match numbers with each other by clicking on the cards showing.\n" +
                 "If you get a matching pair, your score will increase by 1 and if the cards doesn't match they will flip back into hiding.\nIf you how ever get multiple matches in a row, the amount is received is multiplied by 2." +
                 " On your second match in a row you will get 2 points added to the score.\nOn your third match in a row you will get 4 points added to the score and so on. \n" +
                 "If you break your streak you will receive 1 point on your next match. Your game will be completed when all cards are turned.");
