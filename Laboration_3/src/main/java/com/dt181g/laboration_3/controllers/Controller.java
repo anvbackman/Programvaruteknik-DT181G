@@ -6,6 +6,7 @@ import com.dt181g.laboration_3.views.View;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.stream.IntStream;
 
 /**
  * The Controller class represents the controller of the Memory game and manages the interaction between the model and the view
@@ -26,9 +27,7 @@ public class Controller implements ActionListener {
         model = new Model();
         amountOfCards = model.getAmountOfCards();; // The amount of cards in the game
         view = new View(amountOfCards);
-        for (int i = 0; i < amountOfCards; i++) {
-            view.addCardActionListener(i, this);
-        }
+        IntStream.range(0, amountOfCards).forEach(i -> view.addCardActionListener(i, this));
     }
 
     /**
@@ -81,13 +80,6 @@ public class Controller implements ActionListener {
                 }
                 break;
             }
-        }
-    }
-    // TODO use in README as alternative approach. Disable before timer and enable in timer.
-
-    private void enableButtons(boolean enable) {
-        for (int i = 0; i < amountOfCards; i++) {
-            view.getCardButton(i).setEnabled(enable);
         }
     }
 }

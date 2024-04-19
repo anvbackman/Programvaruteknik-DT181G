@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.stream.IntStream;
 
 /**
  * The View class represents the view of the Memory game and manages the GUI components such as buttons and labels
@@ -24,10 +25,11 @@ public class View extends JFrame {
         cardButtons = new JButton[amountOfCards];
         JPanel gridPanel = new JPanel(new GridLayout(4, 4, 5, 5));
 
-        for (int i = 0; i < cardButtons.length; i++) {
+        IntStream.range(0, amountOfCards).forEach(i -> { // For each card button
             cardButtons[i] = new JButton("");
             gridPanel.add(cardButtons[i]);
-        }
+        });
+
         add(scoreLabel, BorderLayout.NORTH);
         add(gridPanel, BorderLayout.CENTER);
         setSize(800, 800);

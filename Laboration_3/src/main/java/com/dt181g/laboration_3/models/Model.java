@@ -3,7 +3,7 @@ package com.dt181g.laboration_3.models;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * The Model class represents the data of the Memory game and manages logic such as the cards and the score
@@ -22,15 +22,18 @@ public class Model {
         score = 0;
         amountOfCards = 16;
         cards = new Card[amountOfCards];
+
         // Initialize cards with pairs
-        IntStream.range(0, amountOfCards / 2).forEach(i -> {
-            cards[i * 2] = new Card(i + 1);
-            cards[i * 2 + 1] = new Card(i + 1);
+        Integer[] indices = new Integer[amountOfCards / 2]; // Create an array of indices
+        for (int i = 0; i < indices.length; i++) {
+            indices[i] = i;
+        }
+
+        Stream.of(indices).forEach(i -> { // For each index in the indices array
+            cards[i * 2] = new Card(i + 1); // Create the first card of the pair
+            cards[i * 2 + 1] = new Card(i + 1); // Create the second card of the pair
         });
-//        for (int i = 0; i < (amountOfCards / 2); i++) {
-//            cards[i * 2] = new Card(i + 1); // The first card of the pair
-//            cards[i * 2 + 1] = new Card(i + 1); // The second card of the pair
-//        }
+
         // Shuffles the cards
         List<Card> cardList = Arrays.asList(cards);
         Collections.shuffle(cardList);
