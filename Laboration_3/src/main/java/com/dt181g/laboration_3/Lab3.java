@@ -24,10 +24,7 @@ public final class Lab3 extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                Model model = new Model();
-                View view = new View(model.getCards());
-                Controller controller = new Controller(model, view);
-                view.setController(controller);
+                Controller controller = new Controller();
             }
         });
     }
