@@ -13,19 +13,26 @@ public class Controller implements ActionListener {
     private Model model;
     private View view;
     private int firstCardIndex = -1;
-    private int streak = 1;
+    private boolean isBeingProcessed = false;
+    private int amountOfCards;
 
     public Controller() {
+
         model = new Model();
-        view = new View();
-        for (int i = 0; i < 16; i++) {
+        amountOfCards = 16; // The amount of cards in the game
+        view = new View(amountOfCards);
+        for (int i = 0; i < amountOfCards; i++) {
             view.addCardActionListener(i, this);
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        for (int i = 0; i < 16; i++) {
+        if (isBeingProcessed) {
+            return;
+        }
+
+        for (int i = 0; i < amountOfCards; i++) {
             if (e.getSource() == view.getCardButton(i)) {
                 Card card = model.getCard(i);
                 if (firstCardIndex == -1) {
@@ -42,6 +49,8 @@ public class Controller implements ActionListener {
                         firstCardIndex = -1;
                     } else {
                         int secondCardIndex = i;
+                        isBeingProcessed = true;
+                        enableButtons(false);
                         Timer timer = new Timer(1000, new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -50,6 +59,8 @@ public class Controller implements ActionListener {
                                 view.setCardText(firstCardIndex, "");
                                 view.setCardText(secondCardIndex, "");
                                 firstCardIndex = -1;
+                                isBeingProcessed = false;
+                                enableButtons(true);
                             }
                         });
                         timer.setRepeats(false);
@@ -58,6 +69,12 @@ public class Controller implements ActionListener {
                 }
                 break;
             }
+        }
+    }
+
+    private void enableButtons(boolean enable) {
+        for (int i = 0; i < amountOfCards; i++) {
+            view.getCardButton(i).setEnabled(enable);
         }
     }
 }

@@ -11,10 +11,10 @@ public class View extends JFrame {
     private JLabel instructionsLabel;
     private JButton instructionsButton;
 
-    public View() {
+    public View(int amountOfCards) {
         setTitle("Memory");
         scoreLabel = new JLabel("Score: 0");
-        cardButtons = new JButton[16];
+        cardButtons = new JButton[amountOfCards];
         gridPanel = new JPanel(new GridLayout(4, 4, 5, 5));
 
         for (int i = 0; i < cardButtons.length; i++) {
