@@ -71,4 +71,12 @@ public class Model {
     public int getAmountOfCards() {
         return cards.length;
     }
+
+    /**
+     * Method to check if the game is won
+     * @return true if all cards are face up, false otherwise
+     */
+    public boolean isGameWon() {
+        return Arrays.stream(cards).allMatch(Card::isFaceUp);
+    }
 }

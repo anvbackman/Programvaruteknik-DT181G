@@ -1,7 +1,7 @@
 package com.dt181g.laboration_3;
 
 import com.dt181g.laboration_3.controllers.Controller;
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
 /**
  * The main starting point for laboration 3.

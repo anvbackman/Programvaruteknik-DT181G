@@ -3,7 +3,7 @@ package com.dt181g.laboration_3.controllers;
 import com.dt181g.laboration_3.models.Card;
 import com.dt181g.laboration_3.models.Model;
 import com.dt181g.laboration_3.views.View;
-import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.stream.IntStream;
@@ -59,6 +59,11 @@ public class Controller implements ActionListener {
                         model.incrementScore();
                         view.setScore(model.getScore());
                         firstCardIndex = -1;
+
+                        if (model.isGameWon()) {
+                            view.showGameWonDialog();
+
+                        }
                     } else {
                         int secondCardIndex = i;
                         isBeingProcessed = true;
