@@ -84,9 +84,9 @@ public class View extends JFrame {
     /**
      * Method to get a card button
      * @param index the index of the card button
-     * @return the card button
+     * @return the card button at the index
      */
-    public JButton getCardButton(int index) {
+    public JButton cardButtonIndex(int index) {
         return cardButtons[index];
     }
 

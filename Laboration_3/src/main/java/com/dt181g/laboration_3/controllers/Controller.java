@@ -41,7 +41,7 @@ public class Controller implements ActionListener {
         }
 
         for (int i = 0; i < amountOfCards; i++) {
-            if (e.getSource() == view.getCardButton(i)) { // If the action event is from a card button
+            if (e.getSource() == view.cardButtonIndex(i)) { // If the action event is from a card button
                 Card card = model.getCard(i); // Get the card from the model
                 if (card.isFaceUp()) { // If the card is already face up
                     return;
