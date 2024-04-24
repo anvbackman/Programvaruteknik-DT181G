@@ -1,15 +1,16 @@
 package com.dt181g.laboration_2;
 
-import javax.swing.*;
+import javax.swing.JLabel;
 import javax.swing.Timer;
+import javax.swing.SwingUtilities;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+import java.util.Deque;
+import java.util.LinkedList;
 
 /**
  * The Manager class which manages the Producer/Consumer simulation and implements
  * ActionListener in order to handle timer events
- *
  * @author Andreas Backman
  */
 public class Manager implements ActionListener {
@@ -24,9 +25,8 @@ public class Manager implements ActionListener {
     private boolean isAdjusting = false;
 
     /**
-     * Constructor thet constructs a Manager object taking the resource pool and the producer/consumer labels
+     * Constructor that constructs a Manager object taking the resource pool and the producer/consumer labels
      * as parameters
-     *
      * @param resourcePool the specified resource pool to be used
      * @param producerLabel the label to display the number of producers
      * @param consumerLabel the label to display the number of consumers
@@ -85,7 +85,6 @@ public class Manager implements ActionListener {
 
         // Get the available resources
         int availableResources = resourcePool.getResourceAmount();
-        System.out.println(availableResources);
 
         // If the amount of available resources are high enough, the consumers are increased and producers are decreased
         if (availableResources > 150) {
@@ -96,7 +95,6 @@ public class Manager implements ActionListener {
             increaseProducers();
             decreaseConsumers();
         }
-
         isAdjusting = false;
     }
 

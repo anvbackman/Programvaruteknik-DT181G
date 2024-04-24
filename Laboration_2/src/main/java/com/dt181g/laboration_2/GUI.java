@@ -1,12 +1,15 @@
 package com.dt181g.laboration_2;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.BorderLayout;
 
 /**
  * The GUI class represents the Graphical User Interface for the Producer/Consumer simulation
  * By extending JPanel it can create a custom GUI component
- *
  * @author Andreas Backman
  */
 public class GUI extends JPanel {
@@ -16,7 +19,6 @@ public class GUI extends JPanel {
 
     /**
      * Constructor that constructs a GUI with the specified resource pool
-     *
      * @param resourcePool the resource pool to be associated with the GUI
      */
     public GUI(ResourcePool resourcePool) {
@@ -54,7 +56,6 @@ public class GUI extends JPanel {
 
     /**
      * Method to set the color of the oval and triggers repaint
-     *
      * @param color the color of the oval
      */
     public void setColor(Color color) {
@@ -64,7 +65,6 @@ public class GUI extends JPanel {
 
     /**
      * Method to draw the oval representing the resource pool
-     *
      * @param g the graphics used for painting
      */
     @Override

@@ -5,17 +5,14 @@ import java.util.Random;
 /**
  * The Producer class represents the producers in the simulation which implements the Runnable interface
  * so that they can be executed in a separate thread
- *
  * @author Andreas Backman
  */
 public class Producer implements Runnable {
-
     private volatile boolean isRunning = true;
     private ResourcePool resourcePool;
 
     /**
      * Constructor that constructs a producer with the specified resource pool
-     *
      * @param resourcePool the resource pool from which the producer produces resources
      */
     public Producer(ResourcePool resourcePool) {
@@ -46,7 +43,7 @@ public class Producer implements Runnable {
                 Thread.sleep(sleep);
             }
             catch (InterruptedException e) {
-                Thread.interrupted();
+                Thread.currentThread().interrupt();
             }
         }
     }
