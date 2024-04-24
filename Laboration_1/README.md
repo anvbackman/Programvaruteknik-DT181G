@@ -1,10 +1,12 @@
 # Laboration 1
 
 ## Environment & Tools
-[replace this with relevant information]
+Lenovo Ideapad 5, Windows 10, IntelliJ IDEA, Java, Git 2.37.3, Google Chrome, Windows Powershell, Bitbucket
 
 ## Purpose
-[replace this with relevant information]
+The main purpose of this assignment is to create a simple manager for a thread pool using the Object Pool Manager
+pattern. In order to fulfill this purpose, the following goals must be reached:
+
 
 ## Procedures
 [replace this with relevant information]
