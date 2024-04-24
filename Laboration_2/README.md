@@ -8,21 +8,33 @@ The main purpose of this assignment is to implement a solution of the producer /
 using threads and also get a grasp of using graphical user interfaces (GUI) with a focus on 
 Swing components.
 In order to fulfill the purpose of this assignment, the following goals are to be completed:
+
 * The solution need to consist of at least the entities ResourcePool, a GUI, a Producer and a Consumer and a Manager
 which acts as an intermediate between the two.
+
 * The Manager need to observe the resource pool and be responsible for creating and removing producers and consumers.
 These changes should be done at certain intervals on the Event Dispatch Thread (EDT) and use a Timer for delays.
+
 * Producers and consumers should run in separate threads which is started when created and stopped when removed.
+
 * The producers and consumers should communicate with the resource pool for adding and removing resources.
+
 * Producers adds to the resource pool a randomized value between 1 and 10 while living with a delay within 1-5 seconds.
+
 * Consumers removes from the resource pool a randomized value between 1 and 20 while living with a delay within 1-5 seconds.
+
 * The current active producers and consumers should be displayed in the GUI.
+
 * The resource pool needs to provide an interface to clients.
+
 * The manager needs to know the amount of available resources in the resource pool.
+
 * The producer and consumer needs to be able to alter the resource pool and make use of atomic operations inside the resource pool
 to account for concurrency issues.
+
 * The resource pool need to show how the pool is filled and emptied using a graphical representation in the form of a circle
 that changes size and color depending on the amount of resources in the pool.
+
 * The resource pool should be initialized with a value of 50 and there should be 6 producers and 5 consumers at the start.
 
 ## Procedures
