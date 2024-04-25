@@ -46,12 +46,11 @@ synchronized (INSTANCE.pool) {
 
 ### Runner
 The Runner class is implemented using the Runnable interface. The Runner class is used to acquire a resource from the
-PoolManager and then use the resource. The Runner class will then return the resource to
-the pool when it is done with it. The Runner class will also print out the time it took to use the resource.
-The Runner class takes an id which is used to identify the resource.
-Using its run method the Runner class will acquire a resource if it is available and then use it with a simple print.
-After using the resource the Runner class will return the resource to the pool.
-The Runner class also contains a method that starts the specified amount of threads.
+PoolManager by taking an id. The class utilizes its run method to get a resource and will then print out the time it 
+took to use the resource and sleep for a set amount of time. Here we use Thread.sleep() to simulate the amount of time
+that the resource is used. Since sleep() is a static method, it is called directly on the Thread. 
+The sleep() method will cause the current thread to sleep for a specified amount of time. The thread will then be woken
+up and the resource is returned to the pool. The Runner class also contains a method that starts the specified amount of threads.
 The threads is then started in the Main class where the method is called from the main method.
 ```
 public static void main(String[] args) throws InterruptedException {
@@ -106,7 +105,28 @@ in a multi-threaded application, or for other expensive resources.
 
 The Runnable interface was chosen over the Thread class as it is more flexible and allows for the class to be used
 by other classes. The Runnable interface also allows for the class to be used in a multi-threaded environment.
-It also allows for the class to further be extended by other classes if needed.
+It also allows for the class to further be extended by other classes if needed. An alternative approach here would be
+to use the Thread class instead of the Runnable interface. This would allow for the class to be used as a thread
+instead of a Runnable. This would however limit the class to only be used as a thread and not as a Runnable.
+
+Using a Thread pool is a good way to manage threads and resources in a multi-threaded environment. It allows for the
+threads to be reused and for the resources to be managed correctly. Which can increase the performance of the application
+since creating and destroying threads takes time. It also allows for control in regards to how many threads are running
+at the same time. However there are some hazards to using a thread pool. If the thread pool is not managed correctly,
+it can for example lead to a deadlock. Which is when a thread is waiting for another thread to finish while that thread
+is also waiting for a thread to finish. An alternative approach here would be to create a new thread for each task
+instead of using a pool. When a task needs to be executed, a new thread is created and when the task is done, the thread
+is destroyed. 
+
+Here we are transfering thread ownership which is a good way to manage threads and resources. It allows for the client
+to use the thread and resource and then return it when it is done. 
+However this comes with some downsides. For example in regards of complexity. Transferring thread ownership can make the
+code more complex and harder to understand and maintain which can lead to bugs. Also, if not handled correctly, it can
+lead to synchronization issues which again can lead to deadlocks. An alternative approach here would be to for example
+use Executors which are capable of managing a pool of threads automatically instead of manually managing the threads.
+Which can help simplify the code and make it easier to understand and maintain.
+
+
 
 
 
@@ -115,4 +135,6 @@ It also allows for the class to further be extended by other classes if needed.
 
 
 ## Personal Reflections
-[replace this with relevant information]
+This assignment was a good introduction to the Object Pool Manager pattern and how to manage a pool of resources.
+The assignment was a good way to learn how to manage threads and how to make the pool thread-safe. The course material
+was sufficient to complete the assignment and the assignment.
