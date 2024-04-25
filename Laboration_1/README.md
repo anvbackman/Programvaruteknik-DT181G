@@ -111,30 +111,22 @@ instead of a Runnable. This would however limit the class to only be used as a t
 
 Using a Thread pool is a good way to manage threads and resources in a multi-threaded environment. It allows for the
 threads to be reused and for the resources to be managed correctly. Which can increase the performance of the application
-since creating and destroying threads takes time. It also allows for control in regards to how many threads are running
-at the same time. However there are some hazards to using a thread pool. If the thread pool is not managed correctly,
+since creating and destroying threads takes time. It also allows for control in regard to how many threads are running
+at the same time. However, there are some hazards to using a thread pool. If the thread pool is not managed correctly,
 it can for example lead to a deadlock. Which is when a thread is waiting for another thread to finish while that thread
 is also waiting for a thread to finish. An alternative approach here would be to create a new thread for each task
 instead of using a pool. When a task needs to be executed, a new thread is created and when the task is done, the thread
 is destroyed. 
 
-Here we are transfering thread ownership which is a good way to manage threads and resources. It allows for the client
+Here we are transferring thread ownership which is a good way to manage threads and resources. It allows for the client
 to use the thread and resource and then return it when it is done. 
-However this comes with some downsides. For example in regards of complexity. Transferring thread ownership can make the
+However, this comes with some downsides. For example in regard of complexity. Transferring thread ownership can make the
 code more complex and harder to understand and maintain which can lead to bugs. Also, if not handled correctly, it can
 lead to synchronization issues which again can lead to deadlocks. An alternative approach here would be to for example
 use Executors which are capable of managing a pool of threads automatically instead of manually managing the threads.
 Which can help simplify the code and make it easier to understand and maintain.
 
-
-
-
-
-
-
-
-
 ## Personal Reflections
 This assignment was a good introduction to the Object Pool Manager pattern and how to manage a pool of resources.
 The assignment was a good way to learn how to manage threads and how to make the pool thread-safe. The course material
-was sufficient to complete the assignment and the assignment.
+was sufficient to complete the assignment and the assignment. 
