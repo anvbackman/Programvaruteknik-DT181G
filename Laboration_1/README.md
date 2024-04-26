@@ -4,18 +4,18 @@
 Lenovo Ideapad 5, Windows 10, IntelliJ IDEA, Java, Git 2.37.3, Google Chrome, Windows Powershell, Bitbucket
 
 ## Purpose
-The main purpose of this assignment is to create a simple manager for a thread pool using the Object Pool Manager
-pattern. In order to fulfill this purpose, the following goals must be reached:
-* The manager need to initialize five threads and that ensures access for the calling clients.
-* Threads ownership should be transferred to the client when requested and returned to the pool when it is no longer needed.
-* If there are no available threads in the pool, the client should wait until a thread is available.
-* Implement a solution utilizing the threads by the client.
+The purpose for this assignment is to implement a manager for a thread pool. This should be done using the Object Pool pattern.
+For this assignment to be considered to be achieved, the following goals should be passed:
+* The manager should be implemented in a way that it initializes 5 threads and that it ensures access for clients.
+* The thread ownership should be transfered to the client upon request and transferred back after being used.
+* Once no threads are available in the thread pool the client will need to wait for one to be available.
+* The application itself need to be implemented to make use of the threads.
 
 
 ## Procedures
 
 ### Resource
-The Resource class is implemented as a simple class that represents the resource that the client will use. The resource
+The Resource class represents the resource that the client will use. The resource
 is constructed using an integer value that is used as an id. The Resource class also contains methods that acts as a
 timer which will be used to show how long a resource has been held by a thread.
 ```
@@ -104,29 +104,28 @@ is very limited. In a more complex application, this could be a database connect
 in a multi-threaded application, or for other expensive resources.
 
 The Runnable interface was chosen over the Thread class as it is more flexible and allows for the class to be used
-by other classes. The Runnable interface also allows for the class to be used in a multi-threaded environment.
-It also allows for the class to further be extended by other classes if needed. An alternative approach here would be
-to use the Thread class instead of the Runnable interface. This would allow for the class to be used as a thread
-instead of a Runnable. This would however limit the class to only be used as a thread and not as a Runnable.
+by other classes making it reusable. The Runnable interface also allows for multiple threads to share the same object.
+It also allows for the class to further be extended by other classes if needed and less memory is required than
+using the alternative Thread class which might be more suitable depending of the needs of the application but the 
+Runnable interface seems to be more preffered.
 
-Using a Thread pool is a good way to manage threads and resources in a multi-threaded environment. It allows for the
+A thread pool can be a good way to manage the threads when using multiple threads. It allows for the
 threads to be reused and for the resources to be managed correctly. Which can increase the performance of the application
 since creating and destroying threads takes time. It also allows for control in regard to how many threads are running
 at the same time. However, there are some hazards to using a thread pool. If the thread pool is not managed correctly,
 it can for example lead to a deadlock. Which is when a thread is waiting for another thread to finish while that thread
 is also waiting for a thread to finish. An alternative approach here would be to create a new thread for each task
-instead of using a pool. When a task needs to be executed, a new thread is created and when the task is done, the thread
-is destroyed. 
+instead of using a pool. When executing a task a new thread is created and is then destroyed as soon as the task is completed.
 
 Here we are transferring thread ownership which is a good way to manage threads and resources. It allows for the client
 to use the thread and resource and then return it when it is done. 
-However, this comes with some downsides. For example in regard of complexity. Transferring thread ownership can make the
-code more complex and harder to understand and maintain which can lead to bugs. Also, if not handled correctly, it can
+However, this could come with some downsides. Transferring thread ownership can make the
+code more complex and harder to understand and therefore maintain. Also, if not handled correctly, it can
 lead to synchronization issues which again can lead to deadlocks. An alternative approach here would be to for example
-use Executors which are capable of managing a pool of threads automatically instead of manually managing the threads.
-Which can help simplify the code and make it easier to understand and maintain.
+use Executors such as ExecutorService which can manage the threads lifecycle in the pool.
 
 ## Personal Reflections
-This assignment was a good introduction to the Object Pool Manager pattern and how to manage a pool of resources.
-The assignment was a good way to learn how to manage threads and how to make the pool thread-safe. The course material
-was sufficient to complete the assignment and the assignment. 
+The assignment gave me more knowledge regarding managing threads and resources with the help of a thread pool and 
+the Object Pool Pattern. The course material and teachers notes were sufficient to complete the assignment.
+
+
