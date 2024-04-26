@@ -39,4 +39,17 @@ public class Runner implements Runnable  {
             }
         }
     }
+
+    /**
+     * Method to start the threads
+     *
+     * @throws InterruptedException if an interruption occurs while threads are being started
+     */
+    public static void startThreads() throws InterruptedException {
+        for (int i = 0; i < 5; i++) {
+            Thread thread = new Thread(new Runner(i)); // Creating a new thread for each iteration
+            thread.start(); // Starting the thread
+            Thread.sleep(50); // Short sleep between each thread start
+        }
+    }
 }
