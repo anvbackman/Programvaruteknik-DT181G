@@ -161,14 +161,16 @@ While the implementation of the solution is working as intended, there are some 
 One alternative approach could be to use a BlockingQueue to store the producers and consumers instead of using Deques.
 This would simplify the implementation of the Manager class and make it easier to add and remove producers and consumers
 by using the put and take methods of the BlockingQueue.
-
 Another approach to consider would be to use ExecutorService to manage the threads instead of starting and stopping the threads
-manually. This would simplify the implementation of the Producer and Consumer classes and make it easier to manage the threads.
-Or to use Semaphores to control the access to the resource pool and ensure that only one producer or consumer can access the
-resource pool at a time.
+manually. This could simplify the implementation since the ExecutorService can manage producer / consumers threads.
+Using ExecutorService we may switch out the Deques in the current implementation for.
+```
+private ExecutorService producerExecutor;
+private ExecutorService consumerExecutor;
+```
+To then initialize them with the starting value for the producers and consumers. Using the newFixedThreadPool method.
 
 ## Personal Reflections
-This assignment has been a great learning experience and has given me a better understanding of how to work with threads
-and graphical user interfaces. The assignment has also given me a better understanding of how to implement the producer / consumer
-pattern and how to handle concurrency issues. The resources provided in the course material has been sufficient to complete
-the assignment.
+The assignment has shown a basic understanding of the producer / consumer pattern and also a deeper understanding
+of threads. Also some understanding the use of Swing components. The course material has been sufficient to complete 
+this assignment.
