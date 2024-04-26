@@ -3,7 +3,7 @@ package com.dt181g.laboration_2;
 import javax.swing.SwingUtilities;
 
 /**
- * The main starting point for laboration 3.
+ * The main starting point for laboration 2.
  * @author Andreas Backman
  */
 public final class Lab2 {
