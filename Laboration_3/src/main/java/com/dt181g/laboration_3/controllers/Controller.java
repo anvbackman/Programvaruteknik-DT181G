@@ -27,10 +27,13 @@ public class Controller implements CardButtonClickListener {
         model = new Model();
         amountOfCards = model.getAmountOfCards();; // The amount of cards in the game
         view = new View(amountOfCards, this);
-//        IntStream.range(0, amountOfCards).forEach(i -> view.addCardActionListener(i, this));
     }
 
 
+    /**
+     * Method to handle the event when a card button is clicked
+     * @param index the index of the card button that was clicked
+     */
     @Override
     public void cardButtonClicked(int index) {
         if (isBeingProcessed) { // If a pair of cards is being processed
@@ -55,14 +58,12 @@ public class Controller implements CardButtonClickListener {
                 view.setScore(model.getScore());
                 firstCardIndex = -1;
 
-                if (model.isGameWon()) {
+                if (model.isGameWon()) { // If the game is won
                     view.showGameWonDialog();
-
                 }
             } else {
-                int secondCardIndex = index;
+                int secondCardIndex = index; // Redundant but makes the code below more understandable
                 isBeingProcessed = true;
-
                 Timer timer = new Timer(1000, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {

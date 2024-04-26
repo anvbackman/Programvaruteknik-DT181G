@@ -1,7 +1,6 @@
 package com.dt181g.laboration_3.views;
 
 import com.dt181g.laboration_3.listeners.CardButtonClickListener;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -18,7 +17,6 @@ import java.util.stream.IntStream;
  *  @author Andreas Backman
  */
 public class View extends JFrame {
-    private final CardButtonClickListener listener;
     private final JLabel scoreLabel;
     private final JButton[] cardButtons;
 
@@ -28,7 +26,6 @@ public class View extends JFrame {
      * and adds custom listeners to the card buttons
      */
     public View(int amountOfCards, CardButtonClickListener listener) {
-        this.listener = listener;
         setTitle("Memory");
         scoreLabel = new JLabel("Score: 0");
         cardButtons = new JButton[amountOfCards];
