@@ -6,9 +6,13 @@ Lenovo Ideapad 5, Windows 10, IntelliJ IDEA, Java, Git 2.37.3, Google Chrome, Wi
 ## Purpose
 The purpose for this assignment is to implement a manager for a thread pool. This should be done using the Object Pool pattern.
 For this assignment to be considered to be achieved, the following goals should be passed:
+
 * The manager should be implemented in a way that it initializes 5 threads and that it ensures access for clients.
+
 * The thread ownership should be transfered to the client upon request and transferred back after being used.
+
 * Once no threads are available in the thread pool the client will need to wait for one to be available.
+
 * The application itself need to be implemented to make use of the threads.
 
 
