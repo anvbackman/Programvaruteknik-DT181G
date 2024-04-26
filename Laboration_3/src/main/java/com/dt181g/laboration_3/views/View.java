@@ -1,5 +1,7 @@
 package com.dt181g.laboration_3.views;
 
+import com.dt181g.laboration_3.listeners.CardButtonClickListener;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -16,14 +18,17 @@ import java.util.stream.IntStream;
  *  @author Andreas Backman
  */
 public class View extends JFrame {
+    private final CardButtonClickListener listener;
     private final JLabel scoreLabel;
     private final JButton[] cardButtons;
 
     /**
      * Constructor for the View class
      * Initializes the GUI components such as buttons and labels
+     * and adds custom listeners to the card buttons
      */
-    public View(int amountOfCards) {
+    public View(int amountOfCards, CardButtonClickListener listener) {
+        this.listener = listener;
         setTitle("Memory");
         scoreLabel = new JLabel("Score: 0");
         cardButtons = new JButton[amountOfCards];
@@ -31,6 +36,7 @@ public class View extends JFrame {
 
         IntStream.range(0, amountOfCards).forEach(i -> { // For each card button
             cardButtons[i] = new JButton("");
+            cardButtons[i].addActionListener(e -> listener.cardButtonClicked(i)); // Adds listener to the card button
             gridPanel.add(cardButtons[i]);
         });
 
@@ -70,24 +76,6 @@ public class View extends JFrame {
      */
     public void setCardText(int index, String text) {
         cardButtons[index].setText(text);
-    }
-
-    /**
-     * Method to add an action listener to a card button
-     * @param index the index of the card button
-     * @param listener the action listener
-     */
-    public void addCardActionListener(int index, ActionListener listener) {
-        cardButtons[index].addActionListener(listener);
-    }
-
-    /**
-     * Method to get a card button
-     * @param index the index of the card button
-     * @return the card button at the index
-     */
-    public JButton cardButtonIndex(int index) {
-        return cardButtons[index];
     }
 
     /**
