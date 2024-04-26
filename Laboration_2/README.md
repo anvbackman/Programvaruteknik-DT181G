@@ -40,14 +40,14 @@ that changes size and color depending on the amount of resources in the pool.
 ## Procedures
 ### Producers and Consumers
 The producers and consumers are implemented as separate classes that in this case implements the Runnable interface.
-The constructors bot takes a reference to the resource pool, which is used to add and remove resources from the pool.
+The constructors both takes the resource pool as parameters, which is used to add and remove resources from the pool.
 The run method is then overridden and contains a while loop that runs as long as the thread is alive. Inside the loop, the
 producer/consumer ands a random amount based on the specified range and then sleeps for a random amount of time between 1-5 seconds.
-The classes also should contain a method to stop the thread, which is done by setting a boolean flag to false.
+The classes also should contain a method to stop the thread, which is done by setting a boolean to false.
 
 ### Resource Pool
-The resource pool is implemented as a separate class that is constructed with the specified starting amount of resources.
-The class contains a synchronized method for adding and removing resources and utilizes an atomic integer for 
+The resource pool is implemented constructed with the specified starting amount of resources.
+The class contains synchronized methods for adding and removing resources and utilizes an atomic integer for 
 the resource amount to account for concurrency issues. 
 ```
 public synchronized void consumeResources(int amount) {
@@ -62,15 +62,14 @@ based on the amount of resources in the pool. The method is called after each ad
 The resource pool then updates the GUI with the new color of the circle.
 
 ### Manager
-The Manager is constructed with references to the resource pool and also takes the labels for the producers and consumers
-as arguments which are used to update the GUI. The Manager implements the ActionListener interface and contains a method
+The Manager is constructed with the resource pool and the labels for the producers and consumers
+as parameters which are used to update the GUI. The Manager implements the ActionListener interface and contains a method
 that is called when the Timer is triggered That will trigger the add and remove methods for producers and consumers and update the GUI.
 The manager utilizes Deques to store the producers and consumers and use them to add and remove producers and consumers 
 at specified intervals using a Timer. The producer and consumer threads are started
 when at the same time as they are added to the Deques and stopped when they are removed. 
 ```
 private void decreaseProducers() {
-        // If list is not empty when called, producers are stopped and removed.
         if (!activeProducers.isEmpty()) {
             activeProducers.getLast().stop();
             activeProducers.removeLast();
@@ -79,7 +78,7 @@ private void decreaseProducers() {
 ```
 
 ### GUI
-The GUI extends JPanel and is constructed with references to the resource pool. The GUI creates a frame and adds the 
+The GUI extends JPanel and is constructed with the resource pool as parameter. The GUI creates a frame and adds the 
 labels for the producers and consumers. Using the paintComponent method, the GUI draws a circle that changes size and color
 based on the amount of resources in the pool. The GUI also contains a method to set the color of the circle based on the amount
 which then calls the repaint method to update the GUI.
@@ -172,5 +171,5 @@ To then initialize them with the starting value for the producers and consumers.
 
 ## Personal Reflections
 The assignment has shown a basic understanding of the producer / consumer pattern and also a deeper understanding
-of threads. Also some understanding the use of Swing components. The course material has been sufficient to complete 
+of threads. Also some understanding of the use of Swing components. The course material has been sufficient to complete 
 this assignment.
