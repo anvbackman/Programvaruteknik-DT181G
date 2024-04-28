@@ -1,125 +1,50 @@
 package com.dt181g.laboration_2;
 
-import java.util.LinkedList;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 
+/**
+ * The Producer class represents the producers in the simulation which implements the Runnable interface
+ * so that they can be executed in a separate thread
+ * @author Andreas Backman
+ */
 public class Producer implements Runnable {
+    private volatile boolean isRunning = true;
+    private ResourcePool resourcePool;
 
-    private final ResourcePool resourcePool;
-    private boolean running = false;
-
+    /**
+     * Constructor that constructs a producer with the specified resource pool
+     * @param resourcePool the resource pool from which the producer produces resources
+     */
     public Producer(ResourcePool resourcePool) {
         this.resourcePool = resourcePool;
-
     }
 
-    public void addToPool() {
-        try {
-            int random = addResource();
-            resourcePool.addResources(random);
-            System.out.println("Producer added " + random + " resources. Current pool state: " + resourcePool.getResourceAmount());
-            Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 5000));
-        }
-        catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-
+    /**
+     * Method that is called to stop from producing resources
+     */
+    public void stop() {
+        isRunning = false;
     }
 
-
-
-    public int addResource() {
-        int random = ThreadLocalRandom.current().nextInt(1, 10);
-        return random;
-    }
-
-    @Override
+    /**
+     * Method to execute the producer by continuously produce resources until stopped
+     */
     public void run() {
-        addToPool();
+        Random random = new Random();
+
+        // Keeps running until stopped
+        while (isRunning) {
+            // Generates a random number between 1 and 10 that amount of resources from the resource pool
+            int resources = random.nextInt(10) + 1;
+            resourcePool.addResources(resources);
+            // Generate a random sleep duration
+            int sleep = random.nextInt(5000) + 1000;
+            try {
+                Thread.sleep(sleep);
+            }
+            catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
     }
-
-//    private Manager manager;
-//    private ResourcePool resourcePool;
-//
-//    public Producer(Manager manager, ResourcePool resourcePool) {
-//        this.manager = manager;
-//        this.resourcePool = resourcePool;
-//    }
-//
-//    @Override
-//    public void update() {
-//        System.out.println("Producer received an update");
-//    }
-//
-//    @Override
-//    public void run() {
-//        int randomProducer = (int) (Math.random() * 10) + 1;
-//        int producerDelay = (int) (Math.random() * 5000) + 1000;
-//
-//        try {
-//            Thread.sleep(producerDelay);
-//        }
-//        catch (InterruptedException e) {
-//            Thread.currentThread().interrupt();
-//            return;
-//        }
-//        resourcePool.addResources(randomProducer);
-//    }
-
-//    private LinkedList<Integer> list = new LinkedList<>();
-//    private int capacity = 6;
-//
-//    public void produce() throws InterruptedException {
-//        int value = 0;
-//        while (true) {
-//            synchronized (this) {
-//                while (list.size() == capacity) {
-//                    wait();
-//                }
-//                System.out.println("Producer produced " + value);
-//                list.add(value++);
-//                notify();
-//                Thread.sleep(1000);
-//            }
-//        }
-//    }
-//    public void consume() throws InterruptedException {
-//        while (true) {
-//            synchronized (this) {
-//                while (list.size() == 0) {
-//                    wait();
-//
-//                    int val = list.removeFirst();
-//                    System.out.println("Consumer consumed " + val);
-//                    notify();
-//                    Thread.sleep(1000);
-//                }
-//            }
-//        }
-//    }
-
-
-
-//    private ResourcePool resourcePool = new ResourcePool();
-//    public Producer(ResourcePool resourcePool) {
-//        this.resourcePool = resourcePool;
-//    }
-//
-//    public void run() {
-//        int increment = 0;
-//        while (true) {
-//            resourcePool.add(increment++);
-//            try {
-//                Thread.sleep(1000);
-//            }
-//            catch (InterruptedException e) {
-//                Thread.interrupted();
-//            }
-//
-//        }
-//
-//    }
-
-
-
 }

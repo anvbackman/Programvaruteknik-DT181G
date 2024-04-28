@@ -1,8 +1,11 @@
 /**
- * Package for laboration 2, the second assignment of course DT180G.
- * The assignment regards a revisit to Spies'R Us, a secret spy organization we
- * first met in DT179G. This time, the organization needs a better approach to
- * ciphering of messages passing between agents. The solution needs to utilize
- * Decorator Design Pattern!
+ * Package for laboration 2, the second assignment of course DT181G.
+ * The assignment regards the Producer / Consumer pattern
+ * and is implemented using a GUI, ResourcePool and Manager class.
+ * The GUI class is responsible for the graphical user interface,
+ * the ResourcePool class is responsible for the resource pool
+ * and the Manager class is responsible for managing the simulation.
+ * The Producer and Consumer classes are responsible for producing
+ * and consuming resources respectively.
  */
 package com.dt181g.laboration_2;
