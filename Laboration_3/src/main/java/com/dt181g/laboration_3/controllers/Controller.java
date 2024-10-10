@@ -20,7 +20,6 @@ public class Controller implements CardButtonClickListener {
     private final int amountOfCards;
 
     /**
-<<<<<<< HEAD
      * Constructor for the Controller class
      * Initializes the model and the view and adds action listeners to the card buttons
      */
@@ -28,20 +27,6 @@ public class Controller implements CardButtonClickListener {
         model = new Model();
         amountOfCards = model.getAmountOfCards();; // The amount of cards in the game
         view = new View(amountOfCards, this);
-=======
-     * Constructor that takes the model and view as parameters. It then set the score to 0 and adds an action
-     * listener to each card
-     */
-    public Controller() {
-        model = new Model();
-        view = new View(model.getCards());
-        this.score = 0;
-
-        // Adds an action listener to each card in the model
-        for (Card card : model.getCards()) {
-            card.addActionListener(this);
-        }
->>>>>>> new_project
     }
 
 

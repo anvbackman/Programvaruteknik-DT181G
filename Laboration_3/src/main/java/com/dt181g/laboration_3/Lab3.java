@@ -1,12 +1,7 @@
 package com.dt181g.laboration_3;
 
 import com.dt181g.laboration_3.controllers.Controller;
-<<<<<<< HEAD
 import javax.swing.SwingUtilities;
-=======
-
-import javax.swing.*;
->>>>>>> new_project
 
 /**
  * The main starting point for laboration 3.
@@ -14,7 +9,6 @@ import javax.swing.*;
  */
 public final class Lab3 {
     private Lab3() { // Utility classes should not have a public or default constructor
-
     }
 
     /**
