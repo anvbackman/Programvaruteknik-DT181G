@@ -5,12 +5,9 @@ import javax.swing.Timer;
 import javax.swing.SwingUtilities;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-<<<<<<< HEAD
 import java.util.Deque;
 import java.util.LinkedList;
-=======
-import java.util.*;
->>>>>>> new_project
+
 
 /**
  * The Manager class which manages the Producer/Consumer simulation and implements

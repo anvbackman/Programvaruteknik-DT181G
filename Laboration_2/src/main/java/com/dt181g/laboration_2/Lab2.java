@@ -1,10 +1,6 @@
 package com.dt181g.laboration_2;
 
-<<<<<<< HEAD
 import javax.swing.SwingUtilities;
-=======
-import javax.swing.*;
->>>>>>> new_project
 
 /**
  * The main starting point for laboration 2.
