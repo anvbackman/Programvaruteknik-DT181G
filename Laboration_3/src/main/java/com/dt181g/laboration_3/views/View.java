@@ -25,8 +25,41 @@ public class View extends JFrame {
      * Initializes the GUI components such as buttons and labels
      * and adds custom listeners to the card buttons
      */
+<<<<<<< HEAD
     public View(int amountOfCards, CardButtonClickListener listener) {
         setTitle("Memory");
+=======
+    public View(List<Card> cardList) {
+        this.cardList = cardList;
+        setLayout(new GridLayout(4, 4));
+        initialize();
+    }
+
+    /**
+     * Method that sets the controller
+     *
+     * @param controller the controller
+     */
+    public void setController(Controller controller) {
+        this.controller = controller;
+    }
+
+    /**
+     * Method that initializes the game by starting a frame, showing the cards and the labels needed.
+     */
+    private void initialize() {
+
+        frame = new JFrame();
+
+        // Iterates over the card list and add them
+        for (Card card : cardList) {
+            add(card);
+        }
+
+
+        frame.setTitle("Memory");
+        // Label to show the current score
+>>>>>>> new_project
         scoreLabel = new JLabel("Score: 0");
         cardButtons = new JButton[amountOfCards];
         JPanel gridPanel = new JPanel(new GridLayout(4, 4, 5, 5));

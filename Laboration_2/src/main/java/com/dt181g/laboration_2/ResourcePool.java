@@ -49,7 +49,7 @@ public class ResourcePool {
     }
 
     /**
-     * Method to visualize the current state of the resource pool by updating the GUI (color of oval)mv
+     * Method to visualize the current state of the resource pool by updating the GUI (color of oval)
      */
     private void visualizeResourcePool() {
         int current = resourceAmount.get();

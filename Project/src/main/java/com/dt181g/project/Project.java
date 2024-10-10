@@ -1,8 +1,12 @@
 package com.dt181g.project;
 
+import com.dt181g.project.controllers.Controller;
+
+import javax.swing.*;
+
 /**
  * The main starting point for Project Assignment.
- * @author Erik Ström
+ * @author Andreas Backman
  */
 public final class Project {
     private Project() { // Utility classes should not have a public or default constructor
@@ -10,11 +14,18 @@ public final class Project {
     }
 
     /**
-     * Simple output of the assignment's name. Be sure to replace
-     * this when working with the assignment!
+     * Main method for launching the program
      * @param args command arguments.
      */
     public static void main(final String... args) {
-        System.out.println("Project Assignment!");
+
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                Controller controller = new Controller();
+            }
+        });
     }
+
+
 }
